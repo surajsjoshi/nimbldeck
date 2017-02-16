@@ -1,0 +1,241 @@
+.floating-add-card-btn {  
+    position: absolute;
+    right: 0;
+    top: 30px;
+    background: #ff8351;
+}
+
+
+
+.title-container {
+  position: relative;
+}
+
+.row.title-section {
+  background-color: #323a45;
+  color: #fff;
+  margin-bottom: 0;
+  padding-top: 19px;
+}
+
+.question-container {
+  background-color: #F7F6F6;
+  // margin-top: 20px;
+}
+
+.cart-background {
+  background-color: #fff;
+  color: #4A4949;
+  margin-bottom: 0px;
+
+}
+
+.index {
+  padding: 15px 0px;
+  margin: 0px;
+}
+
+.samll-area {
+  text-align: center;
+}
+
+.description {
+    width: 100%;
+    float: left;
+}
+
+.description p {
+  margin-left: 15px;
+}
+
+.editing-icon {
+  width: 100%;
+  float: right;
+}
+
+.addon {
+  line-height: 3.5em;
+  float: right;
+}
+
+.addon i {
+  font-size: 1em;
+}
+
+.rating {
+  background: url('assets/img/rating.png');
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 10px 0px;
+}
+
+.multiple_choice {
+  background: url('assets/img/mcq.png');
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 10px 0px;
+}
+
+.yes_no {
+  background: url('assets/img/yesno.png');
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 10px 0px;
+}
+
+.long_text {
+  background: url('assets/img/text.png');
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 10px 0px;
+}
+
+.short_text {
+  background: url('assets/img/shortans.png');
+  height: 24px;
+  width: 24px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  margin: 10px 0px;
+}
+/*.cart-background {
+    .col.s1.m1 {
+        min-width: 90px;
+    }
+} */
+.container{
+   padding: 0;
+}
+.inline{
+    font-size: 3.28rem;
+    margin: 3px 0;
+}
+.row .icon-ui{
+    width:50px;
+}
+h4 {
+    color: #fff;
+    font-weight: 400;
+    font-family: "Open Sans", sans-serif !important;
+}
+.btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before, .btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before, .container-fluid:after, .container-fluid:before, .container:after, .container:before, .dl-horizontal dd:after, .dl-horizontal dd:before, .form-horizontal .form-group:after, .form-horizontal .form-group:before, .modal-footer:after, .modal-footer:before, .modal-header:after, .modal-header:before, .nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after, .panel-body:before, .row:after, .row:before{
+    display: block;
+}
+.h1 .small, .h1 small, .h2 .small, .h2 small, .h3 .small, .h3 small, .h4 .small, .h4 small, .h5 .small, .h5 small, .h6 .small, .h6 small, h1 .small, h1 small, h2 .small, h2 small, h3 .small, h3 small, h4 .small, h4 small, h5 .small, h5 small, h6 .small, h6 small {
+    font-weight: 400;
+    line-height: normal;
+    color: #fff;
+}
+
+.description p {
+    margin-left: -40px;
+    margin-top: 1em;
+    margin-bottom:1em;
+  }
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+    padding: 0; 
+}
+.row.question-container{
+   margin-bottom: 40px;
+}
+@media only screen and(min-device-width: 768px) {
+  h4 {
+    margin: 1.14rem 0 0.912rem 0;
+  }
+
+  .editing-icon {
+    width: 100%;
+  }
+  .addon {
+    line-height: 3.3em;
+    float: right;
+  }
+  .addon i {
+    font-size: 1.3em;
+  }
+  .description p {
+    margin-left: -40px;
+  }
+}
+
+@media only screen and(min-device-width: 768px) {
+  .description p {
+    margin-left:-40px;
+  }
+  h4.truncate {
+    padding-bottom: 11.5px;
+    margin-top: 1.05rem;
+}
+  .floating-add-card-btn {
+    top: 23px;
+}
+}
+.inline{
+    display: inline-block;
+}
+
+
+@media screen and(min-width: 800px) and (max-width:1100px) {
+    .container {
+        max-width: 92%;
+    }
+}
+
+
+@media screen and(min-width: 500px) and (max-width:700px) {
+    .inline{
+        font-size: 2.8rem;
+    }
+}
+@media screen and(min-width: 200px) and (max-width:700px) {
+h4{
+    font-size: 20px;
+    }
+    .container{
+        padding:0;
+        width:93%;
+    }
+     .inline{
+        font-size: 2.0rem;
+    }
+    .description-ui {
+    width: 75%;
+}
+.row .edit-ui{
+    width: 60px;
+    float: right;
+}
+.row .icon-ui{
+    width:50px;
+}
+.row div.description-ui {
+   width: 54%;
+}
+.btn-floating.btn-large {
+    width: 40px;
+    height: 40px;
+    top: 40px;  
+    i{
+       line-height:44.5px;
+        font-size: 2.2rem; 
+    }
+}
+
+
+}

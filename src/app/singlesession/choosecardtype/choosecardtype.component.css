@@ -1,0 +1,152 @@
+h3 {
+	font-size: 1.9em;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	768px)
+{
+	font-size
+	:
+	 
+	3
+	em
+	;
+	
+  
+}
+
+}
+.modal .modal-content {
+	border: none;
+}
+
+.rowwrapper {
+	width: 210px;
+	margin: auto;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	360px)
+{
+	width
+	:
+	 
+	280
+	px
+	;
+	
+  
+}
+
+@media only screen and (min-width: 768px) {
+	width
+	:
+	 
+	325
+	px
+	;
+	
+  
+}
+
+@media only screen and (min-width: 992px) {
+}
+
+}
+.box-menu-item {
+	width: 95px;
+	height: 110px;
+	background-color: #3D8AF7;
+	text-align: center;
+	padding: 15px;
+	border-radius: 7px;
+	margin: 5px;
+	display: inline-block;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	360px)
+{
+	width
+	:
+	 
+	130
+	px
+	;
+	
+  
+}
+
+@media only screen and (min-width: 768px) {
+	width
+	:
+	 
+	150
+	px
+	;
+	
+    
+	height
+	:
+	 
+	125
+	px
+	;
+	
+  
+}
+
+}
+p {
+	color: #fff;
+	font-size: 1em;
+	margin: 0px;
+	font-weight: 600;
+}
+
+.box-menu-item img {
+	width: 40px;
+	height: 40px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.singleblock {
+	display: block;
+	margin: auto;
+}
+
+.small-width-modal {
+	width: 90%;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	768px)
+{
+	width
+	:
+	 
+	80%;
+}
+
+@media only screen and (min-width: 992px) {
+	width
+	:
+	 
+	40%;
+}
+}

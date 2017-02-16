@@ -1,0 +1,45 @@
+img {
+  width: 140px;
+  vertical-align: inherit
+}
+
+
+.small-width-modal {
+  width: 90%;
+}
+.modal-content  {
+    background:transparent;
+    box-shadow: none;
+    border:none;
+}
+.modal-content .row {
+    margin-left: 0;
+    margin-right:0;
+    margin-bottom: 20px;
+}
+.input-field label {
+    font-weight: normal;
+}
+
+
+@media only screen and(min-device-width: 768px) {
+  .small-width-modal {
+    width: 70%;
+  }
+}
+
+@media only screen and(min-device-width: 992px) {
+  .small-width-modal {
+    width: 40%;
+  }
+}
+
+@media screen and (min-width:200px) and (max-width:700px) {
+  .small-width-modal {
+    width: 90%;
+  }
+}
+
+.lean-overlay {
+    top:0 !important;
+}

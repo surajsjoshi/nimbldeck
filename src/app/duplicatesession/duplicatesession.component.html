@@ -1,0 +1,66 @@
+<div id="duplicate-session-modal" class="modal small-width-modal">
+  <div class="modal-content">
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h4 class="center-align">Duplicate Session</h4>
+          <div>
+            <small class="small-text">(This will create a copy of exisiting session)</small>
+          </div>
+          <div class="error" *ngIf="sessionError">
+            Failed to create session. Please try again.
+          </div>
+          <form [formGroup]="duplicateSessionForm" (submit)="submitDuplicateSession($event)">
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="session-name" type="text" formControlName="session_title"
+                       placeholder="Session Name"/>
+                <label for="session-name">Session Name</label>
+                <div [hidden]="duplicateSessionForm.get('session_title').valid || duplicateSessionForm.get('session_title').pristine" class="alert alert-danger">
+                  session name is required
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="organization-name" type="text" formControlName="organization"
+                       placeholder="Organization (Optional)"/>
+                <label for="organization-name">Organization (Optional)</label>
+              </div>
+            </div>
+            <div class="row img-upload">
+              <div *ngIf="!fileUploaded" class="img-uploader">
+                <span class="fa fa-picture-o">
+                  
+                </span>
+                <span class="upload-img-lbl">Upload Image</span>
+                <input type="file" accept="image/*" class="file-upload" (change)="uploadFile()"/>
+              </div>
+              <input id="image-url" type="hidden"  formControlName="image_url"/>
+              <div *ngIf="uploadError">
+                {{uploadError}}
+              </div>
+              <div *ngIf="imgUploadingInProcess" class="center-align">
+                <span class="loading-img">Image Uploading...</span>
+              </div>
+              <div class="center-align abc" *ngIf="fileUploaded">
+                <span (click)="removeImage()" class="fa fa-times right"></span>
+                <img [src]="duplicateSessionForm.controls['image_url'].value" width="200" alt=""/>
+              </div>
+            </div>
+            <br>
+            <br>
+            <div class="center-align">
+              <button type="reset" class="hide reset-btn"></button>
+              <input type="hidden" formControlName="parent_session_id">
+              <input type="hidden" formControlName="user_id">
+              <button type="submit" [disabled]="!duplicateSessionForm.valid" class="waves-effect waves-light btn">CREATE
+                SESSION
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

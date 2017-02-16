@@ -1,0 +1,27 @@
+
+  <nav>
+  <div class="row">
+    <div class="col offset-m1 s5 m5">
+      <a [routerLink]="['Index']">
+        <img class="responsive-img nimbldeck-logo" [src]="nimblDeckLogo" alt="NimblDeck Logo" width="190">
+      </a>
+    </div>
+    <div class="col s7 m5">
+      <ul id="nav-mobile" class="right">
+        <li>
+          <a href="#contact-us-modal" (click)="openModal($event)" class="help-icon contact-us-btn" ga-on="click" ga-event-category="Contact Us"  ga-event-action="play">
+            <i class="material-icons">live_help</i>
+          </a>
+        </li>
+        <li>
+          <userdropdown></userdropdown>
+        </li>
+      </ul>
+    </div>
+  </div>
+ 
+</nav>
+ 
+<router-outlet></router-outlet>
+<contactus></contactus> 
+

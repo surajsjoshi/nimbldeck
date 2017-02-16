@@ -1,83 +1,30 @@
-/*
- * Angular 2 decorators and services
- */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
-import { AppState } from './app.service';
+declare var jQuery: any;
 
-/*
- * App Component
- * Top Level Component
- */
 @Component({
   selector: 'app',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.css'
-  ],
-  template: `
-    <nav>
-      <span>
-        <a [routerLink]=" ['./'] ">
-          Index
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./home'] ">
-          Home
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./detail'] ">
-          Detail
-        </a>
-      </span>
-      |
-      <span>
-        <a [routerLink]=" ['./about'] ">
-          About
-        </a>
-      </span>
-    </nav>
-
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
-
-    <footer>
-      <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
-      <div>
-        <a [href]="url">
-          <img [src]="angularclassLogo" width="25%">
-        </a>
-      </div>
-    </footer>
-  `
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
 
-  constructor(
-    public appState: AppState) {
+  nimblDeckLogo = 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png';
+  url = 'https://nimbldeck.com';
+  constructor(private el: ElementRef) {}
 
+  openModal(evt) {
+    evt.preventDefault();
+    let button = jQuery(this.el.nativeElement).find('.contact-us-btn');
+    let btnSave = this.el.nativeElement.getElementsByClassName('btn-contact')[0];
+    jQuery(btnSave).attr('disabled', 'disabled');
+    btnSave.innerHTML = 'Send';
+
+    let contactSuccess = jQuery(this.el.nativeElement).find('.contact-success');
+    contactSuccess.hide();
+    let contactTextBox = jQuery(this.el.nativeElement).find('.contact-texbox');
+    contactTextBox.val('');
+    let modal = button.attr('href');
+    jQuery(modal).openModal();
   }
-
-  ngOnInit() {
-    console.log('Initial App State', this.appState.state);
-  }
-
 }
-
-/*
- * Please review the https://github.com/AngularClass/angular2-examples/ repo for
- * more angular app examples that you may copy/paste
- * (The examples may not be updated as quickly. Please open an issue on github for us to update it)
- * For help or questions please contact us at @AngularClass on twitter
- * or our chat on Slack at https://AngularClass.com/slack-join
- */

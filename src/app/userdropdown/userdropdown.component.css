@@ -1,0 +1,66 @@
+.session-user-icon {
+  width: 40px;
+  margin-top: 12px;
+  margin-bottom: -13px;
+}
+
+a.dropdown-button {
+  display: inline-block;
+  padding: 0px 10px 0 10px;
+  @media only screen and (min-width: 768px) {
+    padding: 0px 10px;
+  }
+  @media only screen and (min-width: 992px) {
+    padding: 0px 15px;
+  }
+  @media screen and (min-width:200px) and (max-width:600px) {
+    padding: 10px 10px 0;
+  }
+}
+
+.fa-caret-down {
+  display: inline;
+}
+
+.username-initial {
+  width: 45px;
+  height: 45px;
+  display: inline-block;
+  text-align: center;
+    border-radius: 24px;
+    border: 2px solid #fff;
+  line-height: 39px;
+  font-size: 2.2em;
+  @media only screen and (min-width: 768px) {
+        width: 45px;
+    height: 45px;
+    line-height: 42px;
+    font-size: 1.4em;
+  }
+}
+
+.username{
+    &:hover{
+        color:#fff;
+        text-decoration: none;
+    }
+}
+
+
+.dropdown{
+    &.open{
+       .dropdown-content{
+            display: block;
+            right:0;
+            opacity: 0.9;
+        }  
+    }
+}
+@media screen and (min-width:200px) and (max-width:700px) {
+    .username-initial {
+        width: 35px;
+        height: 35px;
+        line-height: 33px;
+        font-size: 1.6em;
+    }
+}

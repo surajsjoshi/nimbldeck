@@ -1,0 +1,139 @@
+.input-field {button .upload-image { background-color:#e1e1e1;
+	padding: 2px 25px;
+	position: relative;
+	top: 5px;
+	font-size: 1.1em;
+	box-shadow: none;
+	border: 2px solid #ccc;
+}
+
+.cancel-uploaded {
+	text-decoration: none;
+	display: inline-block;
+	position: relative;
+	bottom: 40px;
+	left: 20px;
+	color: #9e9e9e;
+	font-size: 1.2em;
+}
+
+}
+.small-width-modal {
+	width: 90%;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	768px)
+{
+	width
+	:
+	 
+	70%;
+}
+
+@media only screen and (min-width: 992px) {
+	width
+	:
+	 
+	40%;
+}
+
+.row {
+	margin-bottom: 5px;
+}
+
+h4 {
+	color: #039be5;
+	font-size: 1.5em;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	768px)
+{
+	font-size
+	:
+	 
+	2
+	.28rem
+	;
+	
+    
+}
+
+}
+.abc {
+	position: relative; span .fa.fa-times { position : absolute;
+	right: 0;
+	top: -15px;
+	font-size: 1em;
+	@media
+	only
+	screen
+	and
+	(min-width:
+	768px)
+{
+	font-size
+	:
+	 
+	1
+	.5em
+	;
+	
+      
+}
+
+}
+}
+.loading-img {
+	color: red;
+}
+
+.img-uploader {
+	position: relative;
+	clear: left;
+	text-align: center;
+}
+
+.img-uploader input[type="file"] {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 40%;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+}
+
+input.file-upload {
+	height: 90px;
+	width: 100px;
+}
+
+.img-uploader span {
+	font-size: 4em;
+	color: #848282 !important;
+	display: block;
+}
+
+.img-uploader span.upload-img-lbl {
+	color: #bbb;
+	font-size: 1em;
+	padding-top: 10px;
+}
+
+button {
+	margin-top: 15px;
+}
+
+img {
+	border: 5px solid #eee;
+	width: 90%;
+	margin-left: 10px;
+	height: 200px;
+	margin-bottom: -25px;
+}
+}

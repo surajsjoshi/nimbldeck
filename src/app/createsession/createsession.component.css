@@ -1,0 +1,127 @@
+.lean-overlay{
+    top:0;
+}
+.small-width-modal {
+  
+  .modal-content {
+        border: none;
+        border: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+
+    .input-field{
+        label {
+            font-weight: normal;
+            display: inherit;
+        }
+    }
+  }
+  
+
+        .input-field{
+            label{
+                 &.active {
+    font-size: 0.8em !important;
+}
+            }
+           
+        } 
+   
+
+  @media only screen and (min-width: 768px) {
+    width: 70%;
+  }
+  @media only screen and (min-width: 992px) {
+    width: 40%;
+  }
+  .row {
+    margin-bottom: 5px;
+  }
+  h4 {
+    color: #039be5;
+    font-size: 1.5em;
+    @media only screen and (min-width: 768px) {
+      font-size: 2.28rem;
+    }
+  }
+  .abc {
+    position: relative;
+    span.fa.fa-times {
+      position: absolute;
+      right: 0;
+      top: -15px;
+      font-size: 1em;
+      @media only screen and (min-width: 768px) {
+        font-size: 1.5em;
+        right: 8%;
+      }
+    }
+  }
+  .loading-img {
+    color: red;
+    text-align: center;
+  }
+  .img-uploader {
+    position: relative;
+    text-align: center;
+    clear: left;
+  }
+  .img-uploader input[type="file"] {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 40%;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+  input.file-upload {
+    height: 90px;
+    width: 100px;
+  }
+  .img-uploader span {
+    font-size: 4em;
+    color: #848282 !important;
+    display: block;
+  }
+ .img-uploader span.upload-img-lbl{
+    color: #bbb;
+    font-size: 1em;
+    padding-top: 10px;
+  }
+  button {
+    margin-top: 15px;
+  }
+  img {
+    border: 5px solid #eee;
+    width: 90%;
+    margin-left: 10px;
+    // height: 150px;
+    @media only screen and (min-width: 768px) {
+      width: 80%;
+    }
+    // margin-bottom: -25px;
+  }
+}
+ 
+ 
+@media screen and (min-height:100px) and (max-height:400px){
+    body {
+       overflow: auto;
+     }
+     .small-width-modal {
+        position: absolute;  
+     }
+     .lean-overlay{
+         top:0;
+     }
+}
+
+@media screen and (min-width:200px) and (max-width:500px){
+    .small-width-modal {
+        min-height: 400px;
+        margin-top:20px;
+        position: absolute;
+        
+     }
+}
+

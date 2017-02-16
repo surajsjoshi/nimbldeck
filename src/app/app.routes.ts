@@ -1,20 +1,25 @@
+import {ModuleWithProviders} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
 
-import { DataResolver } from './app.resolver';
+import { LoginRoutes } from './login/login.routes';
+import { SignupRoutes } from './signup/signup.routes';
+import { MysessionsComponent } from './mysessions/mysessions.component';
+import { SinglesessionComponent } from './singlesession/singlesession.component';
 
 
-export const ROUTES: Routes = [
-  { path: '',      component: HomeComponent },
-  { path: 'home',  component: HomeComponent },
-  { path: 'about', component: AboutComponent },
+const routes: Routes = [
   {
-    path: 'detail', loadChildren: () => System.import('./+detail').then((comp: any) => {
-      return comp.default;
-    })
-    ,
+    path: '',
+    component: MysessionsComponent
   },
-  { path: '**',    component: NoContentComponent },
+  {
+    path: 'app',
+    component: MysessionsComponent
+  },
+  {
+    path: 'sessions/:id',
+    component: SinglesessionComponent
+  }
 ];
+
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

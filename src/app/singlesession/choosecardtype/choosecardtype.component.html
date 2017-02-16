@@ -1,0 +1,49 @@
+<div id="choose-card-modal" class="modal small-width-modal">
+	<div class="modal-content">
+		<div class="">
+			<div class="row">
+				<div class="col s12">
+					<div class="center-align">
+						<h3 class="center-align">Choose card type</h3>
+						<div class="row rowwrapper">
+							<i (click)="showYesNoCard($event)">
+								<div class="box-menu-item left">
+									<img src="assets/img/yesno.png" alt="Yes / No" />
+									<p>Yes / No</p>
+								</div>
+							</i> <i (click)="showMcqCard($event)">
+								<div class="box-menu-item right">
+									<img src="assets/img/mcq.png" alt="Multiple Choice" />
+									<p>Multiple Choice</p>
+								</div>
+							</i>
+						</div>
+
+						<div class="row rowwrapper">
+							<i (click)="showShortAnswerCard($event)">
+								<div class="box-menu-item left">
+									<img src="assets/img/shortans.png" alt="Short Answer" />
+									<p>Short Answer</p>
+								</div>
+							</i> <i (click)="showRatingCard($event)">
+								<div class="box-menu-item right">
+									<img src="assets/img/rating.png" alt="Rating" />
+									<p>Rating</p>
+								</div>
+							</i>
+							<div class="clearfix"></div>
+						</div>
+						<div class="row rowwrapper">
+							<i (click)="showTextCard($event)">
+								<div class="box-menu-item singleblock">
+									<img src="assets/img/text.png" alt="Text" />
+									<p>Text</p>
+								</div>
+							</i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

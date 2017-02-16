@@ -1,8 +1,94 @@
-html, body{
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif
+
+ul#nav-mobile {
+
+    li{
+        a.help-icon{
+            
+            &:hover {
+                border: 1px dashed #eee;
+                color: #eee;
+                text-decoration: none;
+            }
+           
+        } 
+        
+     }
 }
 
-span.active {
-  background-color: gray;
+
+nav {
+  background-color:  #38404b;
+ 
+
+  .nimbldeck-logo {
+    margin-top: 5px;
+    height: 50px;
+    @media only screen and (min-width: 768px) {
+     margin-top: 7px;
+    height: 49px;
+    float: left;
+    }
+  }
+
+  .help-icon {
+    position: relative;
+    top: 5px;
+  }
+}
+@media screen and (min-width:700px) and (max-width:800px){
+    .container{
+    padding: 0;
+    width:100%;
+}
+}
+@media screen and (min-width:500px) and (max-width:699px){
+    ul#nav-mobile {
+        right: 10px;
+    }
+    .container{
+    padding: 0;
+    width:100%;
+}
+     nav {
+    
+    .nimbldeck-logo {
+        margin-top: 5px;
+        height: 34px;
+        width:auto;
+    }
+  }
+}
+
+@media screen and (min-width:200px) and (max-width:500px){
+    nav {
+   background-color:  #38404b;
+   height: auto;
+   line-height: 56px;
+   min-height: 120px;
+    
+  .nimbldeck-logo {
+    margin-top: 5px;
+    height: 34px;
+    width:auto;
+    }
+  }
+.container{
+    width:100%;
+    padding: 0;
+}
+
+  .help-icon {
+    position: relative;
+    top: 5px;
+  }
+  ul#nav-mobile {
+   
+    li{
+         margin: 0 6px;
+         a{
+              background: transparent none repeat scroll 0 0;
+         }
+    }
+}
+  
 }

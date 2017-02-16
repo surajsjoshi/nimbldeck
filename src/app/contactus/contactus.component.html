@@ -1,0 +1,36 @@
+<div id="contact-us-modal" class="modal small-modal small-width-modal">
+  <div class="modal-content">
+    <div class="row">
+      <div class="col s12">
+        <div class="center-align">
+          <img [src]="logoPath" alt="NimblDeck Logo">
+        </div>
+        <h4 class="center-align" ga-on="click" ga-event-category="Contact"  ga-event-action="click">Contact Us</h4>
+        <br>
+        <div class="success contact-success" *ngIf="contactSent">
+          Your message is sent successfully
+        </div>
+        <div class="error" *ngIf="contactError">
+          Failed to sent Message. Please try again.
+        </div>
+        <form [formGroup]="contactForm"  (submit)="submitContact($event)">
+          <div class="row">
+            <div class="input-field col s12">
+                        <textarea id="enter-message" class="materialize-textarea contact-texbox" formControlName="message"
+                                  placeholder="Enter your message"></textarea>
+               <label for="enter-message">Enter your message</label> '
+               <div [hidden]="contactForm.get('message').valid || contactForm.get('message').pristine" class="alert alert-danger">
+                Please enter your message
+              </div> 
+            </div> 
+          </div>
+          <br>
+          <div class="center-align">
+            <button type="reset" class="hide reset-btn"></button>
+            <button class="btn btn-contact" [disabled]="!contactForm.valid" type="submit">SEND</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

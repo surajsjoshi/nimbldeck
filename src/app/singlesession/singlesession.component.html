@@ -1,0 +1,96 @@
+
+<div class="container" *ngIf="!sessionFetched">
+	<p class="center-align">
+		<i class="fa fa-spinner fa-spin fa-2x"></i>
+	</p>
+</div>
+<div *ngIf="sessionFetched">
+
+	<div class="row title-section">
+		<div class="col s12">
+			<div class=" container title-container">
+				 <h4 class="truncate">
+					{{ session.title }} <small *ngIf="session.organization">[{{session.organization}}]</small>
+				</h4>
+			 	<a *ngIf="!session.isSample" data-tooltip="Add new card"
+					(click)="openModal($event)" href="#choose-card-modal"
+					class="btn-floating btn-large waves-effect waves-light right floating-add-card-btn choose-card-type"
+					ga-on="click" ga-event-category="Card" ga-event-action="add card">
+					<i class="material-icons">add</i>
+				</a> 
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<p *ngIf="!cardsFetched" class="center-align">
+			<i class="fa fa-spinner fa-spin fa-2x"></i>
+		</p>
+	</div>
+	<br />
+
+	<div class="row question-container" *ngIf="cardsFetched">
+		<br>
+		<div class="container">
+			<div class="row">
+				<div class="col s12" *ngIf="response.cards.length == 0">
+					<p>
+						No cards added to the session. <a data-tooltip="Add new card"
+							(click)="openModal($event)" href="#choose-card-modal"
+							class="choose-card-type" ga-on="click" ga-event-category="Card"
+							ga-event-action="add">Add</a> your first card
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="container question-container"
+			*ngFor="let question of response.cards; let i = index"
+			[attr.data-index]="i">
+			<ul>
+				<li>
+					<div class="row">
+						<div class="col s2 m1">
+							<div class="samll-area cart-background">
+								<p class="index">{{i+1}}</p>
+							</div>
+						</div>
+						<div class="col s10 m11">
+							<div class="row cart-background">
+								<div class="col s1 m1">
+									<div class="{{question.question_type}}"></div>
+								</div>
+								<div class="col s10 m8">
+
+									<div class="description">
+										<p class="truncate">{{question.description}}
+										<p>
+									</div>
+								</div>
+								<div class="col s1 m3 edit-ui">
+									<div class="editing-icon">
+										<div class="addon">
+											<!--<a *ngIf="!session.isSample" href="#" ga-on="click"
+												ga-event-category="Card" ga-event-action="edit"
+												(click)="editQuestion($event,question)"><i
+												class="fa fa-pencil-square-o"></i></a> <a
+												*ngIf="!session.isSample" href="#" ga-on="click"
+												ga-event-category="Card" ga-event-action="delete"
+												(click)="deleteQuestion($event,question.question_id)"><i
+												class="fa fa-trash"></i></a> --> 
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+ <!-- <choosecardtype (onShowTextCard)="showTextCard()"
+	(onShowRatingCard)="showRatingCard()"
+	(onShowShortAnswerCard)="showShortAnswerCard()"
+	(onShowMcqCard)="showMcqCard()" (onShowYesNoCard)="showYesNoCard()"></choosecardtype> 
+<div #cardModal></div> -->
