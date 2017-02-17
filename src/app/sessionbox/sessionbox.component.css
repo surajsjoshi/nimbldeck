@@ -1,11 +1,8 @@
 .session-box.card { .card-image { background-color:#cbe8ba;
 	position: relative;
-	img
-	{
-	height
-	:
-	250px;
-}
+	img {
+	height:250px;
+	}
 
 i.menu-icon {
 	position: absolute;
@@ -68,12 +65,8 @@ p {
 }
 .card-action {a > i.play, i.stop { font-size:2.4em;
 	color: #A8D68C;
-	&.
-	fa-stop-circle-o
-	{
-	color
-	:
-	#FF8484;
+	&.fa-stop-circle-o {
+	color: #FF8484;
 }
 
 }

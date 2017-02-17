@@ -26,6 +26,7 @@ import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
+import { TextcardComponent } from './singlesession/textcard/textcard.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ChoosecardtypeComponent } from './singlesession/choosecardtype/chooseca
     CreatesessionComponent,
     EditsessionComponent,
     DuplicatesessionComponent,
-    ChoosecardtypeComponent
+    ChoosecardtypeComponent,
+    TextcardComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import { ChoosecardtypeComponent } from './singlesession/choosecardtype/chooseca
   entryComponents: [
     EditsessionComponent,
     DuplicatesessionComponent,
-    ChoosecardtypeComponent
+    ChoosecardtypeComponent,
+    TextcardComponent
   ]
 })
 export class AppModule { }

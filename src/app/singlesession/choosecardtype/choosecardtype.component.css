@@ -1,20 +1,7 @@
 h3 {
 	font-size: 1.9em;
-	@media
-	only
-	screen
-	and
-	(min-width:
-	768px)
-{
-	font-size
-	:
-	 
-	3
-	em
-	;
-	
-  
+	@media only screen and (min-width: 768px) {
+		font-size: 3em;
 }
 
 }
@@ -25,30 +12,13 @@ h3 {
 .rowwrapper {
 	width: 210px;
 	margin: auto;
-	@media
-	only
-	screen
-	and
-	(min-width:
-	360px)
-{
-	width
-	:
-	 
-	280
-	px
-	;
-	
-  
+	@media only screen and (min-width: 360px) {
+		width: 280px;
+
 }
 
 @media only screen and (min-width: 768px) {
-	width
-	:
-	 
-	325
-	px
-	;
+	width: 325px;
 	
   
 }
@@ -66,38 +36,15 @@ h3 {
 	border-radius: 7px;
 	margin: 5px;
 	display: inline-block;
-	@media
-	only
-	screen
-	and
-	(min-width:
-	360px)
-{
-	width
-	:
-	 
-	130
-	px
-	;
+	@media only screen and (min-width: 360px){
+		width: 130px;
 	
   
 }
 
 @media only screen and (min-width: 768px) {
-	width
-	:
-	 
-	150
-	px
-	;
-	
-    
-	height
-	:
-	 
-	125
-	px
-	;
+	width: 150px;
+	height: 125px;
 	
   
 }
@@ -130,23 +77,11 @@ p {
 
 .small-width-modal {
 	width: 90%;
-	@media
-	only
-	screen
-	and
-	(min-width:
-	768px)
-{
-	width
-	:
-	 
-	80%;
+	@media only screen and (min-width: 768px){
+		width: 80%;
 }
 
 @media only screen and (min-width: 992px) {
-	width
-	:
-	 
-	40%;
+	width: 40%;
 }
 }

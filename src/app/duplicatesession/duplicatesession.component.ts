@@ -1,7 +1,7 @@
 import { ConfigurationService } from '../services/configuration.service';
 import { EditService } from '../services/edit.service';
 import { SessionService } from '../services/session.service';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,7 @@ declare var jQuery: any;
   templateUrl: './duplicatesession.component.html',
   styleUrls: ['./duplicatesession.component.css']
 })
-export class DuplicatesessionComponent implements OnInit {
+export class DuplicatesessionComponent implements OnInit, OnDestroy {
 
   logoPath = 'assets/img/nimbldeck-logo.jpg';
   sessionCreated: boolean;
@@ -125,6 +125,10 @@ export class DuplicatesessionComponent implements OnInit {
     mixpanel.people.increment('DuplicateSession');
     mixpanel.people.increment('Sessions');
     this.router.navigate(['SingleSession', {sessionId: session.session_id}]);
+  }
+  
+   ngOnDestroy() {
+    this.editService.resetEdits();
   }
 
 }

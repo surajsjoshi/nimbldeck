@@ -1,0 +1,85 @@
+.upload-img {
+	position: relative; span .fa.fa-times { position : absolute;
+	right: 28px;
+	top: -12px;
+}
+
+}
+#text-card-modal {
+	color: #000;
+	.text-card {
+		margin-bottom:0px;
+	.text-card-content{
+		margin-top:10px;
+}
+
+}
+}
+.img-uploader {
+	position: relative;
+	clear: left;
+}
+
+.loading-img {
+	color: red;
+}
+
+.img-uploader input[type="file"] {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 40%;
+	opacity: 0; //
+	font-size: 100px;
+	filter: alpha(opacity = 0);
+	cursor: pointer;
+}
+
+input.file-upload {
+	height: 90px;
+	width: 100px;
+}
+
+.img-uploader span {
+	font-size: 4em;
+	color: #848282 !important;
+	display: block;
+}
+
+.img-uploader span.upload-img-lbl {
+	color: #bbb;
+	font-size: 1em;
+	padding-top: 10px;
+}
+
+h3 {
+	font-size: 1.9em;
+	color: #039be5;
+	@media only screen and (min-width: 768px){
+		font-size: 2em;
+	
+  
+}
+
+}
+.text-card {
+	margin: 0;
+	.light-green
+	.darken-2{
+		min-width:90px;
+	}
+
+}
+.small-width-modal {@media only screen and (min-width: 768px) {
+	width: 	80%;
+	
+}
+
+@media only screen and (min-width: 992px) {
+	width: 40%;
+}
+
+}
+.lean-overlay {
+	top: 0 !important;
+}

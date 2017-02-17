@@ -1,0 +1,45 @@
+<div id="text-card-modal" class="modal small-width-modal">
+	<div class="">
+		<div class="row text-card">
+			<div class="col s12 m10 offset-m1">
+				<div class="center-align text-card-content">
+					<h3 class="center-align">Text Card</h3>
+					<br>
+					<div class="error" *ngIf="textCardError">
+						{{saveCardErrorText}}</div>
+					<form [formGroup]="textCardForm" (submit)="submitTextCard($event)">
+						<div class="row">
+							<textarea id="yes-no-question" class="materialize-textarea"
+								formControlName="text_question" placeholder="Type Text here"></textarea>
+							<div
+								[hidden]="textCardForm.get('text_question').valid || textCardForm.get('text_question').pristine"
+								class="alert alert-danger">Text is Required</div>
+						</div>
+						<div class="row img-upload">
+							<div *ngIf="!fileUploaded" class="img-uploader">
+								<span class="fa fa-picture-o"> </span> <span
+									class="upload-img-lbl">Upload Image</span> <input type="file"
+									class="file-upload" accept="image/*" (change)="uploadFile()" />
+							</div>
+							<input id="image-url" type="hidden" formControlName="image_url" />
+							<div *ngIf="uploadError">{{uploadError}}</div>
+							<div *ngIf="imgUploadingInProcess">
+								<span class="loading-img">Image Uploading...</span>
+							</div>
+							<div *ngIf="fileUploaded">
+								<span (click)="removeImage()" class="fa fa-times right"></span>
+								<img [src]="textCardForm.controls['image_url'].value" width="200" alt="" /> <a href="#">Upload
+									Image</a>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="row">
+							<button type="submit" [disabled]="!textCardForm.valid"
+								class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
