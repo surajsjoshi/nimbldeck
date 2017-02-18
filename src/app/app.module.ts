@@ -26,7 +26,9 @@ import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
+import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
+import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { TextcardComponent } from './singlesession/textcard/textcard.component';
     EditsessionComponent,
     DuplicatesessionComponent,
     ChoosecardtypeComponent,
-    TextcardComponent
+    TextcardComponent,
+    ShortAnswerCardComponent,
+    YesNoCardComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,9 @@ import { TextcardComponent } from './singlesession/textcard/textcard.component';
     EditsessionComponent,
     DuplicatesessionComponent,
     ChoosecardtypeComponent,
-    TextcardComponent
+    TextcardComponent,
+    ShortAnswerCardComponent,
+    YesNoCardComponent
   ]
 })
 export class AppModule { }

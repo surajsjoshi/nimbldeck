@@ -15,14 +15,12 @@ export class EditService {
   }
 
   getCurrent(): any {
-    console.log(this.currentObject);
     return this.currentObject;
   }
 
   setCurrentEdit(type, object) {
     this.currentObject = object;
     this.currentEditType = type;
-    console.log(this.currentObject);
   }
 
   resetEdits() {

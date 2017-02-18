@@ -1,0 +1,52 @@
+<div id="shortanswer-card-modal" class="modal small-width-modal">
+	<div class="">
+		<div class="row shortanswer">
+			<div class="col s12 m10 offset-m1">
+				<div class="center-align shortanswer-content">
+					<h3 class="center-align">Short Answer Card</h3>
+					<br>
+					<div class="error" *ngIf="shortAnswerCardError">
+						{{saveCardErrorText}}</div>
+					<form [formGroup]="cardForm"
+						(submit)="submitShortAnswerCard($event)">
+						<div class="row">
+							<div class="input-field col s12">
+								<textarea id="short-answer-card" class="materialize-textarea"
+									formControlName="text_question"
+									placeholder="Type Question here"></textarea>
+								<label for="short-answer-card">Question</label>
+								<div
+									[hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine"
+									class="alert alert-danger">Question is Required</div>
+							</div>
+						</div>
+						<div class="row img-upload">
+							<div *ngIf="!fileUploaded" class="img-uploader">
+								<span class="fa fa-picture-o"> </span> <span
+									class="upload-img-lbl">Upload Image</span> <input type="file"
+									class="file-upload" accept="image/*" (change)="uploadFile()" />
+							</div>
+							<input id="image-url" type="hidden"
+								formControlName="image_url" />
+							<div *ngIf="uploadError">{{uploadError}}</div>
+							<div *ngIf="imgUploadingInProcess">
+								<span class="loading-img">Image Uploading...</span>
+							</div>
+							<div *ngIf="fileUploaded">
+								<span (click)="removeImage()" class="fa fa-times right"></span>
+								<img [src]="textCardForm.controls['image_url'].value" width="200" alt="" />
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<div class="row">
+							<button type="submit"
+								[disabled]="!cardForm.valid"
+								class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

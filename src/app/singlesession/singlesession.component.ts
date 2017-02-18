@@ -10,7 +10,9 @@ import { CardResponse } from '../shared/models/cardResponse';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import { ChoosecardtypeComponent } from './choosecardtype/choosecardtype.component';
+import { ShortAnswerCardComponent } from './shortanswercard/shortanswercard';
 import { TextcardComponent } from './textcard/textcard.component';
+import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -85,6 +87,8 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
  editQuestion(evt, question) {
     evt.preventDefault();
+    this.editService.setCurrentEdit('question', question);
+    this.cardService.cards = this.response.cards;
     if (question.question_type === 'yes_no') {
       this.showYesNoCard();
     } else if (question.question_type === 'multiple_choice') {
@@ -96,8 +100,6 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     } else {
       this.showTextCard();
     }
-    this.editService.setCurrentEdit('question', question);
-    this.cardService.cards = this.response.cards;
   }
 
     deleteQuestion(event, questionId) {
@@ -128,11 +130,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
  showTextCard() {
   let componentFactory = this.componentFactoryResolver.resolveComponentFactory(TextcardComponent);
-     this.viewContainerRef.clear();
-     let componentRef = this.viewContainerRef.createComponent(componentFactory);
-     (<TextcardComponent>componentRef.instance).editService = this.editService;
-    jQuery('#text-card-modal').openModal();
-  }
+  this.viewContainerRef.clear();
+  let componentRef = this.viewContainerRef.createComponent(componentFactory);
+  (<TextcardComponent>componentRef.instance).editService = this.editService;
+  jQuery('#text-card-modal').openModal();
+}
 
   showRatingCard() {
   /*  this.removeall();
@@ -146,14 +148,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   showShortAnswerCard() {
-    /*this.removeall();
-    this._dynamicComponentLoader
-      .loadIntoLocation(ShortAnswerCardComponent, this._el, 'cardModal')
-      .then((ref) => {
-        this._children.push(ref);
-        (<any>jQuery('#shortanswer-card-modal')).openModal();
-      });
-*/
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(ShortAnswerCardComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<ShortAnswerCardComponent>componentRef.instance).editService = this.editService;
+    jQuery('#shortanswer-card-modal').openModal();
   }
 
   showMcqCard() {
@@ -168,14 +167,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   showYesNoCard() {
- /*   this.removeall();
-    this._dynamicComponentLoader
-      .loadIntoLocation(YesNoCardComponent, this._el, 'cardModal')
-      .then((ref) => {
-        this._children.push(ref);
-        (<any>jQuery('#yesno-card-modal')).openModal();
-      });
-*/
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(YesNoCardComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<YesNoCardComponent>componentRef.instance).editService = this.editService;
+    jQuery('#yesno-card-modal').openModal();
   }
 
 

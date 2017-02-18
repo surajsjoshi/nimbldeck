@@ -34,7 +34,9 @@
     "reflect-metadata": "0.1.8",
     "time-ago-pipe": "^1.1.1",
     "moment": "^2.17.1",
-    "mixpanel": "0.6.0"
+    "mixpanel": "0.6.0",
+    "d3-ng2-service": "1.6.0"
+    
   },
   "devDependencies": {
     "@angular/compiler-cli": "^2.3.1",

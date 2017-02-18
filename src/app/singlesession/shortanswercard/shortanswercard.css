@@ -1,0 +1,125 @@
+#shortanswer-card-modal {
+  color: #000;
+  .shortanswer {
+    margin-bottom: 0px;
+    .shortanswer-content {
+      margin-top: 25px;
+    }
+  }
+}
+
+.upload-img {
+  position: relative;
+  span.fa.fa-times {
+    position: absolute;
+    right: 28px;
+    top: -12px;
+  }
+}
+
+.img-uploader {
+  position: relative;
+  clear: left;
+}
+
+.loading-img {
+  color: red;
+}
+
+.img-uploader input[type="file"] {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 40%;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+input.file-upload {
+    height: 90px;
+    width: 100px;
+}
+
+.img-uploader span {
+  font-size: 4em;
+  color: #848282 !important;
+  display: block;
+}
+.img-uploader span.upload-img-lbl{
+  color: #bbb;
+  font-size: 1em;
+  padding-top: 10px;
+}
+.btn-submit {
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+h3 {
+  font-size: 1.9em;
+  color: #039be5;
+  @media only screen and (min-width: 768px) {
+    font-size: 2em;
+  }
+}
+
+.shortanswer{
+    margin: 0;
+    form{
+       
+        i{
+            font-size: 1.5rem;
+        }
+    }
+    .row{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .img-upload{
+        margin-bottom: 20px;
+        margin-top: 11px;
+    }
+    .light-green.darken-2 {
+    min-width: 90px;
+    }
+ .mcq-option{
+     input{
+         font-size: 1.5rem;      
+     }
+ }
+ 
+}
+
+.btn-submit:hover{
+    color:#fff;
+}
+.small-width-modal {
+  @media only screen and (min-width: 768px) {
+    width: 80%;
+  }
+  @media only screen and (min-width: 992px) {
+    width: 40%;
+  }
+}
+
+
+.lean-overlay {
+    top:0 !important;
+}
+label{
+    margin-bottom: 0;   
+    display: inherit;
+}
+
+.alert-danger {
+    color:red;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.alert {
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+}

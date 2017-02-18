@@ -13,24 +13,23 @@ declare var ga: any;
 declare var mixpanel: any;
 declare var jQuery: any;
 
-
 @Component({
-  selector: 'textcard',
-  templateUrl: './textcard.component.html',
-  styleUrls: ['./textcard.component.css']
+  selector: 'shortanswercard',
+  template: require('./shortanswercard.html'),
+  styles: [require('./shortanswercard.css')],
 })
-export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadError: string;
   fileUploaded: boolean;
   imgUploadingInProcess: boolean;
-  textCardError: boolean;
-  textCardForm: FormGroup;
+  cardError: boolean;
+  cardForm: FormGroup;
   updateQuestionFlag: boolean;
   updateQuestion: Card;
   saveCardErrorText: string;
 
-  constructor(public editService: EditService,
+    constructor(public editService: EditService,
     private conf: ConfigurationService,
     private sessionService: SessionService,
     private cardService: CardService,
@@ -40,7 +39,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.uploadError = '';
       this.fileUploaded = false;
       this.imgUploadingInProcess = false;
-      this.textCardError = false;
+      this.cardError = false;
       this.updateQuestionFlag = false;
       this.saveCardErrorText = '';
 
@@ -48,7 +47,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       ga('set', 'userId', this.conf.getUser().userId);
       if (editService.isEditing()) {
          this.updateQuestionFlag = true;
-         this.textCardForm = formBuilder.group({
+         this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
           image_url: [this.updateQuestion.resource_url]
       });
@@ -56,13 +55,13 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.updateQuestion.resource_url) {
         this.fileUploaded = true;
       }
-        ga('send', 'pageview', '/sessions/textcard/edit');
+        ga('send', 'pageview', '/sessions/shortanswercard/edit');
     } else {
-      this.textCardForm = formBuilder.group({
+      this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
         image_url: ['']
       });
-      ga('send', 'pageview', '/sessions/textcard/add');
+      ga('send', 'pageview', '/sessions/shortanswercard/add');
     }
   }
 
@@ -70,86 +69,8 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  submitTextCard(event) {
-    event.preventDefault();
-    let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
-    jQuery(btnSave).attr('disabled', 'disabled');
-    btnSave.innerHTML = 'Saving...';
-    this.textCardError = false;
-    if (!this.textCardForm.valid) {
-      return false;
-    }
-    let params = {
-      type: 'long_text',
-      description: this.textCardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.textCardForm.controls['image_url'].value,
-      resource_type: 'image'
-    };
 
-    if (this.updateQuestionFlag === false) {
-      mixpanel.time_event('CreateTextCard');
-      params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
-      let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
-      observable.subscribe(
-        (resp => this._questionCreated(resp)),
-        (error => this.textCardError = true)
-      );
-      mixpanel.track('CreateTextCard', {'user': this.conf.getUser().emailId});
-    } else {
-      mixpanel.time_event('EditTextCard');
-      params['question_id'] = this.updateQuestion.question_id;
-      params['position'] = this.updateQuestion.position;
-      let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
-      observable.subscribe(
-        (resp => this._questionUpdated(resp)),
-        (error => this.textCardError = true)
-      );
-      mixpanel.track('EditTextCard', {'user': this.conf.getUser().emailId});
-    }
-
-
-  }
-
-  _questionCreated(resp) {
-    if (resp.type === 'Failure') {
-      this.textCardError = true;
-      this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('CreateTextCardFailed');
-      mixpanel.track('CreateTextCardFailed', {'error' : this.saveCardErrorText});
-      return;
-    }
-    this.cardService.cards.push(resp.question);
-    (<any>jQuery(this.el.nativeElement).find('#text-card-modal')).closeModal();
-    mixpanel.people.increment('Cards');
-    mixpanel.people.increment('TextCards');
-  }
-
-
-   private updateCardAfterEdit(card: Card) {
-    for (let i = 0; i < this.cardService.cards.length; i++) {
-      if (this.cardService.cards[i].question_id === card.question_id) {
-        this.cardService.cards[i] = card;
-        break;
-      }
-    }
-
-  }
-
-  _questionUpdated(resp) {
-    if (resp.type === 'Failure') {
-      this.textCardError = true;
-      this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('EditTextCardFailed');
-      mixpanel.track('EditTextCardFailed', {'error' : this.saveCardErrorText});
-      return;
-    }
-    this.updateCardAfterEdit(resp.question);
-    (<any>jQuery(this.el.nativeElement).find('#text-card-modal')).closeModal();
-
-  }
-
-  uploadFile() {
+ uploadFile() {
     let _this = this;
     this.imgUploadingInProcess = true;
     let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
@@ -180,16 +101,96 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   removeImage() {
-    this.textCardForm.controls['image_url'].setValue(null);
+    this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
   }
+
+
+  submitShortAnswerCard(event) {
+    event.preventDefault();
+    let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
+    jQuery(btnSave).attr('disabled', 'disabled');
+    btnSave.innerHTML = 'Saving...';
+
+    // let sessionQuestionCount = this._singleSessionService.sessionQuestions.length;
+    this.cardError = false;
+    if (!this.cardForm.valid) {
+      return false;
+    }
+    let params = {
+      type: 'short_text',
+      description: this.cardForm.controls['text_question'].value,
+      required: false,
+      resource_url: this.cardForm.controls['image_url'].value,
+      resource_type: 'image'
+    };
+    if (this.updateQuestionFlag === false) {
+      mixpanel.time_event('CreateShortAnswerCard');
+      params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
+      let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
+      observable.subscribe(
+        (resp => this.questionCreated(resp)),
+        (error => this.cardError = true)
+      );
+      mixpanel.track('CreateShortAnswerCard', {'user': this.conf.getUser().emailId});
+    } else {
+      mixpanel.time_event('EditShortAnswerCard');
+      params['question_id'] = this.updateQuestion.question_id;
+      let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
+      observable.subscribe(
+        (resp => this.questionUpdated(resp)),
+        (error => this.cardError = true)
+      );
+      mixpanel.track('EditShortAnswerCard', {'user': this.conf.getUser().emailId});
+    }
+  }
+
+  questionCreated(resp) {
+    if (resp.type === 'Failure') {
+      this.cardError = true;
+      this.saveCardErrorText = resp.errors[0].message;
+      mixpanel.people.increment('CreateShortAnswerCardFailed');
+      mixpanel.track('CreateShortAnswerCardFailed', {'error' : this.saveCardErrorText});
+      return;
+    }
+    this.cardService.cards.push(resp.question);
+    jQuery(this.el.nativeElement).find('#shortanswer-card-modal').closeModal();
+    mixpanel.people.increment('Cards');
+     mixpanel.people.increment('ShortAnswerCards');
+  }
+
+
+
+
+   private updateCardAfterEdit(card: Card) {
+    for (let i = 0; i < this.cardService.cards.length; i++) {
+      if (this.cardService.cards[i].question_id === card.question_id) {
+        this.cardService.cards[i] = card;
+        break;
+      }
+    }
+
+  }
+
+   questionUpdated(resp) {
+    if (resp.type === 'Failure') {
+      this.cardError = true;
+      this.saveCardErrorText = resp.errors[0].message;
+      mixpanel.people.increment('EditTextCardFailed');
+      mixpanel.track('EditTextCardFailed', {'error' : this.saveCardErrorText});
+      return;
+    }
+    this.updateCardAfterEdit(resp.question);
+    (<any>jQuery(this.el.nativeElement).find('#shortanswer-card-modal')).closeModal();
+
+  }
+
 
   ngAfterViewInit() {
     Materialize.updateTextFields();
   }
 
-   ngOnDestroy() {
-   // this.editService.resetEdits();
-  }
+  ngOnDestroy() {
 
+  }
 }
