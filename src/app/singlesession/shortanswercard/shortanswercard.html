@@ -5,7 +5,7 @@
 				<div class="center-align shortanswer-content">
 					<h3 class="center-align">Short Answer Card</h3>
 					<br>
-					<div class="error" *ngIf="shortAnswerCardError">
+					<div class="error" *ngIf="cardError">
 						{{saveCardErrorText}}</div>
 					<form [formGroup]="cardForm"
 						(submit)="submitShortAnswerCard($event)">
@@ -34,7 +34,7 @@
 							</div>
 							<div *ngIf="fileUploaded">
 								<span (click)="removeImage()" class="fa fa-times right"></span>
-								<img [src]="textCardForm.controls['image_url'].value" width="200" alt="" />
+								<img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
 							</div>
 						</div>
 						<div class="clearfix"></div>

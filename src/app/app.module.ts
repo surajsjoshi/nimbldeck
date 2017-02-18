@@ -26,6 +26,8 @@ import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
+import { McqCardComponent } from './singlesession/mcqcard/mcqcard'
+import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
@@ -46,7 +48,9 @@ import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
     ChoosecardtypeComponent,
     TextcardComponent,
     ShortAnswerCardComponent,
-    YesNoCardComponent
+    YesNoCardComponent,
+    RatingCardComponent,
+    McqCardComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
     ChoosecardtypeComponent,
     TextcardComponent,
     ShortAnswerCardComponent,
-    YesNoCardComponent
+    YesNoCardComponent,
+    RatingCardComponent,
+    McqCardComponent
   ]
 })
 export class AppModule { }

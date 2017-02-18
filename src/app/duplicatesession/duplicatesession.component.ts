@@ -124,9 +124,9 @@ export class DuplicatesessionComponent implements OnInit, OnDestroy {
     jQuery('#duplicate-session-modal').closeModal();
     mixpanel.people.increment('DuplicateSession');
     mixpanel.people.increment('Sessions');
-    this.router.navigate(['SingleSession', {sessionId: session.session_id}]);
+    this.router.navigate(['/sessions', session.session_id]);
   }
-  
+
    ngOnDestroy() {
     this.editService.resetEdits();
   }

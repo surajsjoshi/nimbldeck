@@ -36,13 +36,21 @@ export class CardService {
   }
 
 
-  public deleteQuestion(questionData, sessionId) {
+  deleteQuestion(questionData, sessionId) {
     questionData.user_id = this.conf.getUser().userId;
     let url = `questions/${questionData['question-id']}`;
     let data = JSON.stringify(questionData);
     return this.api.post(url, data)
       .map(rawResponse => rawResponse.json());
+  }
 
+  updateCardAfterEdit(card: Card) {
+    for (let i = 0; i < this.cards.length; i++) {
+      if (this.cards[i].question_id === card.question_id) {
+        this.cards[i] = card;
+        break;
+      }
+    }
   }
 
 

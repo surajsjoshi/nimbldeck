@@ -125,17 +125,6 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     mixpanel.people.increment('TextCards');
   }
 
-
-   private updateCardAfterEdit(card: Card) {
-    for (let i = 0; i < this.cardService.cards.length; i++) {
-      if (this.cardService.cards[i].question_id === card.question_id) {
-        this.cardService.cards[i] = card;
-        break;
-      }
-    }
-
-  }
-
   _questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.textCardError = true;
@@ -144,8 +133,8 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('EditTextCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-    this.updateCardAfterEdit(resp.question);
-    (<any>jQuery(this.el.nativeElement).find('#text-card-modal')).closeModal();
+    this.cardService.updateCardAfterEdit(resp.question);
+    jQuery(this.el.nativeElement).find('#text-card-modal').closeModal();
 
   }
 

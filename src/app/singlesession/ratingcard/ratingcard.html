@@ -1,0 +1,36 @@
+<div id="rating-card-modal" class="modal small-width-modal">
+	<div class="">
+		<div class="row rating-card">
+			<div class="col s12 m10 offset-m1">
+				<div class="center-align rating-card-content">
+					<h3 class="center-align">Rating Card</h3>
+					<br>
+					<div class="error" *ngIf="cardError">
+						{{saveCardErrorText}}</div>
+					<form [formGroup]="cardForm"
+						(submit)="submitRatingCard($event)">
+						<div class="row">
+							<div class="input-field col s12">
+								<textarea class="materialize-textarea"
+									formControlName="text_question" placeholder="Type Text here"
+									id="rating_question"></textarea>
+								<label for="rating_question">Question</label>
+								<div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine"
+									class="alert alert-danger">Text is Required</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="card-rating"></div>
+						</div>
+						<div class="row">
+							<button type="submit" [disabled]="!cardForm.valid"
+								class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

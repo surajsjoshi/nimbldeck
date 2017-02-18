@@ -10,6 +10,8 @@ import { CardResponse } from '../shared/models/cardResponse';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import { ChoosecardtypeComponent } from './choosecardtype/choosecardtype.component';
+import { McqCardComponent } from './mcqcard/mcqcard'
+import { RatingCardComponent } from './ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './shortanswercard/shortanswercard';
 import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
@@ -137,14 +139,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 }
 
   showRatingCard() {
-  /*  this.removeall();
-    this._dynamicComponentLoader
-      .loadIntoLocation(RatingCardComponent, this._el, 'cardModal')
-      .then((ref) => {
-        this._children.push(ref);
-        (<any>jQuery('#rating-card-modal')).openModal();
-      });
-*/
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(RatingCardComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<RatingCardComponent>componentRef.instance).editService = this.editService;
+    jQuery('#rating-card-modal').openModal();
   }
 
   showShortAnswerCard() {
@@ -156,14 +155,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   showMcqCard() {
-  /*  this.removeall();
-    this._dynamicComponentLoader
-      .loadIntoLocation(McqCardComponent, this._el, 'cardModal')
-      .then((ref) => {
-        this._children.push(ref);
-        (<any>jQuery('#mcq-card-modal')).openModal();
-      });
-*/
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(McqCardComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<McqCardComponent>componentRef.instance).editService = this.editService;
+    jQuery('#mcq-card-modal').openModal();
   }
 
   showYesNoCard() {

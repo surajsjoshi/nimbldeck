@@ -1,0 +1,31 @@
+#rating-card-modal {
+  color: #000;
+  .rating-card {
+    margin-bottom: 0px;
+    .rating-card-content {
+      margin-top: 10px;
+    }
+  }
+}
+
+.card-rating.jq-ry-container {
+  margin: auto;
+}
+
+h3 {
+  font-size: 1.9em;
+  color: #039be5;
+  @media only screen and (min-width: 768px) {
+    font-size: 2em;
+  }
+}
+
+.small-width-modal {
+  width: 90%;
+  @media only screen and (min-width: 768px) {
+    width: 80%;
+  }
+  @media only screen and (min-width: 992px) {
+    width: 40%;
+  }
+}

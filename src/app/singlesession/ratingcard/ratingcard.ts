@@ -14,11 +14,11 @@ declare var mixpanel: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'yesnocard',
-  templateUrl: './yesnocard.html',
-  styles: ['./yesnocard.css'],
+  selector: 'ratingcard',
+  templateUrl: './ratingcard.html',
+  styles: ['./ratingcard.css'],
 })
-export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
+export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
 
   uploadError: string;
   fileUploaded: boolean;
@@ -29,7 +29,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   updateQuestion: Card;
   saveCardErrorText: string;
 
-    constructor(public editService: EditService,
+     constructor(public editService: EditService,
     private conf: ConfigurationService,
     private sessionService: SessionService,
     private cardService: CardService,
@@ -44,7 +44,6 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.saveCardErrorText = '';
 
       this.updateQuestion = this.editService.getCurrent();
-
       ga('set', 'userId', this.conf.getUser().userId);
       if (editService.isEditing()) {
          this.updateQuestionFlag = true;
@@ -56,69 +55,30 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       if (this.updateQuestion.resource_url) {
         this.fileUploaded = true;
       }
-        ga('send', 'pageview', '/sessions/yesnocard/edit');
+        ga('send', 'pageview', '/sessions/ratingcard/edit');
     } else {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
         image_url: ['']
       });
-      ga('send', 'pageview', '/sessions/yesnocard/add');
+      ga('send', 'pageview', '/sessions/ratingcard/add');
     }
   }
 
   ngOnInit() {
 
   }
-
- uploadFile() {
-    let _this = this;
-    this.imgUploadingInProcess = true;
-    let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
-    let file = files.files[0];
-    let objKey = 'public/' + this.conf.getUser().identityId + '/' + file.name;
-    let params = {
-      Key: objKey,
-      ContentType: file.type,
-      Body: file
-    };
-    let bucketName = 'nimbldeckapp-userfiles-mobilehub-964664152'; // Enter your bucket name
-    let bucket = new AWS.S3({
-      params: {
-        Bucket: bucketName
-      }
-    });
-
-
-    bucket.upload(params, function (err, data) {
-      if (err) {
-        _this.uploadError = 'Failed to upload file';
-      } else {
-        _this.fileUploaded = true;
-        _this.imgUploadingInProcess = false;
-         this.textCardForm.controls['image_url'].setValue(data.Location);
-      }
-    });
-  }
-
-  removeImage() {
-    this.cardForm.controls['image_url'].setValue(null);
-    this.fileUploaded = false;
-  }
-
-
-  submitYesNoCard(event) {
+  submitRatingCard(event) {
     event.preventDefault();
     let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
-
-    // let sessionQuestionCount = this._singleSessionService.sessionQuestions.length;
     this.cardError = false;
     if (!this.cardForm.valid) {
       return false;
     }
     let params = {
-      type: 'yes_no',
+      type: 'rating',
       description: this.cardForm.controls['text_question'].value,
       required: false,
       resource_url: this.cardForm.controls['image_url'].value,
@@ -126,63 +86,70 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
 
     };
     if (this.updateQuestionFlag === false) {
-      mixpanel.time_event('CreateYesNoCard');
+      mixpanel.time_event('CreateRatingCard');
       params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
       let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
-        (resp => this._questionCreated(resp)),
+        (resp => this.questionCreated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('CreateYesNoCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('CreateRatingCard', {'user': this.conf.getUser().emailId});
     } else {
-      mixpanel.time_event('EditYesNoCard');
+      mixpanel.time_event('EditRatingCard');
       params['question_id'] = this.updateQuestion.question_id;
       params['position'] = this.updateQuestion.position;
       let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
-        (resp => this._questionUpdated(resp)),
+        (resp => this.questionUpdated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('EditRatingCard', {'user': this.conf.getUser().emailId});
     }
-    event.preventDefault();
+
 
   }
 
-  _questionCreated(resp) {
+  questionCreated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('CreateYesNoCardFailed');
-      mixpanel.track('CreateYesNoCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.people.increment('CreateRatingCardFailed');
+      mixpanel.track('CreateRatingCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
      this.cardService.cards.push(resp.question);
-     jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
+     jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
      mixpanel.people.increment('Cards');
-     mixpanel.people.increment('YesNoCards');
-
+     mixpanel.people.increment('RatingCards');
   }
 
-
-  _questionUpdated(resp) {
+  questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('EditYesNoCardFailed');
-      mixpanel.track('EditYesNoCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.people.increment('EditRatingCardFailed');
+      mixpanel.track('EditRatingCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-    this.cardService.updateCardAfterEdit(resp.question);
-    jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
+     this.cardService.updateCardAfterEdit(resp.question);
+     jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
 
   }
+
 
   ngAfterViewInit() {
     Materialize.updateTextFields();
+
+    let cardRating = this.el.nativeElement.getElementsByClassName('card-rating');
+    jQuery(cardRating[0]).rateYo({
+      starWidth: '40px',
+      readOnly: true
+    });
+
   }
 
   ngOnDestroy() {
-    this.editService.resetEdits();
+    // this._editService.resetEdits();
   }
+
 }

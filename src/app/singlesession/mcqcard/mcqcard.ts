@@ -14,12 +14,17 @@ declare var mixpanel: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'shortanswercard',
-  templateUrl: './shortanswercard.html',
-  styles: ['./shortanswercard.css'],
+  selector: 'mcqcard',
+  templateUrl: './mcqcard.html',
+  styles: ['./mcqcard.css'],
 })
-export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestroy {
+export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
+
+
+  options: any = new Array();
+  optionUploadError: string;
+  optionFileUploaded: boolean;
   uploadError: string;
   fileUploaded: boolean;
   imgUploadingInProcess: boolean;
@@ -28,6 +33,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
   updateQuestionFlag: boolean;
   updateQuestion: Card;
   saveCardErrorText: string;
+
 
   constructor(public editService: EditService,
     private conf: ConfigurationService,
@@ -42,33 +48,38 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
       this.cardError = false;
       this.updateQuestionFlag = false;
       this.saveCardErrorText = '';
+      this.optionFileUploaded = false;
+      this.optionUploadError = '';
 
       this.updateQuestion = this.editService.getCurrent();
       ga('set', 'userId', this.conf.getUser().userId);
       if (editService.isEditing()) {
-         this.updateQuestionFlag = true;
-         this.cardForm = formBuilder.group({
-          text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+      this.updateQuestionFlag = true;
+      this.options = this.updateQuestion.choices;
+      this.cardForm = formBuilder.group({
+        text_question: [this.updateQuestion.description, Validators.required],
+        image_url: [this.updateQuestion.resource_url],
+        mcqoption: [''],
+        option_image_url: ['']
       });
-
       if (this.updateQuestion.resource_url) {
         this.fileUploaded = true;
       }
-        ga('send', 'pageview', '/sessions/shortanswercard/edit');
+      ga('send', 'pageview', '/sessions/mcqcard/edit');
     } else {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
-        image_url: ['']
+        image_url: [''],
+        mcqoption: [''],
+        option_image_url: ['']
       });
-      ga('send', 'pageview', '/sessions/shortanswercard/add');
+      ga('send', 'pageview', '/sessions/mcqcard/add');
     }
   }
 
-  ngOnInit() {
+ ngOnInit() {
 
   }
-
 
  uploadFile() {
     let _this = this;
@@ -106,7 +117,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
   }
 
 
-  submitShortAnswerCard(event) {
+  submitMcqCard(event) {
     event.preventDefault();
     let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
@@ -117,68 +128,147 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
     if (!this.cardForm.valid) {
       return false;
     }
+    let optionsCount = this.options.length;
+    let option = this.cardForm.controls['mcqoption'].value;
+    if ((optionsCount < 4) && option) {
+      let choices = {};
+      choices['label'] = option;
+      choices['name'] = 'choices';
+      this.options.push(choices);
+      this.cardForm.controls['mcqoption'].setValue(null);
+    }
+
     let params = {
-      type: 'short_text',
+      type: 'multiple_choice',
       description: this.cardForm.controls['text_question'].value,
       required: false,
+      allow_multiple_selections: true,
+      choices: this.options,
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
     };
     if (this.updateQuestionFlag === false) {
-      mixpanel.time_event('CreateShortAnswerCard');
+      mixpanel.time_event('CreateMCQCard');
       params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
       let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
         (resp => this.questionCreated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('CreateShortAnswerCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('CreateMCQCard', {'user': this.conf.getUser().emailId});
     } else {
-      mixpanel.time_event('EditShortAnswerCard');
+      mixpanel.time_event('EditMCQCard');
       params['question_id'] = this.updateQuestion.question_id;
+      params['position'] = this.updateQuestion.position;
       let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
         (resp => this.questionUpdated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('EditShortAnswerCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('EditMCQCard', {'user': this.conf.getUser().emailId});
     }
+
   }
 
   questionCreated(resp) {
     if (resp.type === 'Failure') {
-      this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('CreateShortAnswerCardFailed');
-      mixpanel.track('CreateShortAnswerCardFailed', {'error' : this.saveCardErrorText});
+      this.cardError = true;
+      mixpanel.people.increment('CreateMCQCardFailed');
+      mixpanel.track('CreateMCQCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
     this.cardService.cards.push(resp.question);
-    jQuery(this.el.nativeElement).find('#shortanswer-card-modal').closeModal();
     mixpanel.people.increment('Cards');
-     mixpanel.people.increment('ShortAnswerCards');
+    mixpanel.people.increment('MCQCards');
+    jQuery(this.el.nativeElement).find('#mcq-card-modal').closeModal();
   }
 
-
-   questionUpdated(resp) {
+  questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
-      mixpanel.people.increment('EditTextCardFailed');
-      mixpanel.track('EditTextCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.people.increment('EditMCQCardFailed');
+      mixpanel.track('EditMCQCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
     this.cardService.updateCardAfterEdit(resp.question);
-    (<any>jQuery(this.el.nativeElement).find('#shortanswer-card-modal')).closeModal();
+    jQuery(this.el.nativeElement).find('#mcq-card-modal').closeModal();
 
   }
 
+
+  addToOptions() {
+    // let index = this.options.length < 5;
+    if (this.options.length < 5) {
+      let option = this.cardForm.controls['mcqoption'].value;
+      let choices = {};
+      if (option) {
+        choices['label'] = option;
+        // choices['resource_type'] = 'image';
+        choices['name'] = 'choices';
+        // if (optimg) {
+        //   choices['resource_url'] = optimg;
+        // } else {
+        //   choices['resource_url'] = '';
+        // }
+        this.options.push(choices);
+        this.cardForm.controls['mcqoption'].setValue(null);
+        this.cardForm.controls['option_image_url'].setValue(null);
+      }
+    }
+  }
+
+  removeFromOptions(i) {
+    // console.log(i);
+    this.options.splice(i, 1);
+  }
+
+  onOptionKeyUp(event, index) {
+    if (index < 4) {
+      let choices = {};
+      let option = event.target.value;
+      if (option) {
+        choices['label'] = option;
+        choices['name'] = 'choices';
+      }
+      this.options.splice(index, 1, choices);
+    }
+    event.target.focus();
+  }
+
+  uploadOptionImageFile() {
+    // console.log('Upload Option Image File');
+    let files = this.el.nativeElement.getElementsByClassName('option-upload')[0];
+    let file = files.files[0];
+    let objKey =  'public/' + this.conf.getUser().identityId + '/' + file.name;
+    let params = {
+      Key: objKey,
+      ContentType: file.type,
+      Body: file
+    };
+    let bucketName = 'nimbldeckapp-userfiles-mobilehub-964664152'; // Enter your bucket name
+    let bucket = new AWS.S3({
+      params: {
+        Bucket: bucketName
+      }
+    });
+    let _this = this;
+    bucket.upload(params, function (err, data) {
+      if (err) {
+        _this.optionUploadError = 'Failed to upload file';
+      } else {
+        _this.cardForm.controls['option_image_url'].setValue(data.Location);
+        _this.optionFileUploaded = true;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     Materialize.updateTextFields();
   }
 
   ngOnDestroy() {
-
+      this.editService.resetEdits();
   }
 }

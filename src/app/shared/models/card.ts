@@ -12,6 +12,7 @@ export class Card {
   description: string;
   resource_url: string;
   position: number;
+  choices: any;
 
 
 
