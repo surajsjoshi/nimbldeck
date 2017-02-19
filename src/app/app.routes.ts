@@ -1,3 +1,4 @@
+import { DashboardComponent } from './dashboard/dashboard';
 import {ModuleWithProviders} from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -9,16 +10,25 @@ import { SinglesessionComponent } from './singlesession/singlesession.component'
 
 const routes: Routes = [
   {
-    path: '',
-    component: MysessionsComponent
+    path: '', redirectTo: 'app', pathMatch: 'full'
   },
   {
     path: 'app',
     component: MysessionsComponent
   },
   {
-    path: 'sessions/:id',
-    component: SinglesessionComponent
+    path: 'app/dashboard/:id',
+    component: DashboardComponent
+  },
+  {
+    path: 'app/sessions/:id',
+    component: SinglesessionComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      }
+    ]
   }
 ];
 

@@ -45,7 +45,6 @@ export class SessionboxComponent implements OnInit {
     } else if (this.session.status === 'Completed') {
       this.isComplete = true;
     }
-    this.session.updated_at = moment.utc(this.session.updated_at).local().toDate();
   }
 
   deleteSession() {

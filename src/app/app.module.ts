@@ -5,10 +5,8 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { LoginModule } from './login/login.module';
-import { SignupModule } from './signup/signup.module';
 import { PageTitleModule } from './shared/page-title/pagetitle.module';
-import {TimeAgoPipe} from 'time-ago-pipe';
+import { TimeAgoPipe } from 'ng2-ago';
 import { SinglesessionComponent } from './singlesession/singlesession.component';
 import { OrderbyPipe } from './shared/pipes/orderby.pipe';
 import { UserdropdownComponent } from './userdropdown/userdropdown.component';
@@ -16,6 +14,9 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { MysessionsComponent } from './mysessions/mysessions.component';
 import {routing} from './app.routes';
 import { CreatesessionComponent } from './createsession/createsession.component';
+import { DashboardComponent } from './dashboard/dashboard';
+import { TabComponent } from './dashboard/tabs/tabcomponent';
+import { TabsComponent } from './dashboard/tabs/tabscomponent';
 import { ApiService } from './services/api.service';
 import { CardService } from './services/card.service';
 import { ConfigurationService } from './services/configuration.service';
@@ -25,12 +26,14 @@ import { SessionboxComponent } from './sessionbox/sessionbox.component';
 import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
+import { QueriesService } from './services/queries.service';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
-import { McqCardComponent } from './singlesession/mcqcard/mcqcard'
+import { McqCardComponent } from './singlesession/mcqcard/mcqcard';
 import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
+import { Ng2PaginationModule } from 'ng2-pagination';
 
 @NgModule({
   declarations: [
@@ -50,18 +53,20 @@ import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
     ShortAnswerCardComponent,
     YesNoCardComponent,
     RatingCardComponent,
-    McqCardComponent
+    McqCardComponent,
+    DashboardComponent,
+    TabsComponent,
+    TabComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
     routing,
-    LoginModule,
-    SignupModule,
-    PageTitleModule
+    PageTitleModule,
+    Ng2PaginationModule
   ],
-  providers: [ApiService, ConfigurationService, CurrentUser, SessionService, CardService, EditService],
+  providers: [TimeAgoPipe, ApiService, QueriesService, ConfigurationService, CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,

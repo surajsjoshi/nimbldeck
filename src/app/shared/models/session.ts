@@ -18,7 +18,7 @@ export class Session {
     this.isSample = sample;
     for (let key in session) {
         if (key === 'updated_at' || key === 'created_at') {
-           this[key] = moment.utc(session[key]).local().toDate();
+           this[key] = moment.utc(session[key]).local().fromNow();
         } else {
            this[key] = session[key];
        }

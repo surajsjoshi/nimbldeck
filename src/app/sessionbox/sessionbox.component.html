@@ -12,7 +12,7 @@
 				*ngIf="!session.isSample && !isComplete"
 				class="fa fa-pencil-square-o tooltipped" data-position="bottom"
 				data-delay="50" data-tooltip="Edit"></i> <a
-				[routerLink]="['Dashboard',{sessionId : session.session_id}]"><i
+				[routerLink]="['dashboard', session.session_id]"><i
 				*ngIf="!session.isSample && (isComplete || session.status == 'Running')"
 				class="fa fa-bar-chart tooltipped" data-position="bottom"
 				data-delay="50" data-tooltip="Statistics" ga-on="click"
@@ -49,6 +49,6 @@
 		</a> <span class="completed" *ngIf="isComplete && !session.isSample">Complete</span>
 		<span class="completed" *ngIf="session.isSample">&nbsp;</span> <a
 			href="#" class="last-seen"><i class="fa fa-clock-o"></i>
-			{{session.updated_at }}</a>
+			{{session.updated_at}}</a>
 	</div>
 </div>

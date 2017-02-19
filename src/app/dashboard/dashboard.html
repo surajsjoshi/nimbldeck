@@ -1,0 +1,69 @@
+
+<div class="row title-section">
+	<div class="col s12">
+		<div class="container title-container">
+			<pagetitle [pageTitle]="title"></pagetitle>
+			<div *ngIf="sessionFetched">
+				<h4 class="truncate">
+					- {{ session.title }} <small *ngIf="session.organization">[{{session.organization}}]</small>
+				</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<tabs>
+<tab title="Questions"> 
+</tab>
+
+ <tab title="Queries"> 
+<div class="tab-section">
+	<div class="container">
+		<div class="container" *ngIf="queries.length == 0">
+			<h5 class="text-center">No Records</h5>
+		</div>
+
+		<div class="scrollbar" *ngIf="queries.length > 0">
+			<div class="row-align" *ngFor="let query of queries">
+				<p>{{query.description}}</p>
+				<span>{{query.posted_by}} [{{query.created_at}}]</span>
+			</div>
+		</div>
+	</div>
+</div>
+</tab> </tabs>
+
+
+<!-- <div class="container">
+	<p *ngIf="!_sessionAnalyticsService.isfetched" class="center-align">
+		<i class="fa fa-spinner fa-spin fa-2x"></i>
+	</p> 
+</div>
+<div class="">
+	<div class="rowiner">
+		<div class="col s12">
+			 <div class="container">
+				<h5 class="text-center">No Records</h5>
+			</div>
+ 
+
+			<div class="row session_list">
+				<div class="container">
+					<div class="row-ui">
+						 <div class="col s12 m6"
+							*ngFor="#answer of _sessionAnalyticsService.useranalytics  | paginate: { itemsPerPage: 4, currentPage: activePage }; #i=index">
+							<question-chart-box [answer]='answer' [index]='i'
+								[page]="activePage" [perPage]='4' [session]='session'></question-chart-box>
+						</div> 
+					</div>
+				
+
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div> -->
+
+<!-- </tab> </tabs>  -->

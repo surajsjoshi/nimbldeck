@@ -10,7 +10,7 @@ import { CardResponse } from '../shared/models/cardResponse';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import { ChoosecardtypeComponent } from './choosecardtype/choosecardtype.component';
-import { McqCardComponent } from './mcqcard/mcqcard'
+import { McqCardComponent } from './mcqcard/mcqcard';
 import { RatingCardComponent } from './ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './shortanswercard/shortanswercard';
 import { TextcardComponent } from './textcard/textcard.component';

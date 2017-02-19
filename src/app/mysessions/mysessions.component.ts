@@ -18,8 +18,7 @@ declare var mixpanel: any;
   moduleId: module.id,
   selector: 'mysessions',
   templateUrl: './mysessions.component.html',
-  styleUrls: ['./mysessions.component.css'],
-  providers: []
+  styleUrls: ['./mysessions.component.css']
 })
 export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
 
@@ -39,7 +38,7 @@ export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
     }
     this.sessionService.init();
    if (environment.production) {
-       mixpanel.track('ListSessions', {'user': this.conf.getUser().getEmailId()});
+       mixpanel.track('ListSessions', {'user': this.conf.getUser().emailId});
     }
     ga('set', 'userId', this.conf.getUser().getUserId());
     ga('send', 'pageview', 'sessions');
