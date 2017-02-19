@@ -25,6 +25,12 @@
 			<div class="container" *ngIf="analytics.length == 0">
 				<h5 class="text-center">No Records</h5>
 			</div>
+			<!-- 
+			<carousel [interval]="1500" [noWrap]="false"> <slide
+				*ngFor="let slide of analytics; let i=index"> <questionchartbox
+				[answer]='slide'></questionchartbox> </slide> </carousel> -->
+
+
 			<div class="row session_list" *ngIf="analytics.length > 0">
 				<div class="container">
 					<div class="row-ui">

@@ -14,6 +14,7 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { MysessionsComponent } from './mysessions/mysessions.component';
 import {routing} from './app.routes';
 import { CreatesessionComponent } from './createsession/createsession.component';
+import { BarChartComponent } from './dashboard/barchart/barchart';
 import { DashboardComponent } from './dashboard/dashboard';
 import { PieChartComponent } from './dashboard/piechart/piechart';
 import { QuestionChartBoxComponent } from './dashboard/questionchartbox/questionchartbox';
@@ -38,8 +39,10 @@ import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
 import { ChartModule } from 'angular2-highcharts';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { RatingModule, CarouselModule } from 'ng2-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
+import { RatingComponent } from './dashboard/rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +67,9 @@ import { ChartsModule } from 'ng2-charts';
     TabsComponent,
     TabComponent,
     QuestionChartBoxComponent,
-    PieChartComponent
+    PieChartComponent,
+    BarChartComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,9 @@ import { ChartsModule } from 'ng2-charts';
     routing,
     PageTitleModule,
     Ng2PaginationModule,
-    ChartsModule
+    ChartsModule,
+    RatingModule,
+    CarouselModule
   ],
   providers: [ D3Service, SessionAnalyticsService, TimeAgoPipe,
                ApiService, QueriesService, ConfigurationService,

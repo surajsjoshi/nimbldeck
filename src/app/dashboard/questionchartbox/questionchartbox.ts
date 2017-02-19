@@ -13,13 +13,11 @@ export class QuestionChartBoxComponent implements OnInit {
   @Input() index: number;
   @Input() page: number;
   @Input() perPage: number;
-  private questionNumber;
-
 
   constructor() {}
 
   ngOnInit() {
-      this.questionNumber = this.perPage * (this.page - 1) + this.index + 1;
+  //    this.questionNumber = this.perPage * (this.page - 1) + this.index + 1;
   }
 
 }

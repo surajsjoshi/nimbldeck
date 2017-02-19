@@ -1,0 +1,16 @@
+<h5>
+	Average:
+	<rating [(ngModel)]="averageRate" [max]="max" [readonly]="true"
+		[titles]="titles" (onHover)="hoveringOver($event)"
+		(onLeave)="resetStar()"></rating>
+	<br> <span class="label"
+		[ngClass]="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}">{{averageRate}}%</span><br>
+	<br>
+</h5>
+
+<div *ngFor="let i of index;">
+	<rating [(ngModel)]="index[i-1]" [max]="max" [readonly]="true"
+		[titles]="titles" (onHover)="hoveringOver($event)"
+		(onLeave)="resetStar()"></rating>
+	= <span>{{ratings[i]}}</span><br>
+</div>

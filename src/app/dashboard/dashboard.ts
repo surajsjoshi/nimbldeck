@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   session: Session;
   queries;
   analytics;
+  activeSlideIndex: number;
   private subscription: Subscription;
 
   constructor(public sessionService: SessionService,
