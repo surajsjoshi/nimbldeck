@@ -1,4 +1,4 @@
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 import { ConfigurationService } from '../services/configuration.service';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Component } from '@angular/core';

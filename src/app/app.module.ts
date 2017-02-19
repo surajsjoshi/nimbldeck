@@ -39,7 +39,7 @@ import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
 import { ChartModule } from 'angular2-highcharts';
 import { Ng2PaginationModule } from 'ng2-pagination';
-import { RatingModule, CarouselModule } from 'ng2-bootstrap';
+import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
@@ -80,7 +80,8 @@ import { RatingComponent } from './dashboard/rating/rating.component';
     Ng2PaginationModule,
     ChartsModule,
     RatingModule,
-    CarouselModule
+    CarouselModule,
+    DropdownModule
   ],
   providers: [ D3Service, SessionAnalyticsService, TimeAgoPipe,
                ApiService, QueriesService, ConfigurationService,

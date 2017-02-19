@@ -1,13 +1,18 @@
-<div class="dropdown">
+
+<div class="dropdown" dropdown>
 	<a id="dd-btn" class="dropdown-button username" data-toggle="dropdown"
 		data-alignment="right" data-constrainwidth="false"
 		data-beloworigin="true" data-activates="user-drop-down"> <span
 		class="username-initial">{{getInitialLetter()}}</span> <i
 		class="fa fa-caret-down"></i>
 	</a>
-	<ul id="user-drop-down" class="dropdown-content user-select">
-		<li><a>{{userName}}</a></li>
-		<li><a (click)="logoutUser()">Logout</a></li>
+	<ul dropdownMenu role="menu" aria-labelledby="single-button">
+		<li role="menuitem"><a class="dropdown-item"><span
+				class="username-initial">{{userName}}</span> <i
+				class="fa fa-caret-down"></i></a></li>
+		<li role="menuitem"><a class="dropdown-item"
+			(click)="logoutUser()">Logout</a></li>
 	</ul>
 </div>
+
 
