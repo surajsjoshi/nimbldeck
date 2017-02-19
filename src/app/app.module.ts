@@ -15,6 +15,7 @@ import { MysessionsComponent } from './mysessions/mysessions.component';
 import {routing} from './app.routes';
 import { CreatesessionComponent } from './createsession/createsession.component';
 import { DashboardComponent } from './dashboard/dashboard';
+import { QuestionChartBoxComponent } from './dashboard/questionchartbox/questionchartbox'
 import { TabComponent } from './dashboard/tabs/tabcomponent';
 import { TabsComponent } from './dashboard/tabs/tabscomponent';
 import { ApiService } from './services/api.service';
@@ -27,6 +28,7 @@ import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { QueriesService } from './services/queries.service';
+import { SessionAnalyticsService } from './services/sessionanalytics.service';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
 import { McqCardComponent } from './singlesession/mcqcard/mcqcard';
 import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
@@ -56,7 +58,8 @@ import { Ng2PaginationModule } from 'ng2-pagination';
     McqCardComponent,
     DashboardComponent,
     TabsComponent,
-    TabComponent
+    TabComponent,
+    QuestionChartBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { Ng2PaginationModule } from 'ng2-pagination';
     PageTitleModule,
     Ng2PaginationModule
   ],
-  providers: [TimeAgoPipe, ApiService, QueriesService, ConfigurationService, CurrentUser, SessionService, CardService, EditService],
+  providers: [SessionAnalyticsService, TimeAgoPipe, ApiService, QueriesService,
+    ConfigurationService, CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,

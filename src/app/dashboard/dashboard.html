@@ -12,11 +12,40 @@
 	</div>
 </div>
 
-<tabs>
-<tab title="Questions"> 
-</tab>
+<tabs> <tab title="Questions">
+<div class="container">
+	<p *ngIf="!analysisFetched" class="center-align">
+		<i class="fa fa-spinner fa-spin fa-2x"></i>
+	</p>
+</div>
 
- <tab title="Queries"> 
+<div class="" *ngIf="analysisFetched">
+	<div class="rowiner">
+		<div class="col s12">
+			 <div class="container"  *ngIf="analytics.length == 0">
+				<h5 class="text-center">No Records</h5>
+			</div>
+			<div class="row session_list" *ngIf="analytics.length > 0">
+				<div class="container">
+					<div class="row-ui">
+						 <div class="col s12 m6" *ngFor="let answer of analytics; let i = index">
+							 <questionchartbox [answer]='answer' [index]='i'
+								[page]="activePage" [perPage]='4'></questionchartbox> 
+						</div> 
+					</div>
+				
+
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+</tab> <tab title="Queries">
 <div class="tab-section">
 	<div class="container">
 		<div class="container" *ngIf="queries.length == 0">
@@ -34,11 +63,7 @@
 </tab> </tabs>
 
 
-<!-- <div class="container">
-	<p *ngIf="!_sessionAnalyticsService.isfetched" class="center-align">
-		<i class="fa fa-spinner fa-spin fa-2x"></i>
-	</p> 
-</div>
+<!-- 
 <div class="">
 	<div class="rowiner">
 		<div class="col s12">
@@ -66,4 +91,4 @@
 	</div>
 </div> -->
 
-<!-- </tab> </tabs>  -->
+

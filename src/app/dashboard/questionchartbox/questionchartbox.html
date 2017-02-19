@@ -1,0 +1,25 @@
+<div class="card question-box hoverable">
+	<div class="question-box-head">
+		<!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
+		<h5>Q. {{answer.description}}</h5>
+
+		<div class="digits">
+			<span> <!--{{quesAns[i]}} of {participants}-->
+				{{answer.answered_by}} of {{answer.participants}}
+			</span>
+		</div>
+
+		<div class=pull-right></div>
+
+	</div>
+	<div class="charts">
+		<span class="pull-right"> </span>
+
+		<!-- <pie-chart [analytics]='answer.analytics'
+			*ngIf="answer.question_type === 'yes_no'"></pie-chart>
+		<bar-chart [analytics]='answer.analytics'
+			*ngIf="answer.question_type === 'multiple_choice'"></bar-chart>
+		<short-answer [answer]='answer' [session]='session'
+			*ngIf="answer.question_type === 'short_text'"></short-answer>
+		<rating [answer]='answer' *ngIf="answer.question_type === 'rating'"></rating> -->
+	</div>
