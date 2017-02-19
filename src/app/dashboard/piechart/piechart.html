@@ -1,0 +1,31 @@
+<!-- 
+<style> .chart{display: block; width:100%;} </style>
+
+<div class="basechart">    
+    <base-chart class="chart"
+           [data]="pieChartData"
+           [labels]="pieChartLabels"
+           [chartType]="pieChartType"
+           (chartClick)="chartClicked($event)"></base-chart>
+           
+    <div  class="chart-check">
+        <ul>
+            <li><span class="grey-circle"></span> Yes</li>
+            <li><span class="blue-circle"></span> No</li>
+        </ul>   
+    </div> 
+</div>
+ -->
+
+<div id="basechart">
+	<canvas baseChart
+          [data]="pieChartData"
+		[labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+
+	<div class="chart-check">
+		<ul>
+			<li><span class="grey-circle"></span> Yes</li>
+			<li><span class="blue-circle"></span> No</li>
+		</ul>
+	</div>
+</div>

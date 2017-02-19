@@ -22,18 +22,19 @@
 <div class="" *ngIf="analysisFetched">
 	<div class="rowiner">
 		<div class="col s12">
-			 <div class="container"  *ngIf="analytics.length == 0">
+			<div class="container" *ngIf="analytics.length == 0">
 				<h5 class="text-center">No Records</h5>
 			</div>
 			<div class="row session_list" *ngIf="analytics.length > 0">
 				<div class="container">
 					<div class="row-ui">
-						 <div class="col s12 m6" *ngFor="let answer of analytics; let i = index">
-							 <questionchartbox [answer]='answer' [index]='i'
-								[page]="activePage" [perPage]='4'></questionchartbox> 
-						</div> 
+						<div class="col s12 m6"
+							*ngFor="let answer of analytics; let i = index">
+							<questionchartbox [answer]='answer' [index]='i'
+								[page]="activePage" [perPage]='4'></questionchartbox>
+						</div>
 					</div>
-				
+
 
 					<div class="clearfix"></div>
 				</div>

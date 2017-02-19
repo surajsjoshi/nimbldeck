@@ -15,7 +15,8 @@ import { MysessionsComponent } from './mysessions/mysessions.component';
 import {routing} from './app.routes';
 import { CreatesessionComponent } from './createsession/createsession.component';
 import { DashboardComponent } from './dashboard/dashboard';
-import { QuestionChartBoxComponent } from './dashboard/questionchartbox/questionchartbox'
+import { PieChartComponent } from './dashboard/piechart/piechart';
+import { QuestionChartBoxComponent } from './dashboard/questionchartbox/questionchartbox';
 import { TabComponent } from './dashboard/tabs/tabcomponent';
 import { TabsComponent } from './dashboard/tabs/tabscomponent';
 import { ApiService } from './services/api.service';
@@ -35,7 +36,10 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
+import { ChartModule } from 'angular2-highcharts';
 import { Ng2PaginationModule } from 'ng2-pagination';
+import { D3Service } from 'd3-ng2-service';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,8 @@ import { Ng2PaginationModule } from 'ng2-pagination';
     DashboardComponent,
     TabsComponent,
     TabComponent,
-    QuestionChartBoxComponent
+    QuestionChartBoxComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -67,10 +72,12 @@ import { Ng2PaginationModule } from 'ng2-pagination';
     HttpModule,
     routing,
     PageTitleModule,
-    Ng2PaginationModule
+    Ng2PaginationModule,
+    ChartsModule
   ],
-  providers: [SessionAnalyticsService, TimeAgoPipe, ApiService, QueriesService,
-    ConfigurationService, CurrentUser, SessionService, CardService, EditService],
+  providers: [ D3Service, SessionAnalyticsService, TimeAgoPipe,
+               ApiService, QueriesService, ConfigurationService,
+               CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,
