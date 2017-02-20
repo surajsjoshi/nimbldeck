@@ -1,4 +1,3 @@
-import { environment } from '../../environments/environment';
 import { CreatesessionComponent } from '../createsession/createsession.component';
 import { DuplicatesessionComponent } from '../duplicatesession/duplicatesession.component';
 import { EditsessionComponent } from '../editsession/editsession.component';
@@ -33,13 +32,9 @@ export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
  }
 
   ngOnInit() {
-    if (environment.production) {
-       mixpanel.time_event('ListSessions');
-    }
+    mixpanel.time_event('ListSessions');
     this.sessionService.init();
-   if (environment.production) {
-       mixpanel.track('ListSessions', {'user': this.conf.getUser().emailId});
-    }
+    mixpanel.track('ListSessions', {'user': this.conf.getUser().emailId});
     ga('set', 'userId', this.conf.getUser().getUserId());
     ga('send', 'pageview', 'sessions');
   }

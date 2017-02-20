@@ -22,7 +22,11 @@ export class UserdropdownComponent {
 
 
   getInitialLetter() {
+    try {
     return this.userName.charAt(0).toUpperCase();
+    } catch (err) {
+        this.conf.getUser().logout();
+     }
   }
 
    logoutUser() {
@@ -30,9 +34,7 @@ export class UserdropdownComponent {
     ga('set', 'userId', this.conf.getUser().getUserId());
     ga('send', 'pageview', '/logout');
     this.conf.getUser().logout();
-    if (environment.production) {
-      mixpanel.track('Logout', {'user': this.conf.getUser().getEmailId()});
-    }
+    mixpanel.track('Logout', {'user': this.conf.getUser().getEmailId()});
   }
 
 }

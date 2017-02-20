@@ -22,7 +22,7 @@ export class CurrentUser {
     this.emailId = user.email_id;
     this.token = user.token;
     this.identityId = user.identityId;
-    this.sessionexpired = true;
+    this.sessionexpired = false;
   }
 
   getInitialLetter() {
@@ -39,7 +39,7 @@ export class CurrentUser {
 
   logout() {
       this.sessionexpired = true;
-      Cookie.set('nd_current_user', JSON.stringify(this));
+      Cookie.delete('nd_current_user');
       window.location.href = environment.basePath;
   }
 }

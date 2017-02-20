@@ -10,9 +10,6 @@ import { SinglesessionComponent } from './singlesession/singlesession.component'
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'app', pathMatch: 'full'
-  },
-  {
     path: 'app',
     component: MysessionsComponent
   },

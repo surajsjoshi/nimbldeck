@@ -58,4 +58,9 @@ export class ConfigurationService {
   home(): any {
       window.location.href = environment.basePath;
   }
+
+  logout() {
+      Cookie.delete('nd_current_user');
+      window.location.href = environment.basePath;
+  }
 }

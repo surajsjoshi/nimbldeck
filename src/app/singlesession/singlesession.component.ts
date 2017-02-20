@@ -1,4 +1,3 @@
-import { environment } from '../../environments/environment';
 import { ApiService } from '../services/api.service';
 import { ConfigurationService } from '../services/configuration.service';
 import { Component, OnInit, OnDestroy, ElementRef, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
@@ -57,9 +56,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   ngOnInit() {
       this.subscription = this.route.params.subscribe(params => {
       this.sessionId = params['id'];
-      if (environment.production) {
-        mixpanel.time_event('ListCards');
-      }
+      mixpanel.time_event('ListCards');
       ga('set', 'userId', this.conf.getUser().getUserId());
       ga('send', 'pageview', '/sessions/' + this.sessionId);
 
@@ -72,9 +69,8 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
         (error => console.log(error)),
         () => this.cardsFetched = true);
     });
-    if (environment.production) {
-       mixpanel.track('ListCards', {'user': this.conf.getUser().getEmailId()});
-    }
+      mixpanel.track('ListCards', {'user': this.conf.getUser().getEmailId()});
+
   }
 
   private mapSession(response) {

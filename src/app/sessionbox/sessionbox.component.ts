@@ -1,4 +1,3 @@
-import { environment } from '../../environments/environment';
 import { ConfigurationService } from '../services/configuration.service';
 import { EditService } from '../services/edit.service';
 import { SessionService } from '../services/session.service';
@@ -50,9 +49,7 @@ export class SessionboxComponent implements OnInit {
   deleteSession() {
     if (confirm('Are you sure, you want to delete this session?')) {
       this.sessionService.deleteSession(this.session.session_id);
-      if (environment.production) {
-        mixpanel.people.increment('Sessions', -1);
-      }
+      mixpanel.people.increment('Sessions', -1);
     }
   }
 
@@ -85,14 +82,11 @@ export class SessionboxComponent implements OnInit {
       if ('start' === action) {
           this.playStatus = 'stop';
           this.session.status = 'Running';
-          if (environment.production) {
-            mixpanel.people.increment('RunningSessions');
-          }
+          mixpanel.people.increment('RunningSessions');
+
       } else {
         this.isComplete = true;
-        if (environment.production) {
-          mixpanel.people.increment('RunningSessions', -1);
-        }
+        mixpanel.people.increment('RunningSessions', -1);
     }
     }
   }
