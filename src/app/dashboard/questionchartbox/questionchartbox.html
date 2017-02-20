@@ -19,8 +19,8 @@
 			*ngIf="answer.question_type === 'yes_no'"></piechart>
 		<barchart [analytics]='answer.analytics'
 			*ngIf="answer.question_type === 'multiple_choice'"></barchart>
-		<!-- <short-answer [answer]='answer' [session]='session'
-			*ngIf="answer.question_type === 'short_text'"></short-answer> -->
+		 <wordcloud [answer]='answer'
+			*ngIf="answer.question_type === 'short_text'"></wordcloud> 
 		<rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
 	</div>
 </div>

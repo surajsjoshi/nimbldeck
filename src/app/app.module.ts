@@ -43,6 +43,7 @@ import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
+import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { RatingComponent } from './dashboard/rating/rating.component';
     QuestionChartBoxComponent,
     PieChartComponent,
     BarChartComponent,
-    RatingComponent
+    RatingComponent,
+    WordcloudComponent
   ],
   imports: [
     BrowserModule,
