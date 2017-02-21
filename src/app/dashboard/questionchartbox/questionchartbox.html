@@ -20,7 +20,7 @@
 		<barchart [analytics]='answer.analytics'
 			*ngIf="answer.question_type === 'multiple_choice'"></barchart>
 		 <wordcloud [answer]='answer'
-			*ngIf="answer.question_type === 'short_text'"></wordcloud> 
+			*ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud> 
 		<rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
 	</div>
 </div>

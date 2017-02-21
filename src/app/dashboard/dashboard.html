@@ -31,21 +31,28 @@
 				[answer]='slide'></questionchartbox> </slide> </carousel> -->
 
 
+
 			<div class="row session_list" *ngIf="analytics.length > 0">
 				<div class="container">
 					<div class="row-ui">
 						<div class="col s12 m6"
 							*ngFor="let answer of analytics; let i = index">
 							<questionchartbox [answer]='answer' [index]='i'
-								[page]="activePage" [perPage]='4'></questionchartbox>
+								[page]="activePage" [perPage]='4' [session]='session'>
+								</questionchartbox>
+
 						</div>
+						
 					</div>
-
-
 					<div class="clearfix"></div>
 				</div>
 			</div>
-
+<!--
+			<pagination [boundaryLinks]="true" [totalItems]="analytics.length"
+				[(ngModel)]="activePage" class="pagination-sm"
+				previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+				lastText="&raquo;" [maxlength]="4" (numPages)="numPages = $event"></pagination>
+-->
 		</div>
 	</div>
 </div>

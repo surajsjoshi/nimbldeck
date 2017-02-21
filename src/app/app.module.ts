@@ -25,6 +25,7 @@ import { CardService } from './services/card.service';
 import { ConfigurationService } from './services/configuration.service';
 import { EditService } from './services/edit.service';
 import { SessionService } from './services/session.service';
+import { ShortAnswerService } from './services/shortanswer.service';
 import { SessionboxComponent } from './sessionbox/sessionbox.component';
 import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
@@ -37,8 +38,7 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import { ChartModule } from 'angular2-highcharts';
-import { Ng2PaginationModule } from 'ng2-pagination';
+import { PaginationModule } from 'ng2-bootstrap';
 import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
@@ -79,13 +79,13 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
     HttpModule,
     routing,
     PageTitleModule,
-    Ng2PaginationModule,
+    PaginationModule,
     ChartsModule,
     RatingModule,
     CarouselModule,
     DropdownModule
   ],
-  providers: [ D3Service, SessionAnalyticsService, TimeAgoPipe,
+  providers: [ ShortAnswerService, SessionAnalyticsService, TimeAgoPipe,
                ApiService, QueriesService, ConfigurationService,
                CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],

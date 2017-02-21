@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.fa-clone:before {
+	content: "";
+}
+
+.fa-bars:before {
+	content: "";
+}
+
+.fa-trash:before {
+	content: "";
+}
+
+.fa-trash-o:before {
+	content: "";
+}

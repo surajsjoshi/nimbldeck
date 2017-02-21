@@ -1,6 +1,6 @@
 
 import { Component, Input, OnInit } from '@angular/core';
-
+import {Session} from '../../shared/models/session';
 
 @Component({
   selector: 'questionchartbox',
@@ -13,6 +13,7 @@ export class QuestionChartBoxComponent implements OnInit {
   @Input() index: number;
   @Input() page: number;
   @Input() perPage: number;
+  @Input() session: Session;
 
   constructor() {}
 

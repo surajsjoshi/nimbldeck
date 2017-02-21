@@ -1,4 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { ShortAnswerService } from '../../services/shortanswer.service';
+import {Session} from '../../shared/models/session';
+import * as moment from 'moment';
 
 declare var jQuery: any;
 
@@ -7,19 +10,26 @@ declare var jQuery: any;
   templateUrl: './wordcloud.component.html',
   styleUrls: ['./wordcloud.component.css']
 })
-export class WordcloudComponent implements OnInit {
+export class WordcloudComponent implements OnInit , AfterViewInit {
 
   @Input() answer: any;
+  @Input() session: Session;
   words = [];
+  answerList;
 
-  constructor() {
-
+  constructor(private answerService: ShortAnswerService) {
+    this.answerList = [];
   }
 
 
-
   ngOnInit() {
-     this.answer.analytics.forEach(data => {
+     this.answerService.getAnswers(this.session.session_id,
+      this.answer.question_id,
+       this.populateAnswers.bind(this));
+  }
+
+  ngAfterViewInit() {
+   this.answer.analytics.forEach(data => {
           let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
           this.words.push(JSON.parse(old));
     });
@@ -32,4 +42,12 @@ export class WordcloudComponent implements OnInit {
     }.bind(this), 1500);
   }
 
+
+  public populateAnswers(response) {
+      this.answerList = response.answers;
+      this.answerList.forEach(element => {
+          element.created_at = moment.utc(element.created_at).local().fromNow();
+      });
+
+}
 }

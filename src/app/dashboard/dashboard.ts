@@ -89,6 +89,12 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.subscription.unsubscribe();
    }
 
+
+  pageChanged(event) {
+    console.log('Page changed to: ' + event.page);
+    console.log('Number items per page: ' + event.itemsPerPage);
+  }
+
 /*  title = 'Dashboard';
   activePage = 1;
   session: Session;
