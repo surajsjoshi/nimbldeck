@@ -1,4 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
+import { environment } from '../environments/environment';
 
 declare var jQuery: any;
 
@@ -9,7 +10,7 @@ declare var jQuery: any;
 })
 export class AppComponent {
 
-  nimblDeckLogo = 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png';
+  nimblDeckLogo = environment.logoPath;
   url = 'https://nimbldeck.com';
   constructor(private el: ElementRef) {}
 
