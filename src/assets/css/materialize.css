@@ -11421,6 +11421,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 a:focus, a:hover {
     text-decoration:  none !important;
 }
+#nav-mobile li a.dropdown-item:hover {
+    color: #26a69a !important;
+}
 #nav-mobile .help-icon.contact-us-btn{
     position: relative;
     top: 5px;
@@ -11628,11 +11631,11 @@ color:#26a69a !important;
     width: 90%;
 }
 #contact-us-modal.small-width-modal img{   
-	border: 0px solid #eee;
-    height: 200px;
-    margin-bottom: -25px;
+ 	border: 0 solid #eee;
+    height: 70px;
+    margin-bottom: 0;
     margin-left: 10px;
-    width: 90%;
+    width: 120px;
 }
 /*-------*/
 /*-----dashboard head-----*/
@@ -11785,3 +11788,56 @@ pagination-controls{
     cursor: default;
     padding: 0.1875rem 0.625rem;
 }
+
+@media only screen and (max-width: 600px) {
+.small-width-modal {
+    width: 93% !important;
+}
+}
+
+@media only screen and (max-width: 700px) {
+.small-width-modal {
+    width: 93% !important;
+}
+.btn-floating.btn-large{
+	height: 46px !important;
+    width: 46px!important;
+}
+.title-section .add-new-session.btn-floating.btn-large.waves-effect.waves-light.floating-add-btn {
+    top: 36px !important;
+}
+.btn-floating.btn-large i {
+    line-height: 40px!important;
+}
+.row-ui{
+    margin:0 0 0 10px !important;
+}
+.nav-tab-bar ul.nav-tabs li a {
+    width: 200px;
+}
+}
+@media only screen and (max-width: 500px) {
+.row-ui {
+    margin: 0 !important;
+}
+.nav-tab-bar ul.nav-tabs li {
+    float: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+.nav-tab-bar ul.nav-tabs li:first-child {
+    margin: 0 0 5px !important;
+}
+.nav-tab-bar ul.nav-tabs li a {
+    display: block;
+    width: 100% !important;
+}
+}
+
+
+/*------- user drop show on active------*/
+.dropdown a.active + ul.dropdown-menu{
+	display:block !important;
+	opacity:1 !important;
+}
+/*------*/
