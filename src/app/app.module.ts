@@ -38,7 +38,7 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import { PaginationModule } from 'ng2-bootstrap';
+import {Ng2PaginationModule} from 'ng2-pagination'
 import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
@@ -79,7 +79,7 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
     HttpModule,
     routing,
     PageTitleModule,
-    PaginationModule,
+    Ng2PaginationModule,
     ChartsModule,
     RatingModule,
     CarouselModule,

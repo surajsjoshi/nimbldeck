@@ -100,9 +100,8 @@ export class DashboardComponent implements OnInit , OnDestroy {
  }
 
 
-  pageChanged(event) {
-    console.log('Page changed to: ' + event.page);
-    console.log('Number items per page: ' + event.itemsPerPage);
+  pageChanged(pageNo) {
+    this.activePage = pageNo;
   }
 
 

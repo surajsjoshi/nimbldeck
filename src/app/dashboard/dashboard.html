@@ -1,80 +1,74 @@
-
 <div class="row title-section">
-	<div class="col s12">
-		<div class="container title-container">
-			<pagetitle [pageTitle]="title"></pagetitle>
-			<div *ngIf="sessionFetched">
-				<h4 class="truncate">
-					- {{ session.title }} <small *ngIf="session.organization">[{{session.organization}}]</small>
-				</h4>
-			</div>
-		</div>
-	</div>
+    <div class="col s12">
+        <div class="container title-container">
+            <pagetitle [pageTitle]="title"></pagetitle>
+            <div *ngIf="sessionFetched">
+                <h4 class="truncate">
+                    - {{ session.title }} <small *ngIf="session.organization">[{{session.organization}}]</small>
+                </h4>
+            </div>
+        </div>
+    </div>
 </div>
 
-<tabs> <tab title="Questions">
-<div class="container">
-	<p *ngIf="!analysisFetched" class="center-align">
-		<i class="fa fa-spinner fa-spin fa-2x"></i>
-	</p>
-</div>
+<tabs>
+    <tab title="Questions">
+        <div class="container">
+            <p *ngIf="!analysisFetched" class="center-align">
+                <i class="fa fa-spinner fa-spin fa-2x"></i>
+            </p>
+        </div>
 
-<div class="" *ngIf="analysisFetched">
-	<div class="rowiner">
-		<div class="col s12">
-			<div class="container" *ngIf="analytics.length == 0">
-				<h5 class="text-center">No Records</h5>
-			</div>
-			<!-- 
+        <div class="" *ngIf="analysisFetched">
+            <div class="rowiner">
+                <div class="col s12">
+                    <div class="container" *ngIf="analytics.length == 0">
+                        <h5 class="text-center">No Records</h5>
+                    </div>
+                    <!-- 
 			<carousel [interval]="1500" [noWrap]="false"> <slide
 				*ngFor="let slide of analytics; let i=index"> <questionchartbox
 				[answer]='slide'></questionchartbox> </slide> </carousel> -->
 
 
 
-			<div class="row session_list" *ngIf="analytics.length > 0">
-				<div class="container">
-					<div class="row-ui">
-						<div class="col s12 m6"
-							*ngFor="let answer of analytics; let i = index">
-							<questionchartbox [answer]='answer' [index]='i'
-								[page]="activePage" [perPage]='4' [session]='session'>
-								</questionchartbox>
+                    <div class="row session_list" *ngIf="analytics.length > 0">
+                        <div class="container">
+                            <div class="row-ui">
+                                <div class="col s12 m6" *ngFor="let answer of analytics | paginate: { itemsPerPage: 4, currentPage: activePage }; let i = index">
+                                    <questionchartbox [answer]='answer' [index]='i' [page]="activePage" [perPage]='4' [session]='session'>
+                                    </questionchartbox>
 
-						</div>
-						
-					</div>
-					<div class="clearfix"></div>
-				</div>
-			</div>
-<!--
-			<pagination [boundaryLinks]="true" [totalItems]="analytics.length"
-				[(ngModel)]="activePage" class="pagination-sm"
-				previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
-				lastText="&raquo;" [maxlength]="4" (numPages)="numPages = $event"></pagination>
--->
-		</div>
-	</div>
-</div>
+                                </div>
+                            </div>
+                            <pagination-controls (pageChange)="pageChanged($event)" class="pull-right"></pagination-controls>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
-</tab> <tab title="Queries">
-<div class="tab-section">
-	<div class="container">
-		<div class="container" *ngIf="queries.length == 0">
-			<h5 class="text-center">No Records</h5>
-		</div>
+    </tab>
+    <tab title="Queries">
+        <div class="tab-section">
+            <div class="container">
+                <div class="container" *ngIf="queries.length == 0">
+                    <h5 class="text-center">No Records</h5>
+                </div>
 
-		<div class="scrollbar" *ngIf="queries.length > 0">
-			<div class="row-align" *ngFor="let query of queries">
-				<p>{{query.description}}</p>
-				<span>{{query.posted_by}} [{{query.created_at}}]</span>
-			</div>
-		</div>
-	</div>
-</div>
-</tab> </tabs>
+                <div class="scrollbar" *ngIf="queries.length > 0">
+                    <div class="row-align" *ngFor="let query of queries">
+                        <p>{{query.description}}</p>
+                        <span>{{query.posted_by}} [{{query.created_at}}]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </tab>
+</tabs>
 
 
 <!-- 
@@ -104,5 +98,3 @@
 		</div>
 	</div>
 </div> -->
-
-
