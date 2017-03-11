@@ -10,6 +10,6 @@ export const environment = {
   googleAnalyticsKey: 'UA-70280304-1',
   mixpanelKey: 'beb7564b5b6cbc7f88f6f2d8fea20ae1',
   basePath: '/homepage/index.html',
-  logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png'
+  logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   dashboardReloadInterval: 15000
 };
