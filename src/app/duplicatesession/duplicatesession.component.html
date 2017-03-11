@@ -14,7 +14,7 @@
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="session-name" type="text" formControlName="session_title" placeholder="Session Name" />
-                                <label for="session-name" class="active">Session Name</label>
+                                <label for="session-name">Session Name</label>
                                 <div [hidden]="duplicateSessionForm.get('session_title').valid || duplicateSessionForm.get('session_title').pristine" class="alert alert-danger">
                                     session name is required
                                 </div>
