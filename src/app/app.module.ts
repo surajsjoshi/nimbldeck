@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { PageTitleModule } from './shared/page-title/pagetitle.module';
-import { TimeAgoPipe } from 'ng2-ago';
 import { SinglesessionComponent } from './singlesession/singlesession.component';
 import { OrderbyPipe } from './shared/pipes/orderby.pipe';
 import { UserdropdownComponent } from './userdropdown/userdropdown.component';
@@ -40,15 +39,14 @@ import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
 import {Ng2PaginationModule} from 'ng2-pagination'
 import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
-import { D3Service } from 'd3-ng2-service';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
+import { ClipboardModule } from 'angular2-clipboard';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimeAgoPipe,
     OrderbyPipe,
     UserdropdownComponent,
     ContactusComponent,
@@ -83,9 +81,10 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
     ChartsModule,
     RatingModule,
     CarouselModule,
-    DropdownModule
+    DropdownModule,
+    ClipboardModule
   ],
-  providers: [ ShortAnswerService, SessionAnalyticsService, TimeAgoPipe,
+  providers: [ ShortAnswerService, SessionAnalyticsService,
                ApiService, QueriesService, ConfigurationService,
                CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],

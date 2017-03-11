@@ -2,9 +2,10 @@ import { ConfigurationService } from '../services/configuration.service';
 import { EditService } from '../services/edit.service';
 import { SessionService } from '../services/session.service';
 import { Session } from '../shared/models/session';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import * as moment from 'moment';
 
+declare var Clipboard:any;
 declare var mixpanel: any;
 
 @Component({
@@ -16,7 +17,7 @@ declare var mixpanel: any;
   styleUrls: ['./sessionbox.component.css']
 
 })
-export class SessionboxComponent implements OnInit {
+export class SessionboxComponent implements OnInit, AfterViewInit {
 
   session: Session;
   onShowDuplicateModal: EventEmitter<boolean>;
@@ -28,7 +29,8 @@ export class SessionboxComponent implements OnInit {
 
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
-    private editService: EditService) {
+    private editService: EditService,
+    private el: ElementRef) {
     this.hideClass = 'hide';
     this.textCopied = false;
     this.isComplete = false;
@@ -101,6 +103,17 @@ export class SessionboxComponent implements OnInit {
     evt.preventDefault();
     this.editService.setCurrentEdit('session', session);
     this.onShowEditModal.emit(true);
+  }
+   ngAfterViewInit() {
+    let clipboard = new Clipboard(this.el.nativeElement.getElementsByClassName('copy-btn'));
+    let self = this;
+    clipboard.on('success', function (e) {
+      e.clearSelection();
+      self.textCopied = true;
+    });
+
+    clipboard.on('error', function (e) {
+    });
   }
 
 }

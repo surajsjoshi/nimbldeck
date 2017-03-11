@@ -1,7 +1,6 @@
 
 
 import { Component, Input, OnInit, ElementRef } from '@angular/core';
-import { D3Service, D3, Selection, Pie } from 'd3-ng2-service';
 
 
 
