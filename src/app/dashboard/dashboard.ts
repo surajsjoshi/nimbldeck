@@ -8,6 +8,7 @@ import { Session } from '../shared/models/session';
 import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 
 import * as moment from 'moment';
@@ -33,6 +34,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   session: Session;
   queries;
   analytics;
+  timer: any;
   activeSlideIndex: number;
   private subscription: Subscription;
 
@@ -51,7 +53,14 @@ export class DashboardComponent implements OnInit , OnDestroy {
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
-        mixpanel.time_event('LoadDashboard');
+        this.loadDashboard();
+        this.timeOut();
+        mixpanel.time_event('ViewDashboard');
+    });
+  }
+
+  private loadDashboard() {
+      mixpanel.time_event('LoadDashboard');
         this.sessionService.getSession(this.sessionId)
         .subscribe(sess => this.mapSession(sess),
             (error => console.log(error)),
@@ -65,8 +74,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
         this.analyticsService.getSessionAnalysis(this.sessionId)
         .subscribe(response => this.mapAnalysis(response),
           (error => console.log(error),
-          () => this.analysisFetched = true));
-      });
+        () => this.analysisFetched = true));
   }
 
 
@@ -85,9 +93,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.session = new Session(response.session, false);
   }
 
-   ngOnDestroy() {
+  ngOnDestroy() {
     this.subscription.unsubscribe();
-   }
+    clearTimeout(this.timer);
+    mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
+ }
 
 
   pageChanged(event) {
@@ -95,81 +105,19 @@ export class DashboardComponent implements OnInit , OnDestroy {
     console.log('Number items per page: ' + event.itemsPerPage);
   }
 
-/*  title = 'Dashboard';
-  activePage = 1;
-  session: Session;
-  sessionFetched = false;
-  timer: any;
-  public collection = [];
-  public url;
- // private _children:ComponentRef[] = [];
 
-  constructor(public sessionService: SessionService,
-   private conf: ConfigurationService,
-   private viewContainerRef: ViewContainerRef) {
-
-  }
-
-  ngOnInit()  {
-    let observable = this.sessionService.getSession(this.session.session_id);
-    observable.subscribe(
-      (this._sessionFetchComplete),
-      (error => console.log(error))
-    );
-    mixpanel.time_event('LoadDashboard');
-    this._singleSessionService.setSession(null);
-    this._singleSessionService.isfetched = false;
-    this._singleSessionService.sessionQuestions = [];
-    this._sessionAnalyticsService.setSession(this._routeParams.get('sessionId'));
-    this._queriesService.setSession(this._routeParams.get('sessionId'));
-    this._sessionAnalyticsService.getSessionAnalysis();
-    this._queriesService.getQueries();
-    this.timeOut();
-    mixpanel.track('LoadDashboard', {'user': this.conf.getUser().emailId});
-    ga('set', 'userId', this.conf.getUser().userId);
-    ga('send', 'pageview', '/sessions/dashboard');
-    mixpanel.time_event('ViewDashboard');
-  }
-
-
-  timeOut() {
+  private timeOut() {
     let self = this;
     this.timer =  setTimeout(function(){
           self.load();
-     }, 15000);
+     }, environment.dashboardReloadInterval);
   }
 
-  load() {
-
-      jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
-      jQuery( 'body' ).removeClass( 'modal-open' );
-//      this._sessionAnalyticsService.getSessionAnalysis();
-  //    this._queriesService.getQueries();
+  private load() {
+      this.loadDashboard();
+     // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
+      // jQuery( 'body' ).removeClass( 'modal-open' );
       this.timeOut();
   }
 
-
-
-  _sessionFetchComplete = (session) => {
-    this.sessionFetched = true;
-    this.session = session;
-  }
-
-  loadMoreSessions() {
-  //  this.mysessionsService.getDefaultSessions();
-  }
-
-
-
-  removeall() {
-    // this._children.forEach(cmp=>cmp.dispose());
-    // this._children = []; // not even necessary to get the components off the screen
-  }
-
-  ngOnDestroy() {
-        clearTimeout(this.timer);
-        this.removeall();
-        mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
-    }
-*/
 };

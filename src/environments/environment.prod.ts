@@ -5,5 +5,6 @@ export const environment = {
   googleAnalyticsKey: 'UA-87993512-1',
   mixpanelKey: '62c161f2af5e10dbe1fe7b0b83272303',
   logoPath: 'https://app.nimbldeck.com/assets/img/nimble-deck-logo.png',
-  basePath: '/'
+  basePath: '/',
+  dashboardReloadInterval: 15000
 };
