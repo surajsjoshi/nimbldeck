@@ -6,7 +6,7 @@
             </a> <i (click)="editSession($event, session)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"></i>
             <a [routerLink]="['dashboard', session.session_id]"><i *ngIf="!session.isSample && (isComplete || session.status == 'Running')" class="fa fa-bar-chart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Statistics" ga-on="click" ga-event-category="Sessions" ga-event-action="dashboard"></i></a>
             <i *ngIf="!session.isSample" (click)="deleteSession()" class="fa fa-trash tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete" ga-on="click" ga-event-category="Sessions" ga-event-action="delete"></i>
-            <div class="urltextbox-{{playStatus}}" *ngIf="!isComplete && !session.isSample">
+            <div class="urltextbox-{{playStatus}}" *ngIf="session.status == 'Running' && !session.isSample">
                 <input id="sessiontexturl" name="copysessionurl" class="texturl" value="{{session.share_token}}" />
                 <button type="button" data-clipboard-target="#sessiontexturl" data-clipboard-action="copy" class="copy-btn waves-effect waves-light btn light-green darken-2">COPY
 				</button>
