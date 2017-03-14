@@ -19,13 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'app/sessions/:id',
-    component: SinglesessionComponent,
-    children: [
-      {
-        path: 'dashboard',
-        component: DashboardComponent
-      }
-    ]
+    component: SinglesessionComponent
   }
 ];
 

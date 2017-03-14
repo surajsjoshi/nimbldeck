@@ -88,6 +88,16 @@ export class CreatesessionComponent {
       return false;
     }
     if (this.editService.isEditing()) {
+
+      mixpanel.time_event('EditSession');
+        /* let observale = this.sessionService.editSession(this.editSession.value);
+            observale.subscribe(
+            (resp => console.log(resp)),
+            (error => this.sessionError = true)
+         );*/
+        event.preventDefault();
+        mixpanel.track('EditSession', {'user': this.conf.getUser().getEmailId()});
+    } else {
         mixpanel.time_event('CreateSession');
         let observale = this.sessionService.addSession(this.addSessionForm.value);
         observale.subscribe(
@@ -96,15 +106,6 @@ export class CreatesessionComponent {
         );
         event.preventDefault();
         mixpanel.track('CreateSession', {'user': this.conf.getUser().getEmailId()});
-    } else {
-        mixpanel.time_event('EditSession');
-        /* let observale = this.sessionService.editSession(this.editSession.value);
-            observale.subscribe(
-            (resp => console.log(resp)),
-            (error => this.sessionError = true)
-         );*/
-        event.preventDefault();
-        mixpanel.track('EditSession', {'user': this.conf.getUser().getEmailId()});
     }
   }
 
@@ -124,7 +125,7 @@ export class CreatesessionComponent {
       mixpanel.people.increment('Sessions');
       mixpanel.people.increment('TotalSessions');
     }
-    this.router.navigate(['SingleSession', {sessionId: session.session_id}]);
+    this.router.navigate(['/app/sessions', session.session_id]);
 
   }
 

@@ -75,7 +75,15 @@ export class SessionService {
   }
 
   private remove(currentSession: Session) {
-    this.userSessions = this.userSessions.filter(session => session.session_id !== currentSession.session_id);
+     let index = 0;
+    for (let i = 0, len = this.userSessions.length; i < len; i++) {
+      if (this.userSessions[i].session_id === currentSession.session_id) {
+        index = i;
+        break;
+      }
+    }
+    this.userSessions.splice(index, 1);
+    this.totalUserSessions--;
   }
 
   public getSession(sessionId: string): Observable<Session> {
