@@ -25,6 +25,12 @@ export class SessionService {
   }
 
   init() {
+    this.samples = [];
+    this.userSessions = [];
+    this.nextPageToken = '';
+    this.samplesNextPageToken = '';
+    this.isfetched = false;
+    this.totalUserSessions = 0;
     let samplesUrl = '/sessions?limit=6';
     this.api.get(samplesUrl)
       .flatMap(rawResponse => rawResponse.json().sessions)

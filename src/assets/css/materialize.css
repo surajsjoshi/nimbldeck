@@ -11551,7 +11551,7 @@ a:focus, a:hover {
 /*----- creat session----*/
 
 .small-width-modal {
-    position: absolute;
+    position: fixed;
 	width: 40% !important;
 	max-height: 80%;
 }
@@ -11793,6 +11793,9 @@ pagination-controls{
 .small-width-modal {
     width: 93% !important;
 }
+.truncate {
+    white-space: normal !important;
+}
 }
 
 @media only screen and (max-width: 700px) {
@@ -11815,6 +11818,16 @@ pagination-controls{
 .nav-tab-bar ul.nav-tabs li a {
     width: 200px;
 }
+.charts div.jqcloud{
+    width: 100% !important;
+    position:relative !important;
+}
+.charts div.jqcloud span{
+    left: 0px !important;
+    top: 0px !important;
+}
+
+
 }
 @media only screen and (max-width: 500px) {
 .row-ui {
