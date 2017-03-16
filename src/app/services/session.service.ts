@@ -92,7 +92,7 @@ export class SessionService {
         return Observable.of(sessions[0]);
     } else {
        let url = `/sessions/${sessionId}`;
-       return this.api.get(url).map(resp => resp.json()).map(sess => new Session(sess, false));
+       return this.api.get(url).map(resp => resp.json()).map(response => new Session(response.session, false));
     }
   }
 

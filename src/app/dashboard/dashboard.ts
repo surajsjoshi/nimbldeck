@@ -64,17 +64,17 @@ export class DashboardComponent implements OnInit , OnDestroy {
         this.sessionService.getSession(this.sessionId)
         .subscribe(sess => this.mapSession(sess),
             (error => console.log(error)),
-        () => this.analysisFetched = true);
+        () => this.sessionFetched = true);
 
         this.queryService.getQueries(this.sessionId)
         .subscribe(response => this.mapQueries(response),
-          (error => console.log(error),
-          () => this.queriesFetched = true));
+          (error => console.log(error)),
+          () => this.queriesFetched = true);
 
         this.analyticsService.getSessionAnalysis(this.sessionId)
         .subscribe(response => this.mapAnalysis(response),
-          (error => console.log(error),
-        () => this.analysisFetched = true));
+          (error => console.log(error)),
+        () => this.analysisFetched = true);
   }
 
 
@@ -90,7 +90,8 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private mapSession(response) {
-    this.session = new Session(response.session, false);
+    console.log(response);
+    this.session = response;
   }
 
   ngOnDestroy() {
