@@ -11,11 +11,22 @@ export class BarChartComponent implements OnInit {
  barChartType = 'bar';
  barChartLabels = [];
 
-
  private barChartOptions = {
    scaleShowVerticalLines: false,
    responsive: true,
+   scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 2,
+              min: 0,
+              stepSize: 1
+            }
+          }]
+        },
+
  };
+ private pieChartColor: any[] = [{ backgroundColor: ["#EAF1F5", "#DCDCDC"], borderColor: '#97BBCD', borderWidth: 2}]
 
  constructor() {
 

@@ -2,7 +2,7 @@
 <div id="basechart">
 
 	<canvas baseChart class="chart barchart" [data]="barChartData"
-		[labels]="barChartLabels" [options]="barChartOptions"
+		[labels]="barChartLabels" [options]="barChartOptions" [colors]="pieChartColor" [legend]="false"
 		[chartType]="barChartType"
 		(chartHover)="chartHovered($event)"
 		(chartClick)="chartClicked($event)">
