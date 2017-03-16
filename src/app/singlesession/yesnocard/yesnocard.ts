@@ -5,7 +5,8 @@ import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -28,12 +29,15 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   updateQuestionFlag: boolean;
   updateQuestion: Card;
   saveCardErrorText: string;
+  sessionId: string;
+  private subscription: Subscription;
 
     constructor(public editService: EditService,
     private conf: ConfigurationService,
     private sessionService: SessionService,
     private cardService: CardService,
     private el: ElementRef,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
       this.uploadError = '';
@@ -67,7 +71,9 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.subscription = this.route.params.subscribe(params => {
+        this.sessionId = params['id'];
+    });
   }
 
  uploadFile() {
@@ -112,7 +118,6 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
 
-    // let sessionQuestionCount = this._singleSessionService.sessionQuestions.length;
     this.cardError = false;
     if (!this.cardForm.valid) {
       return false;
@@ -127,8 +132,11 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     };
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateYesNoCard');
-      params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
-      let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
+      params['position'] = 1;
+      if (this.cardService.cards.length > 0) {
+        params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
+      }
+      let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this._questionCreated(resp)),
         (error => this.cardError = true)
@@ -138,7 +146,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.time_event('EditYesNoCard');
       params['question_id'] = this.updateQuestion.question_id;
       params['position'] = this.updateQuestion.position;
-      let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
+      let observable = this.cardService.updateQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this._questionUpdated(resp)),
         (error => this.cardError = true)
@@ -157,7 +165,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('CreateYesNoCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-     this.cardService.cards.push(resp.question);
+     this.cardService.cards.push(new Card(resp.question));
      jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
      mixpanel.people.increment('Cards');
      mixpanel.people.increment('YesNoCards');

@@ -82,10 +82,8 @@ export class SessionService {
         break;
       }
     }
-    console.log(index);
     if (index > -1) {
       this.userSessions.splice(index, 1);
-      console.log(this.userSessions);
       this.totalUserSessions--;
     }
   }

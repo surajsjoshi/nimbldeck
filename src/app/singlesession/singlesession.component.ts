@@ -78,14 +78,17 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
    private mapCards(response) {
-    let cards = Array.from(response.questions).map(card => new Card(card)).values();
-    this.response = new CardResponse(Array.from(cards), response.next_page_token);
+    let cards = Array.from(response.questions).map(card => new Card(card));
+    this.response = new CardResponse(cards, response.next_page_token);
+    this.cardService.cards = cards;
   }
 
 
  editQuestion(evt, question) {
     evt.preventDefault();
     this.editService.setCurrentEdit('question', question);
+    console.log(question);
+    console.log(this.editService.isEditing());
     this.cardService.cards = this.response.cards;
     if (question.question_type === 'yes_no') {
       this.showYesNoCard();
@@ -103,10 +106,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     deleteQuestion(event, questionId) {
        event.preventDefault();
        let params = {
-          question_id: questionId
+          question_id: questionId,
+          session_id: this.sessionId
         };
     if (confirm('Are you sure, you want to delete this question?')) {
-      let observable = this.cardService.deleteQuestion(params, this.sessionId);
+      let observable = this.cardService.deleteQuestion(params);
       observable.subscribe(
         (resp => this.questionDeleted(resp, questionId)),
         (error => this.questionDeleteError = true)
@@ -115,7 +119,16 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   questionDeleted(resp, questionId) {
-    this.cardService.cards = this.cardService.cards.filter(card => card.question_id !== questionId);
+    let index = -1;
+    for (let i = 0, len = this.cardService.cards.length; i < len; i++) {
+      if (this.cardService.cards[i].question_id === questionId) {
+        index = i;
+        break;
+      }
+    }
+    if (index > -1) {
+      this.cardService.cards.splice(index, 1);
+    }
     mixpanel.people.increment('Cards', -1);
   }
 

@@ -9,7 +9,9 @@ export class CardService {
 
   cards: Array<Card>;
 
-  constructor(private api: ApiService, private conf: ConfigurationService) { }
+  constructor(private api: ApiService, private conf: ConfigurationService) {
+    this.cards = [];
+   }
 
 
   getSessionQuestions(sessionId: string, nextPageToken: string): Observable<string> {
@@ -36,9 +38,10 @@ export class CardService {
   }
 
 
-  deleteQuestion(questionData, sessionId) {
+  deleteQuestion(questionData) {
     questionData.user_id = this.conf.getUser().userId;
-    let url = `questions/${questionData['question-id']}`;
+    console.log(questionData);
+    let url = `/questions/${questionData['question_id']}`;
     let data = JSON.stringify(questionData);
     return this.api.post(url, data)
       .map(rawResponse => rawResponse.json());
