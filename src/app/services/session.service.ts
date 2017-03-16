@@ -142,4 +142,16 @@ export class SessionService {
       .map(rawResponse => rawResponse.json());
   }
 
+  public updateSession(session: Session): Session {
+    let index = 0;
+    for (let i = 0, len = this.userSessions.length; i < len; i++) {
+      if (this.userSessions[i].session_id === session.session_id) {
+        index = i;
+        break;
+      }
+    }
+    this.userSessions[index] = session;
+    return session;
+  }
+
 }

@@ -59,7 +59,7 @@ export class EditsessionComponent  {
     mixpanel.time_event('EditSession');
    let observale = this.sessionService.editSession(this.editSessionForm.value);
     observale.subscribe(
-      (resp => console.log(resp)),
+      (resp => this.handleSessionUpdate(resp)),
       (error => this.sessionError = true)
     );
     event.preventDefault();
@@ -69,6 +69,20 @@ export class EditsessionComponent  {
   removeImage() {
     this.editSessionForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+  }
+
+  handleSessionUpdate(resp) {
+    if (resp.type === 'Failure') {
+      this.sessionError = true;
+      mixpanel.people.increment('EditSessionFailed');
+      mixpanel.track('EditSessionFailed', {'error' : resp.errors[0].message});
+      return;
+    }
+    this.sessionUpdated = true;
+    this.sessionService.updateSession(new Session(resp.session, false));
+    jQuery(this.el.nativeElement).find('#edit-session-modal').closeModal();
+    mixpanel.people.increment('SessionsEdited');
+
   }
 
 
