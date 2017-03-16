@@ -90,7 +90,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private mapSession(response) {
-    console.log(response);
     this.session = response;
   }
 

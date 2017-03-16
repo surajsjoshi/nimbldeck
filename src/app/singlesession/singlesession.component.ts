@@ -74,7 +74,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   private mapSession(response) {
-    this.session = new Session(response.session, false);
+    this.session = response;
   }
 
    private mapCards(response) {
@@ -120,7 +120,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   openModal(evt) {
-    event.preventDefault();
+    evt.preventDefault();
     let button = jQuery(this.el.nativeElement).find('.choose-card-type');
     let modal = button.attr('href');
     jQuery(modal).openModal();
