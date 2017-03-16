@@ -71,19 +71,23 @@ export class SessionService {
     let requestData = JSON.stringify(data);
     return this.api.post(url, requestData)
       .map(resp => resp.json())
-      .subscribe(session => this.remove(session));
+      .subscribe(response => this.remove(sessionId));
   }
 
-  private remove(currentSession: Session) {
-     let index = 0;
+  private remove(currentSession: string) {
+    let index = -1;
     for (let i = 0, len = this.userSessions.length; i < len; i++) {
-      if (this.userSessions[i].session_id === currentSession.session_id) {
+      if (this.userSessions[i].session_id === currentSession) {
         index = i;
         break;
       }
     }
-    this.userSessions.splice(index, 1);
-    this.totalUserSessions--;
+    console.log(index);
+    if (index > -1) {
+      this.userSessions.splice(index, 1);
+      console.log(this.userSessions);
+      this.totalUserSessions--;
+    }
   }
 
   public getSession(sessionId: string): Observable<Session> {
