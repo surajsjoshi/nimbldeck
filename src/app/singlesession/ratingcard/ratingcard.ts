@@ -5,6 +5,8 @@ import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 declare var AWS: any;
@@ -28,12 +30,15 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   updateQuestionFlag: boolean;
   updateQuestion: Card;
   saveCardErrorText: string;
+  sessionId: string;
+  private subscription: Subscription;
 
-     constructor(public editService: EditService,
+  constructor(public editService: EditService,
     private conf: ConfigurationService,
     private sessionService: SessionService,
     private cardService: CardService,
     private el: ElementRef,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
       this.uploadError = '';
@@ -66,7 +71,9 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.subscription = this.route.params.subscribe(params => {
+        this.sessionId = params['id'];
+    });
   }
   submitRatingCard(event) {
     event.preventDefault();
@@ -87,8 +94,11 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     };
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateRatingCard');
-      params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
-      let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
+      params['position'] = 1;
+      if (this.cardService.cards.length > 0) {
+        params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
+      }
+      let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this.questionCreated(resp)),
         (error => this.cardError = true)
@@ -117,7 +127,7 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('CreateRatingCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-     this.cardService.cards.push(resp.question);
+     this.cardService.cards.push(new Card(resp.question));
      jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
      mixpanel.people.increment('Cards');
      mixpanel.people.increment('RatingCards');
@@ -131,7 +141,7 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('EditRatingCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-     this.cardService.updateCardAfterEdit(resp.question);
+     this.cardService.updateCardAfterEdit(new Card(resp.question));
      jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
 
   }

@@ -5,7 +5,8 @@ import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -33,6 +34,8 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   updateQuestionFlag: boolean;
   updateQuestion: Card;
   saveCardErrorText: string;
+  sessionId: string;
+  private subscription: Subscription;
 
 
   constructor(public editService: EditService,
@@ -40,6 +43,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private sessionService: SessionService,
     private cardService: CardService,
     private el: ElementRef,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
       this.uploadError = '';
@@ -78,7 +82,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
  ngOnInit() {
-
+   this.subscription = this.route.params.subscribe(params => {
+        this.sessionId = params['id'];
+    });
   }
 
  uploadFile() {
@@ -122,8 +128,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
-
-    // let sessionQuestionCount = this._singleSessionService.sessionQuestions.length;
     this.cardError = false;
     if (!this.cardForm.valid) {
       return false;
@@ -149,8 +153,13 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateMCQCard');
-      params['position'] = Math.max.apply(this.cardService.cards.map(card => card.position));
-      let observable = this.cardService.addQuestion(params, this.updateQuestion.session_id);
+      params['position'] = 1;
+      console.log(this.cardService.cards);
+      if (this.cardService.cards.length > 0) {
+        params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
+      }
+      console.log(params);
+      let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this.questionCreated(resp)),
         (error => this.cardError = true)
@@ -178,7 +187,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('CreateMCQCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-    this.cardService.cards.push(resp.question);
+    this.cardService.cards.push(new Card(resp.question));
     mixpanel.people.increment('Cards');
     mixpanel.people.increment('MCQCards');
     jQuery(this.el.nativeElement).find('#mcq-card-modal').closeModal();
@@ -192,7 +201,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('EditMCQCardFailed', {'error' : this.saveCardErrorText});
       return;
     }
-    this.cardService.updateCardAfterEdit(resp.question);
+    this.cardService.updateCardAfterEdit(new Card(resp.question));
     jQuery(this.el.nativeElement).find('#mcq-card-modal').closeModal();
 
   }
