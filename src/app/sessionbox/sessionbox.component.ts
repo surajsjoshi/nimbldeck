@@ -34,6 +34,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     this.hideClass = 'hide';
     this.textCopied = false;
     this.isComplete = false;
+    this.playStatus = 'play';
     this.onShowEditModal = new EventEmitter<boolean>();
     this.onShowDuplicateModal = new EventEmitter<boolean>();
   }
