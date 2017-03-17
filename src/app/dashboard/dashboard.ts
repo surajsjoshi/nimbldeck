@@ -86,7 +86,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private mapAnalysis(response) {
-    this.analytics = response.answers;
+    if (response.type === 'Success') {
+       this.analytics = response.answers;
+    } else {
+      this.analytics = [];
+    }
   }
 
   private mapSession(response) {
