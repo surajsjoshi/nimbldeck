@@ -34,6 +34,7 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
           this.words.push(JSON.parse(old));
     });
     let tagName = '#jqcloud' + this.answer.question_id;
+    jQuery('#answer' + this.answer.question_id).attr('data-target', '#myModal' + this.answer.question_id);
     setTimeout(function() {
        jQuery(tagName).jQCloud(this.words, {
           width: 400,
@@ -48,6 +49,5 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
       this.answerList.forEach(element => {
           element.created_at = moment.utc(element.created_at).local().fromNow();
       });
-
-}
+  }
 }
