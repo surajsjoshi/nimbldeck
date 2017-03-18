@@ -18,9 +18,7 @@ export class BarChartComponent implements OnInit {
           yAxes: [{
             ticks: {
               beginAtZero: true,
-              max: 2,
-              min: 0,
-              stepSize: 1
+              min: 0
             }
           }]
         },
@@ -46,7 +44,14 @@ export class BarChartComponent implements OnInit {
 
     this.analytics.forEach(data => {
           barData.push(data.total);
-          this.barChartLabels.push(data.label);
+          let splittedlabel = data.label;
+          if(data.label.length > 5) {
+             splittedlabel = data.label.substring(0, 5)+ '...';
+             this.barChartLabels.push(splittedlabel);
+          } else {
+             this.barChartLabels.push(data.label);
+          }
+          
       });
       this.barChartData.push(barData);
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ShortAnswerService } from '../../services/shortanswer.service';
 import {Session} from '../../shared/models/session';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 declare var jQuery: any;
@@ -17,15 +18,22 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
   words = [];
   answerList;
 
-  constructor(private answerService: ShortAnswerService) {
+  constructor(private answerService: ShortAnswerService,
+  private router: Router) {
     this.answerList = [];
   }
 
 
   ngOnInit() {
+
+    try {
      this.answerService.getAnswers(this.session.session_id,
       this.answer.question_id,
        this.populateAnswers.bind(this));
+    }  catch (e) {
+      this.router.navigate(['/app/sessions']);
+    }
+
   }
 
   ngAfterViewInit() {
