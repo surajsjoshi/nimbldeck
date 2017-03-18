@@ -84,7 +84,7 @@ import { ClipboardModule } from 'angular2-clipboard';
     DropdownModule,
     ClipboardModule
   ],
-  providers: [ ShortAnswerService, SessionAnalyticsService,
+  providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
                ApiService, QueriesService, ConfigurationService,
                CurrentUser, SessionService, CardService, EditService],
   bootstrap: [AppComponent],

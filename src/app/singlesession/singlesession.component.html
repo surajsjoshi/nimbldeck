@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="container question-container" *ngFor="let question of cardService.cards; let i = index" [attr.data-index]="i">
+        <div class="container question-container" *ngFor="let question of cardService.cards | orderby : 'position' ; let i = index" [attr.data-index]="i">
             <ul>
                 <li>
                     <div class="row">
