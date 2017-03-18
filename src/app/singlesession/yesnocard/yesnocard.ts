@@ -48,9 +48,8 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.saveCardErrorText = '';
 
       this.updateQuestion = this.editService.getCurrent();
-
       ga('set', 'userId', this.conf.getUser().userId);
-      if (editService.isEditing()) {
+      if (this.editService.isEditing()) {
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
@@ -101,7 +100,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       } else {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
-         this.textCardForm.controls['image_url'].setValue(data.Location);
+         _this.cardForm.controls['image_url'].setValue(data.Location);
       }
     });
   }
@@ -153,7 +152,6 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
     }
-    event.preventDefault();
 
   }
 
@@ -190,7 +188,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     Materialize.updateTextFields();
   }
 
+
   ngOnDestroy() {
-    this.editService.resetEdits();
   }
 }

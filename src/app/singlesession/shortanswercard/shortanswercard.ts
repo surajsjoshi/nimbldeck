@@ -101,7 +101,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
       } else {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
-         this.textCardForm.controls['image_url'].setValue(data.Location);
+        _this.cardForm.controls['image_url'].setValue(data.Location);
       }
     });
   }
@@ -129,12 +129,12 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
     };
-    if (this.updateQuestionFlag === false) {
-      mixpanel.time_event('CreateShortAnswerCard');
-      params['position'] = 1;
+    params['position'] = 1;
       if (this.cardService.cards.length > 0) {
         params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
-      }
+    }
+    if (this.updateQuestionFlag === false) {
+      mixpanel.time_event('CreateShortAnswerCard');
       let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this.questionCreated(resp)),

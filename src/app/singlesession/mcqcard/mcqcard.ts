@@ -112,7 +112,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
-         this.textCardForm.controls['image_url'].setValue(data.Location);
+        _this.cardForm.controls['image_url'].setValue(data.Location);
       }
     });
   }
@@ -278,6 +278,5 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-      this.editService.resetEdits();
   }
 }

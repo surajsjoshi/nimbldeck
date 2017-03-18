@@ -172,7 +172,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
-         this.textCardForm.controls['image_url'].setValue(data.Location);
+        _this.textCardForm.controls['image_url'].setValue(data.Location);
       }
     });
   }

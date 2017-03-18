@@ -159,7 +159,6 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this._editService.resetEdits();
   }
 
 }

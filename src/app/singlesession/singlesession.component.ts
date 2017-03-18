@@ -87,9 +87,6 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
  editQuestion(evt, question) {
     evt.preventDefault();
     this.editService.setCurrentEdit('question', question);
-    console.log(question);
-    console.log(this.editService.isEditing());
-    this.cardService.cards = this.response.cards;
     if (question.question_type === 'yes_no') {
       this.showYesNoCard();
     } else if (question.question_type === 'multiple_choice') {
@@ -134,6 +131,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
   openModal(evt) {
     evt.preventDefault();
+    this.editService.resetEdits();
     let button = jQuery(this.el.nativeElement).find('.choose-card-type');
     let modal = button.attr('href');
     jQuery(modal).openModal();
@@ -182,5 +180,6 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.editService.resetEdits();
    }
 }
