@@ -11,38 +11,38 @@ mixpanel = window.mixpanel;
 dataLayer = window.dataLayer = window.dataLayer || [];
 
 
-function login(email, password, onSuccessCallback, onFailureCallback){
+function login(email, password, onSuccessCallback, onFailureCallback) {
 
-     mixpanel.time_event('Login');
-        var data = {
-            email_id: email,
-            password: password,
-            identityId: AWS.config.credentials.identityId
-        };
-        $.post(baseUrl + '/users/authenticate', JSON.stringify(data), function(data) {
-            // console.log(data);
-            $(self).removeAttr('disabled').text('Login');
-            if (data.type === 'Success') {
-                var creds = AWS.config.credentials;
-                creds.params.Logins = {};
-                Cookies.set('nd_current_user', data.user);
-                creds.params.Logins = { 'nimbldeckapp.saswatkumarsethy.com': data.user.token };
-                creds.expired = true;
-                mixpanel.identify(data.user.userId);
-                mixpanel.track('Login', { 'user': data.user.emailId });
-                mixpanel.people.set({
-                    '$email': data.user.emailId, // only special properties need the $
-                    '$last_login': new Date() // properties can be dates...
-                });
-                onSuccessCallback(data.message + '. Redirecting...');
-                ga('set', 'userId', data.user.user_id); // Set the user ID using signed-in user_id.
-                ga('set', 'page', '/login.html');
-                ga('send', 'pageview');
-                location.href = "/app";
-            } else {
-                    onFailureCallback(data.message);
-            }
-        }, 'json');
+    mixpanel.time_event('Login');
+    var data = {
+        email_id: email,
+        password: password,
+        identityId: AWS.config.credentials.identityId
+    };
+    $.post(baseUrl + '/users/authenticate', JSON.stringify(data), function(data) {
+        // console.log(data);
+        $(self).removeAttr('disabled').text('Login');
+        if (data.type === 'Success') {
+            var creds = AWS.config.credentials;
+            creds.params.Logins = {};
+            Cookies.set('nd_current_user', data.user);
+            creds.params.Logins = { 'nimbldeckapp.saswatkumarsethy.com': data.user.token };
+            creds.expired = true;
+            mixpanel.identify(data.user.userId);
+            mixpanel.track('Login', { 'user': data.user.emailId });
+            mixpanel.people.set({
+                '$email': data.user.emailId, // only special properties need the $
+                '$last_login': new Date() // properties can be dates...
+            });
+            onSuccessCallback(data.message + '. Redirecting...');
+            ga('set', 'userId', data.user.user_id); // Set the user ID using signed-in user_id.
+            ga('set', 'page', '/login.html');
+            ga('send', 'pageview');
+            location.href = "/app";
+        } else {
+            onFailureCallback(data);
+        }
+    }, 'json');
 
 }
 
@@ -231,14 +231,15 @@ $(document).ready(function() {
         $(this).attr('disabled', true).text('Logging in... Please wait...');
         var form = $(this).closest('form');
         form.prev().addClass('hidden').removeClass('alert-danger').removeClass('alert-success');
-        login(form.find('[name="email_id"]').val(),form.find('[name="password"]').val(),function(message){
+        login(form.find('[name="email_id"]').val(), form.find('[name="password"]').val(), function(message) {
             //On Success
             form.prev().text(message)
                 .addClass('alert-success')
                 .removeClass('hidden');
-        }, function(message){
+        }, function(errorResponse) {
             //On Failure
-            form.prev().text(message)
+            $(self).removeAttr('disabled').text('LOGIN');
+            form.prev().text(errorResponse.errors[0].message)
                 .addClass('alert-danger')
                 .removeClass('hidden');
         });
@@ -303,18 +304,17 @@ $(document).ready(function() {
                     .removeClass('hidden');
                 ga('set', 'page', '/register.html');
                 ga('send', 'pageview');
-                login(register_data['email_id'],register_data['password'], function(message){
-                   //Onsuccess
-                   form.prev().text(message)
-                    .addClass('alert-success')
-                    .removeClass('hidden');
-                },function(message) {
-                  //Onfailure
-                   form.prev().text(message)
-                    .addClass('alert-danger')
-                    .removeClass('hidden');
-                }
-                );
+                login(register_data['email_id'], register_data['password'], function(message) {
+                    //Onsuccess
+                    form.prev().text(message)
+                        .addClass('alert-success')
+                        .removeClass('hidden');
+                }, function(message) {
+                    //Onfailure
+                    form.prev().text(message)
+                        .addClass('alert-danger')
+                        .removeClass('hidden');
+                });
             } else {
                 form.prev().text(data.message)
                     .addClass('alert-danger')
