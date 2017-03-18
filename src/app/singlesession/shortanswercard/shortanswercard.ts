@@ -129,11 +129,11 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
     };
-    params['position'] = 1;
+    if (this.updateQuestionFlag === false) {
+      params['position'] = 1;
       if (this.cardService.cards.length > 0) {
         params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
-    }
-    if (this.updateQuestionFlag === false) {
+      }
       mixpanel.time_event('CreateShortAnswerCard');
       let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
@@ -144,6 +144,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
     } else {
       mixpanel.time_event('EditShortAnswerCard');
       params['question_id'] = this.updateQuestion.question_id;
+      params['position'] = this.updateQuestion.position;
       let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
         (resp => this.questionUpdated(resp)),
