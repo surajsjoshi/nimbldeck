@@ -68,13 +68,13 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     if ('play' === this.playStatus) {
       this.sessionService.startStopSession(this.session.session_id, 'start')
         .subscribe(
-          (resp => console.log(resp)),
+          (resp => this.onStartStop(resp, 'start')),
           (error => console.log(error))
         );
     } else {
       this.sessionService.startStopSession(this.session.session_id, 'stop')
         .subscribe(
-          (resp => console.log(resp)),
+          (resp => this.onStartStop(resp, 'stop')),
           (error => console.log(error))
         );
     }
@@ -84,6 +84,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     if ('Success' === resp.type) {
       if ('start' === action) {
           this.playStatus = 'stop';
+          this.hideClass = '';
           this.session.status = 'Running';
           mixpanel.people.increment('RunningSessions');
 

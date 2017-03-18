@@ -100,7 +100,7 @@ export class SessionService {
 
    public startStopSession(sessionId: string, action: string) {
     let userId = this.conf.getUser().getUserId();
-    let url = `/users/${userId}/sessions/${sessionId}/action`;
+    let url = `/users/${userId}/sessions/${sessionId}/${action}`;
     let requestParams = {
       session_id: sessionId,
       user_id: userId,
