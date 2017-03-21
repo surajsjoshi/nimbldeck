@@ -11870,6 +11870,21 @@ nav{
 nav .row {
     margin-bottom: 0px !important;
 }
+.modal-content .rowwrapper {
+    margin: auto;
+    width: 210px !important;
+}
+.title-container h4{
+    font-size: 20px;
+}
+.description p{
+    margin-bottom: 1em;
+    margin-left: 5px !important;
+    margin-top: 1em;
+}
+.modal-content .box-menu-item{
+    width: 95px !important;
+}
 }
 
 @media only screen and (max-width: 900px){
@@ -11974,4 +11989,32 @@ nav .row {
 dashboard .title-container pagetitle, dashboard .title-container div  {
     float: left;
     width: auto !important;
+}
+.box-menu-item img {
+    height: 40px;
+    width: 40px;
+    border: 0px !important;
+}
+.title-section h4.truncate{
+    margin-top: 1.05rem;
+    padding-bottom: 5px;
+}
+.box-menu-item{
+    height: 125px !important;
+    width: 150px !important;
+    background-color: #3d8af7;
+    border-radius: 7px;
+    display: inline-block;
+    margin: 5px;
+    padding: 15px;
+    text-align: center;
+
+}
+.box-menu-item img {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 0 !important;
+}
+.rowwrapper {
+    width: 325px !important ;
 }
