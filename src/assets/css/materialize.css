@@ -11604,7 +11604,7 @@ a:focus, a:hover {
 /*------ contact module----*/
 
 .modal-content{
-    background: transparent none repeat scroll 0 0;
+    //background: transparent none repeat scroll 0 0;
     border: medium none;
     box-shadow: none;
 }

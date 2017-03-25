@@ -11,7 +11,7 @@ mixpanel = window.mixpanel;
 dataLayer = window.dataLayer = window.dataLayer || [];
 
 
-function login(email, password, onSuccessCallback, onFailureCallback) {
+function login(email, password, onSuccessCallback, onFailureCallback, fromSignUp) {
 
     mixpanel.time_event('Login');
     var data = {
@@ -29,6 +29,9 @@ function login(email, password, onSuccessCallback, onFailureCallback) {
             creds.params.Logins = { 'nimbldeckapp.saswatkumarsethy.com': data.user.token };
             creds.expired = true;
             mixpanel.identify(data.user.userId);
+            if (fromSignUp) {
+                mixpanel.track('SignUp', { 'user': data.user.emailId });
+            }
             mixpanel.track('Login', { 'user': data.user.emailId });
             mixpanel.people.set({
                 '$email': data.user.emailId, // only special properties need the $
@@ -40,6 +43,7 @@ function login(email, password, onSuccessCallback, onFailureCallback) {
             ga('send', 'pageview');
             location.href = "/app";
         } else {
+            mixpanel.track('LoginFailure', { 'user': data['emailId'] });
             onFailureCallback(data);
         }
     }, 'json');
@@ -242,7 +246,7 @@ $(document).ready(function() {
             form.prev().text(errorResponse.errors[0].message)
                 .addClass('alert-danger')
                 .removeClass('hidden');
-        });
+        }, false);
     });
 
     //forgot-password
@@ -314,8 +318,9 @@ $(document).ready(function() {
                     form.prev().text(message)
                         .addClass('alert-danger')
                         .removeClass('hidden');
-                });
+                }, true);
             } else {
+                mixpanel.track('SignupFailure', { 'user':register_data['email_id'] });
                 form.prev().text(data.message)
                     .addClass('alert-danger')
                     .removeClass('hidden');
