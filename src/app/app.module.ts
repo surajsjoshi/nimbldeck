@@ -42,7 +42,7 @@ import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
-import { ClipboardModule } from 'angular2-clipboard';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
