@@ -37,7 +37,7 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import {Ng2PaginationModule} from 'ng2-pagination'
+import {Ng2PaginationModule} from 'ng2-pagination';
 import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';

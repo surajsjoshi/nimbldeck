@@ -9,7 +9,7 @@ declare var jQuery: any;
 @Component({
   selector: 'wordcloud',
   templateUrl: './wordcloud.component.html',
-  styleUrls: ['./wordcloud.component.css']
+  styleUrls: ['./wordcloud.component.scss']
 })
 export class WordcloudComponent implements OnInit , AfterViewInit {
 

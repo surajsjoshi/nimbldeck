@@ -17,7 +17,7 @@ declare var mixpanel: any;
   moduleId: module.id,
   selector: 'mysessions',
   templateUrl: './mysessions.component.html',
-  styleUrls: ['./mysessions.component.css']
+  styleUrls: ['./mysessions.component.scss']
 })
 export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
 
