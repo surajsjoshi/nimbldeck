@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
     if (response.type === 'Success') {
        this.analytics = response.answers;
        pr = this.analytics.length;
-       // jQuery('body').append(JSON.parse(this.analytics));
     } else {
       this.analytics = [];
     }
@@ -123,8 +122,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private load() {
       this.loadDashboard();
-     // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
-      // jQuery( 'body' ).removeClass( 'modal-open' );
       // this.timeOut();
   }
 

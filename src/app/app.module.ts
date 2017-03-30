@@ -44,6 +44,7 @@ import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
     BarChartComponent,
     RatingComponent,
     WordcloudComponent,
-    RoundNumberPipe
+    RoundNumberPipe,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
