@@ -14,22 +14,8 @@ export class BarChartComponent implements OnInit {
  private barChartOptions = {
    scaleShowVerticalLines: false,
    responsive: true,
-   //tooltips: { enabled: true },
-
-
-
-
-
-
-tooltips: {
- enabled: true,
-
-                },
-
-
-
-
-
+   // tooltips: { enabled: true },
+   tooltips: {enabled: true},
 
    scales: {
           yAxes: [{
@@ -42,7 +28,7 @@ tooltips: {
 
 
  };
- private pieChartColor: any[] = [{ backgroundColor: ["#EAF1F5", "#DCDCDC"], borderColor: '#97BBCD', borderWidth: 2}]
+ private pieChartColor: any[] = [{ backgroundColor: ['#EAF1F5', '#DCDCDC'], borderColor: '#97BBCD', borderWidth: 2}];
 
 
 
@@ -55,7 +41,7 @@ tooltips: {
   }
 
   chartHovered(e) {
-console.log(e);
+
   }
 
    ngOnInit() {
@@ -67,12 +53,11 @@ console.log(e);
           barData.push(data.total);
           let splittedlabel = data.label;
           if(data.label.length > 7) {
-             splittedlabel = data.label.substring(0,7)+ '...';
+             splittedlabel = data.label.substring(0, 7 ) + '...';
              this.barChartLabels.push(splittedlabel);
           } else {
              this.barChartLabels.push(data.label);
           }
-          
       });
       this.barChartData.push(barData);
   }
