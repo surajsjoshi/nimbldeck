@@ -1,7 +1,9 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ShortAnswerService } from '../../services/shortanswer.service';
+import { SessionService } from '../../services/session.service';
 import {Session} from '../../shared/models/session';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 
 declare var jQuery: any;
@@ -17,23 +19,41 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
   @Input() session: Session;
   words = [];
   answerList;
+  private subscription: Subscription;
 
   constructor(private answerService: ShortAnswerService,
-  private router: Router) {
+      public sessionService: SessionService,
+      private route: ActivatedRoute) {
     this.answerList = [];
   }
 
 
+  openModal(event) {
+    jQuery('.wordcloud_commnet_modal').openModal();
+
+  }
+closeModal(event) {
+    jQuery('.wordcloud_commnet_modal').closeModal();
+
+  }
+
+
   ngOnInit() {
+      this.subscription = this.route.params.subscribe(params => {
+        let sessionId = params['id'];
+        this.sessionService.getSession(sessionId)
+        .subscribe(sess => this.mapSession(sess),
+            (error => console.log(error)),
+        () => console.log('done'));
+        this.answerService.getAnswers(sessionId,
+          this.answer.question_id,
+          this.populateAnswers.bind(this));
+    });
 
-    try {
-     this.answerService.getAnswers(this.session.session_id,
-      this.answer.question_id,
-       this.populateAnswers.bind(this));
-    }  catch (e) {
-      this.router.navigate(['/app/sessions']);
-    }
+  }
 
+  private mapSession(response) {
+    this.session = response;
   }
 
   ngAfterViewInit() {
@@ -42,7 +62,13 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
           this.words.push(JSON.parse(old));
     });
     let tagName = '#jqcloud' + this.answer.question_id;
-    jQuery('#answer' + this.answer.question_id).attr('data-target', '#myModal' + this.answer.question_id);
+   /* jQuery('#answer' + this.answer.question_id).click(function(){
+    jQuery(this).css({'border': '1px solid red'});
+    jQuery('#myModal8aa92711-8d83-4d42-87cf-f3a077d064b3').removeClass('fade').addClass('fade in', function(){
+            jQuery('body').append('<div class="modal-backdrop fade in"></div>');
+          }).css('display', 'block');
+       });*/
+
     setTimeout(function() {
        jQuery(tagName).jQCloud(this.words, {
           width: 400,

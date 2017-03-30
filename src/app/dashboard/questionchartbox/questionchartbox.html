@@ -1,7 +1,7 @@
 <div class="card question-box hoverable">
 	<div class="question-box-head">
 		<!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
-		<h5>Q. {{answer.description}}</h5>
+		<a (click)="openModal($event)"  class="add-new-session"><h5>Q. {{answer.description}}</h5></a>
 
 		<div class="digits">
 			<span>
@@ -24,3 +24,5 @@
 		<rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
 	</div>
 </div>
+
+   

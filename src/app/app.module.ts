@@ -43,6 +43,7 @@ import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     PieChartComponent,
     BarChartComponent,
     RatingComponent,
-    WordcloudComponent
+    WordcloudComponent,
+    RoundNumberPipe
   ],
   imports: [
     BrowserModule,

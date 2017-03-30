@@ -16,6 +16,8 @@ import * as moment from 'moment';
 declare var jQuery: any;
 declare var ga: any;
 declare var mixpanel: any;
+var nu = 1;
+var pr = 1;
 
 @Component({
   selector: 'dashboard',
@@ -38,6 +40,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   activeSlideIndex: number;
   private subscription: Subscription;
 
+
   constructor(public sessionService: SessionService,
    private analyticsService: SessionAnalyticsService,
    private conf: ConfigurationService,
@@ -54,7 +57,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
         this.loadDashboard();
-        this.timeOut();
+        // this.timeOut();
         mixpanel.time_event('ViewDashboard');
     });
   }
@@ -87,7 +90,9 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-       this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+       this.analytics = response.answers;
+       pr = this.analytics.length;
+       // jQuery('body').append(JSON.parse(this.analytics));
     } else {
       this.analytics = [];
     }
@@ -99,7 +104,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    clearTimeout(this.timer);
+   // clearTimeout(this.timer);
     mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
  }
 
@@ -109,18 +114,59 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
 
-  private timeOut() {
+  /*private timeOut() {
     let self = this;
     this.timer =  setTimeout(function(){
           self.load();
      }, environment.dashboardReloadInterval);
-  }
+  }*/
 
   private load() {
       this.loadDashboard();
      // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
       // jQuery( 'body' ).removeClass( 'modal-open' );
-      this.timeOut();
+      // this.timeOut();
   }
 
+  openModal(event) {
+    jQuery('#myModal').openModal();
+    let num = jQuery(event.target).attr('id');
+    jQuery('.carousel-inner .item').removeClass( 'active' );
+    jQuery('#s' + num).addClass( 'active' );
+    nu = num;
+}
+
+
+   NextModal(event) {
+        if (nu !== this.analytics.length) {
+          jQuery('.carousel-inner .item').removeClass( 'active' );
+           nu++;
+          jQuery('#s' + nu).addClass('active');
+        }
+
+   }
+
+
+  PrevModal(event) {
+        if (1 !== nu) {
+          jQuery('.carousel-inner .item').removeClass( 'active' );
+           nu--;
+          jQuery('#s' + nu).addClass('active');
+        }
+   }
+
+   ShowChart(event) {
+        // jQuery('#myModal.modal').slideUp(500);
+        jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
+        jQuery('.choice_percent').css({'display': 'block'});
+        jQuery('.image_video_container .image_container, .image_video_container .video_container ').css({"display": "none"})
+        // jQuery('#myModal.modal').slideDown(500);
+   }
+   HideChart(event) {
+        // jQuery('#myModal.modal').slideUp(500);
+        jQuery('.image_video_container .carousel-charts').css({'display': 'none'});
+        jQuery('.choice_percent').css({'display': 'none'});
+        jQuery('.image_video_container .image_container, .image_video_container .video_container').css({"display": "block"})
+        // jQuery('#myModal.modal').slideDown(500);
+   }
 };

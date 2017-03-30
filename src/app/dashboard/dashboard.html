@@ -10,7 +10,6 @@
         </div>
     </div>
 </div>
-
 <tabs>
     <tab title="Questions">
         <div class="container">
@@ -23,22 +22,124 @@
             <div class="rowiner">
                 <div class="col s12">
                     <div class="container" *ngIf="analytics.length == 0">
-                        <h5 class="text-center">No Trainee has attempted your session</h5>
+                        <h5 class="text-center">No Records</h5>
                     </div>
-                    <!-- 
-			<carousel [interval]="1500" [noWrap]="false"> <slide
-				*ngFor="let slide of analytics; let i=index"> <questionchartbox
-				[answer]='slide'></questionchartbox> </slide> </carousel> -->
-
-
-
                     <div class="row session_list" *ngIf="analytics.length > 0">
                         <div class="container">
                             <div class="row-ui">
                                 <div class="col s12 m6" *ngFor="let answer of analytics | paginate: { itemsPerPage: 4, currentPage: activePage }; let i = index">
-                                    <questionchartbox [answer]='answer' [index]='i' [page]="activePage" [perPage]='4' [session]='session'>
-                                    </questionchartbox>
+                                    <!--  <questionchartbox [answer]='answer' [index]='i' [page]="activePage" [perPage]='4' [session]='session'>
+                                    </questionchartbox> -->
 
+                                    <div class="card question-box hoverable">
+                                        <div class="question-box-head">
+                                            <!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
+                                            <a (click)="openModal($event)" class="add-new-session" data-target="{{i+1}}">
+                                                <h5 id="{{i+1}}">Q. {{answer.description}}</h5>
+                                            </a>
+
+                                            <div class="digits">
+                                                <span>
+                                                    {{answer.answered_by}} of {{answer.participants}}
+                                                </span>
+                                            </div>
+                                            <div class=pull-right></div>
+                                        </div>
+                                        <div class="charts">
+                                            <span class="pull-right"> </span>
+
+                                            <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                            <barchart [analytics]='answer.analytics' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+                                            <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
+                                            <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="myModal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div id="mycarousel" class="carousel slide" data-ride="carousel">
+                                                <!-- Wrapper for slides -->
+                                                <div class="carousel-inner">
+                                                    <div *ngFor="let answer of analytics ; let i = index" id="s{{i+1}}" class="item active">
+                                                        <div class="main-head">
+                                                            <h4 class="fl">Q.{{answer.description}}</h4>
+                                                            <div class="action_bar fr">
+                                                                <span class="icon_chart fl" (click)="ShowChart($event)"><i class="fa  fa-bar-chart" style="font-size:14px"></i></span>
+                                                                <span class="icon_view fr " (click)="HideChart($event)"><i class="fa  fa-eye" style="font-size:14px"></i></span>
+                                                                <div class="clear"></div>
+                                                            </div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                        <div class="image_video_container">
+                                                            <div class="image_container" *ngIf="answer.resource_type === 'image'">
+                                                                <img src="{{answer.resource_url}}">
+                                                            </div>
+                                                            <div class="video_container" *ngIf="answer.resource_type === 'video'">
+                                                                <!--  <iframe class="video_img_section" width="450" height="250" src="https://www.youtube.com/embed/{{answer.resource_code}}" frameborder="0" allowfullscreen></iframe> -->
+                                                            </div>
+                                                            <div class="carousel-charts">
+                                                                <div class="charts">
+                                                                    <span class="pull-right"> </span>
+
+                                                                    <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                                                    <barchart [analytics]='answer.analytics' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+                                                                    <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
+                                                                    <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
+                                                                </div>
+                                                                <div class="percent_analitical">
+
+                                                                    <div class="analitic_data">
+                                                                        <p class="ans_by">
+                                                                            {{answer.answered_by}}
+                                                                        </p>
+                                                                        <p class="avg_total">
+                                                                            {{(100*answer.answered_by / answer.participants)| round}}%
+                                                                        </p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="question_label" *ngIf="answer.question_type ==='multiple_choice'">
+                                                            <ul>
+                                                                <div *ngFor="let analytics_list of answer.analytics ; let i = index"><span class="color_comb{{i+1}} first fl"></span>
+                                                                    <li class="fl">{{analytics_list.label}} </li><span class="choice_percent">[{{100* (analytics_list.total / answer.answered_by)| round}}%]</span>
+                                                                    <div class="clear"></div>
+                                                                </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Controls -->
+                                                <a class="left carousel-control" id="Prev" (click)="PrevModal($event)" role="button" data-slide="prev">
+                                                    <span class="glyphicon glyphicon-menu-left"></span>
+                                                </a>
+                                                <a class="right carousel-control" id="Next" (click)="NextModal($event)" role="button" data-slide="next">
+                                                    <span class="glyphicon glyphicon-menu-right"></span>
+                                                </a>
+                                            </div>
+                                            <div class="session_feed">
+                                                <div class="feed_header">
+                                                    <h3>Live Feed</h3>
+                                                </div>
+                                                <div class="fedd_body" *ngIf="queries.length > 0">
+                                                    <ul>
+                                                        <li *ngFor="let query of queries">
+                                                            <div>
+                                                                <p class="feed_comment">{{query.description}}</p>
+                                                            </div>
+                                                            <div>
+                                                                <span class="feed_user">{{query.posted_by}} ({{query.created_at}})</span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <pagination-controls (pageChange)="pageChanged($event)" class="pull-right"></pagination-controls>
@@ -56,7 +157,7 @@
         <div class="tab-section">
             <div class="container">
                 <div class="container" *ngIf="queries.length == 0">
-                    <h5 class="text-center">No queries to display</h5>
+                    <h5 class="text-center">No Records</h5>
                 </div>
 
                 <div class="scrollbar" *ngIf="queries.length > 0">
@@ -69,6 +170,9 @@
         </div>
     </tab>
 </tabs>
+
+
+
 
 
 <!-- 
