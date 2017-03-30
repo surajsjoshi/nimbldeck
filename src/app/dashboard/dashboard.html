@@ -61,7 +61,7 @@
                                             <div id="mycarousel" class="carousel slide" data-ride="carousel">
                                                 <!-- Wrapper for slides -->
                                                 <div class="carousel-inner">
-                                                    <div *ngFor="let answer of analytics ; let i = index" id="s{{i+1}}" class="item active">
+                                                    <div *ngFor="let answer of analytics ; let i = index" id="s{{i+1}}" class="item ">
                                                         <div class="main-head">
                                                             <h4 class="fl">Q.{{answer.description}}</h4>
                                                             <div class="action_bar fr">
@@ -72,11 +72,17 @@
                                                             <div class="clear"></div>
                                                         </div>
                                                         <div class="image_video_container">
-                                                            <div class="image_container" *ngIf="answer.resource_type === 'image'">
-                                                                <img src="{{answer.resource_url}}">
-                                                            </div>
-                                                            <div class="video_container" *ngIf="answer.resource_type === 'video'">
-                                                                <iframe class="video_img_section" width="450" height="250" src="https://www.youtube.com/embed/{{answer.resource_code}}" frameborder="0" allowfullscreen></iframe>
+                                                            <div class="main_container" *ngIf="answer.resource_type === 'video' || answer.resource_type === 'image'">
+
+                                                                <div class="image_container" *ngIf="answer.resource_type === 'image'">
+                                                                    <img src="{{answer.resource_url}}">
+                                                                </div>
+                                                                <!--  <div class="video_container" *ngIf="answer.resource_type === 'video'" >
+
+                                                        <p id="https://www.youtube.com/embed/{{answer.resource_code}}">{{getIframeSrc(answer)}}</p>
+
+                                                       <iframe class="video_img_section" id="qwe{{i+1}}" width="450"  height="250" src="" frameborder="0" allowfullscreen></iframe> 
+                                                    </div>  -->
                                                             </div>
                                                             <div class="carousel-charts">
                                                                 <div class="charts">
@@ -93,10 +99,12 @@
                                                                         <p class="ans_by">
                                                                             {{answer.answered_by}}
                                                                         </p>
-                                                                        <p class="avg_total">
-                                                                            {{(100*answer.answered_by / answer.participants)| round}}%
+                                                                        <p class="avg_total" *ngIf="answer.answered_by != 0">
+                                                                            {{100*answer.answered_by / answer.participants| round}}%
                                                                         </p>
-
+                                                                        <p class="avg_total" *ngIf="answer.answered_by == 0">
+                                                                            0%
+                                                                        </p>
                                                                     </div>
 
                                                                 </div>
@@ -157,7 +165,7 @@
         <div class="tab-section">
             <div class="container">
                 <div class="container" *ngIf="queries.length == 0">
-                    <h5 class="text-center">No Records</h5>
+                    <h5 class="text-center">No Queries yet</h5>
                 </div>
 
                 <div class="scrollbar" *ngIf="queries.length > 0">

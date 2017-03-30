@@ -12021,6 +12021,54 @@ dashboard .title-container pagetitle, dashboard .title-container div  {
 
 
 
+/*==== video upload card====*/
+
+.Video_code {
+    border: 1px solid #848282 !important;
+    height: 35px !important;
+    margin-bottom: 0 !important;
+    margin-top: 14px !important;
+    padding: 0 0 0 4px !important;
+}
+span.upload-video-lbl {
+    color: #848282 !important;
+    display: block;
+    font-size: 1em;
+    padding-top: 20px;
+}
+.or_div.col.s12.m2 {
+    color: #848282;
+    position: relative;
+    text-align: left;
+    top: 16px;
+}
+
+
+
+/*====== video upload last update=====*/
+.video-uploader {
+    text-align: left;
+}
+.video-upload.Video_code {
+    width: 80%;
+}
+
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}
+.clear{
+    clear:both;
+} 
+
+
+
+
+
+
+
 /*======carousel======*/
 
 .modal.fade .modal-dialog {
@@ -12147,7 +12195,9 @@ dashboard .title-container pagetitle, dashboard .title-container div  {
     height: 100% !important;
     overflow-y: auto;
 }
-
+.main_container {
+    height: 250px;
+}
 /* feed design*/
 
 .session_feed {
@@ -12194,38 +12244,8 @@ dashboard .title-container pagetitle, dashboard .title-container div  {
     font-size: 12px;
     }
 
-.fl{
-    float:left;
-}
-.fr{
-    float:right;
-}
-.clear{
-    clear:both;
-}
 
 
-/*==== video upload card====*/
-
-.Video_code {
-    border: 1px solid #848282 !important;
-    height: 35px !important;
-    margin-bottom: 0 !important;
-    margin-top: 14px !important;
-    padding: 0 0 0 4px !important;
-}
-span.upload-video-lbl {
-    color: #848282 !important;
-    display: block;
-    font-size: 1em;
-    padding-top: 20px;
-}
-.or_div.col.s12.m2 {
-    color: #848282;
-    position: relative;
-    text-align: left;
-    top: 16px;
-}
 /*=======*/
 .action_bar {
     position: relative;
@@ -12264,18 +12284,9 @@ span.upload-video-lbl {
 }
 
 
-/*====== video upload last update=====*/
-.video-uploader {
-    text-align: left;
-}
-.video-upload.Video_code {
-    width: 80%;
-}
-
-
 /*=== carousel charts===*/
 
-.carousel-charts{
+.main_container{
     display:none;
 }
 .carousel-charts .charts{
@@ -12308,7 +12319,7 @@ span.upload-video-lbl {
     margin: 0;
 }
 .choice_percent{
-    display:none;
+    display:block;
 }
 
 .question-box-head:hover {

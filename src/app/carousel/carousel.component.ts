@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../services/configuration.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
 import { QueriesService } from '../services/queries.service';
+import * as moment from 'moment';
 
 declare var jQuery: any;
+declare var mixpanel: any;
 
 @Component({
   selector: 'app-carousel',
@@ -21,9 +23,11 @@ export class CarouselComponent implements OnInit , OnDestroy {
   currentCard: number;
   analysisFetched: boolean;
   queriesFetched: boolean;
+  private subscription: Subscription;
 
   constructor(private conf: ConfigurationService,
   private analyticsService: SessionAnalyticsService,
+  private route: ActivatedRoute,
   private queryService: QueriesService) {
     this.totalCards = 0;
     this.currentCard = 0;
@@ -63,7 +67,7 @@ private mapQueries(response) {
   private mapAnalysis(response) {
     if (response.type === 'Success') {
        this.analytics = response.answers;
-       pr = this.analytics.length;
+       this.totalCards = this.analytics.length;
     } else {
       this.analytics = [];
     }

@@ -16,9 +16,8 @@ import * as moment from 'moment';
 declare var jQuery: any;
 declare var ga: any;
 declare var mixpanel: any;
-var nu = 1;
-var pr = 1;
-
+ var nu=1;
+ var pr=1;
 @Component({
   selector: 'dashboard',
   moduleId: module.id,
@@ -57,7 +56,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
         this.loadDashboard();
-        // this.timeOut();
+        //this.timeOut();
         mixpanel.time_event('ViewDashboard');
     });
   }
@@ -91,7 +90,10 @@ export class DashboardComponent implements OnInit , OnDestroy {
   private mapAnalysis(response) {
     if (response.type === 'Success') {
        this.analytics = response.answers;
-       pr = this.analytics.length;
+       pr=this.analytics.length;
+       
+       //jQuery('body').append(JSON.parse(this.analytics));
+
     } else {
       this.analytics = [];
     }
@@ -122,48 +124,77 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private load() {
       this.loadDashboard();
-      // this.timeOut();
+     // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
+      // jQuery( 'body' ).removeClass( 'modal-open' );
+      //this.timeOut();
   }
 
-  openModal(event) {
-    jQuery('#myModal').openModal();
-    let num = jQuery(event.target).attr('id');
-    jQuery('.carousel-inner .item').removeClass( 'active' );
-    jQuery('#s' + num).addClass( 'active' );
-    nu = num;
+openModal(event) {
+   
+jQuery("#myModal").openModal();
+
+let num=jQuery(event.target).attr('id');
+
+jQuery('.carousel-inner .item').removeClass( 'active' );  
+
+jQuery('#s'+num).addClass( 'active' );
+nu=num;
+
 }
 
 
-   NextModal(event) {
-        if (nu !== this.analytics.length) {
+NextModal(event) {
+   
+        
+
+        if(nu!=this.analytics.length)
+        {
           jQuery('.carousel-inner .item').removeClass( 'active' );
-           nu++;
-          jQuery('#s' + nu).addClass('active');
+           nu++;  
+          jQuery('#s'+nu).addClass('active');
+          
+     
         }
 
    }
 
 
-  PrevModal(event) {
-        if (1 !== nu) {
+PrevModal(event) {
+        
+      
+
+      
+        if(1!=nu)
+        {
           jQuery('.carousel-inner .item').removeClass( 'active' );
            nu--;
-          jQuery('#s' + nu).addClass('active');
+          jQuery('#s'+nu).addClass('active');
+          
         }
+        
+     
+      
    }
 
    ShowChart(event) {
-        // jQuery('#myModal.modal').slideUp(500);
-        jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
-        jQuery('.choice_percent').css({'display': 'block'});
-        jQuery('.image_video_container .image_container, .image_video_container .video_container ').css({"display": "none"})
-        // jQuery('#myModal.modal').slideDown(500);
+        //jQuery('#myModal.modal').slideUp(500);
+        jQuery('.image_video_container .carousel-charts').css({"display": "block"});
+        jQuery('.choice_percent').css({'display':'block'});
+        jQuery('.image_video_container .main_container').css({"display": "none"})
+        //jQuery('#myModal.modal').slideDown(500);
+      
    }
    HideChart(event) {
-        // jQuery('#myModal.modal').slideUp(500);
-        jQuery('.image_video_container .carousel-charts').css({'display': 'none'});
-        jQuery('.choice_percent').css({'display': 'none'});
-        jQuery('.image_video_container .image_container, .image_video_container .video_container').css({"display": "block"})
-        // jQuery('#myModal.modal').slideDown(500);
+        //jQuery('#myModal.modal').slideUp(500);
+        jQuery('.image_video_container .carousel-charts').css({"display": "none"});
+        jQuery('.choice_percent').css({'display':'none'});
+        jQuery('.image_video_container .main_container').css({"display": "block"})
+        //jQuery('#myModal.modal').slideDown(500);
    }
+
+  
+
+   
+
+
 };
