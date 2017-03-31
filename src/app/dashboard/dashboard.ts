@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-       this.analytics = response.answers;
+       this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
        pr=this.analytics.length;
        
        //jQuery('body').append(JSON.parse(this.analytics));
