@@ -54,7 +54,9 @@
                                 <div class="col s10 m8">
 
                                     <div class="description">
-                                        <p class="truncate">{{question.description}}
+                                        <a (click)="openCarouselModal($event)" class="add-new-session" data-target="{{i+1}}">
+                                                <h5 id="{{i+1}}">Q. {{question.description}}</h5>
+                                            </a>
                                             <p>
                                     </div>
                                 </div>

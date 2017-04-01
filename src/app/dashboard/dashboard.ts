@@ -5,10 +5,11 @@ import { QueriesService } from '../services/queries.service';
 import { SessionService } from '../services/session.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
 import { Session } from '../shared/models/session';
-import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy , ComponentFactoryResolver} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
+import {CarouselComponent} from '../carousel/carousel.component';
 
 
 import * as moment from 'moment';
@@ -45,6 +46,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private conf: ConfigurationService,
    private queryService: QueriesService,
    private route: ActivatedRoute,
+   private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
     this.sessionFetched = false;
@@ -91,9 +93,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
     if (response.type === 'Success') {
        this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
        pr=this.analytics.length;
-       
-       //jQuery('body').append(JSON.parse(this.analytics));
-
     } else {
       this.analytics = [];
     }
@@ -130,71 +129,16 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
 openModal(event) {
-   
-jQuery("#myModal").openModal();
 
-let num=jQuery(event.target).attr('id');
-
-jQuery('.carousel-inner .item').removeClass( 'active' );  
-
-jQuery('#s'+num).addClass( 'active' );
-nu=num;
+    let num=jQuery(event.target).attr('id');
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<CarouselComponent>componentRef.instance).analytics = this.analytics;
+    (<CarouselComponent>componentRef.instance).currentCard = Number(num);
+    (<CarouselComponent>componentRef.instance).queries = this.queries;
+    jQuery('#myModal').openModal(); 
 
 }
-
-
-NextModal(event) {
-   
-        
-
-        if(nu!=this.analytics.length)
-        {
-          jQuery('.carousel-inner .item').removeClass( 'active' );
-           nu++;  
-          jQuery('#s'+nu).addClass('active');
-          
-     
-        }
-
-   }
-
-
-PrevModal(event) {
-        
-      
-
-      
-        if(1!=nu)
-        {
-          jQuery('.carousel-inner .item').removeClass( 'active' );
-           nu--;
-          jQuery('#s'+nu).addClass('active');
-          
-        }
-        
-     
-      
-   }
-
-   ShowChart(event) {
-        //jQuery('#myModal.modal').slideUp(500);
-        jQuery('.image_video_container .carousel-charts').css({"display": "block"});
-        jQuery('.choice_percent').css({'display':'block'});
-        jQuery('.image_video_container .main_container').css({"display": "none"})
-        //jQuery('#myModal.modal').slideDown(500);
-      
-   }
-   HideChart(event) {
-        //jQuery('#myModal.modal').slideUp(500);
-        jQuery('.image_video_container .carousel-charts').css({"display": "none"});
-        jQuery('.choice_percent').css({'display':'none'});
-        jQuery('.image_video_container .main_container').css({"display": "block"})
-        //jQuery('#myModal.modal').slideDown(500);
-   }
-
-  
-
-   
-
 
 };

@@ -100,7 +100,8 @@ import { CarouselComponent } from './carousel/carousel.component';
     ShortAnswerCardComponent,
     YesNoCardComponent,
     RatingCardComponent,
-    McqCardComponent
+    McqCardComponent,
+    CarouselComponent
   ]
 })
 export class AppModule { }

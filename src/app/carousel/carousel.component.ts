@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy , AfterViewInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../services/configuration.service';
@@ -10,11 +10,12 @@ declare var jQuery: any;
 declare var mixpanel: any;
 
 @Component({
-  selector: 'app-carousel',
+  moduleId: module.id,
+  selector: 'nd-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit , OnDestroy {
+export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
   sessionId: string;
   analytics: Array<any>;
@@ -30,8 +31,9 @@ export class CarouselComponent implements OnInit , OnDestroy {
   private route: ActivatedRoute,
   private queryService: QueriesService) {
     this.totalCards = 0;
-    this.currentCard = 0;
+    this.currentCard = 1;
     this.analysisFetched = false;
+    this.queriesFetched = false;
  }
 
   ngOnInit() {
@@ -45,6 +47,8 @@ export class CarouselComponent implements OnInit , OnDestroy {
               () => this.analysisFetched = true);
         } else {
           this.analysisFetched = true;
+          this.totalCards = this.analytics.length;
+         
         }
         if (!this.queries) {
           this.queryService.getQueries(this.sessionId)
@@ -57,6 +61,11 @@ export class CarouselComponent implements OnInit , OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+     jQuery('.carousel-inner .item').removeClass( 'active' );
+     jQuery('#s'+this.currentCard).addClass( 'active' );
+  }
+
 private mapQueries(response) {
     this.queries = response.queries;
     this.queries.forEach(element => {
@@ -67,6 +76,7 @@ private mapQueries(response) {
   private mapAnalysis(response) {
     if (response.type === 'Success') {
        this.analytics = response.answers;
+       this.currentCard = 1;
        this.totalCards = this.analytics.length;
     } else {
       this.analytics = [];
@@ -80,18 +90,18 @@ private mapQueries(response) {
  }
 
   nextModal(event) {
-        if (this.currentCard !== this.totalCards) {
+    if (this.currentCard !== this.totalCards) {
           jQuery('.carousel-inner .item').removeClass( 'active' );
-           this.currentCard = this.currentCard + 1;
+           this.currentCard = Number(this.currentCard) + 1;
           jQuery('#s' + this.currentCard).addClass('active');
-        }
+    }
    }
 
 
   previousModal(event) {
         if (1 !== this.currentCard) {
           jQuery('.carousel-inner .item').removeClass( 'active' );
-           this.currentCard = this.currentCard - 1;
+           this.currentCard = Number(this.currentCard) - 1;
           jQuery('#s' + this.currentCard).addClass('active');
         }
    }

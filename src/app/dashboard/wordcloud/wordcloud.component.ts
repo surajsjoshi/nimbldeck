@@ -43,8 +43,7 @@ closeModal(event) {
         let sessionId = params['id'];
         this.sessionService.getSession(sessionId)
         .subscribe(sess => this.mapSession(sess),
-            (error => console.log(error)),
-        () => console.log('done'));
+            (error => console.log(error)));
         this.answerService.getAnswers(sessionId,
           this.answer.question_id,
           this.populateAnswers.bind(this));
