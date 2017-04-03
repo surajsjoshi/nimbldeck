@@ -48,7 +48,6 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
         } else {
           this.analysisFetched = true;
           this.totalCards = this.analytics.length;
-         
         }
         if (!this.queries) {
           this.queryService.getQueries(this.sessionId)
@@ -63,7 +62,7 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
      jQuery('.carousel-inner .item').removeClass( 'active' );
-     jQuery('#s'+this.currentCard).addClass( 'active' );
+     jQuery('#s' + this.currentCard).addClass( 'active' );
   }
 
 private mapQueries(response) {
@@ -118,4 +117,43 @@ private mapQueries(response) {
         jQuery('.image_video_container .image_container, .image_video_container .video_container').css({'display': 'block'});
    }
 
+
+   get_youtube_frame(event) {
+     let code = event.resource_code;
+     let url = 'https://www.youtube.com/embed/'+code;
+     let frame = '<iframe class="video_img_section"  width="450"  height="250" src="'+url+'" frameborder="0" allowfullscreen></iframe>';
+     let frame_container = jQuery('.video_container').attr('id');
+     if ( frame_container === code && frame_container !== '') {
+      jQuery('.video_container').html(frame);
+     }
+   }
+
+   get_analitical_percent( analitic, event) {
+    let analitical_total = analitic.total;
+    let answer_by = event.answered_by;
+
+    if (answer_by !== 0 ) {
+      let cal = 100 * analitical_total / answer_by;
+      let limit = cal.toFixed(2);
+      return limit;
+    } else {
+      return '0';
+    }
+   }
+
+
+    get_avg_total(event) {
+    let participants = event.participants;
+    let answer_by = event.answered_by;
+
+    if (answer_by !== 0 ) {
+      let cal = 100 * answer_by / participants;
+      let limit = cal.toFixed();
+      return limit;
+    } else {
+      return '0';
+    }
+   }
+
 }
+``

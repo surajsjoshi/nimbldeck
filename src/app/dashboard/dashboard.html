@@ -22,7 +22,7 @@
             <div class="rowiner">
                 <div class="col s12">
                     <div class="container" *ngIf="analytics.length == 0">
-                        <h5 class="text-center">No Records</h5>
+                        <h5 class="text-center">No Trainee has attempted your session</h5>
                     </div>
                     <div class="row session_list" *ngIf="analytics.length > 0">
                         <div class="container">
@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                             <pagination-controls (pageChange)="pageChanged($event)" class="pull-right"></pagination-controls>
                             <div class="clearfix"></div>

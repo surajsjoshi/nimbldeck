@@ -12191,6 +12191,13 @@ span.upload-video-lbl {
    
     width: 12px;
 }
+.color_comb5 {
+    background: rgb(56,64,75);
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    width: 12px;
+}
 .item.active {
     height: 100% !important;
     overflow-y: auto;
@@ -12327,4 +12334,16 @@ span.upload-video-lbl {
 }
 .question-box-head a, .question-box-head a h5 {
     cursor: pointer !important;
+}
+
+
+
+/*===carousel css(2-4) ===*/
+
+.Voice_text {
+    margin-top: 6px;
+    text-align: center;
+}
+.analitic_data {
+    margin: 0 auto;
 }

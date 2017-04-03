@@ -1,8 +1,7 @@
-
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="carousel slide" data-ride="carousel">
+            <div id="mycarousel" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" *ngIf="analysisFetched">
                     <div *ngFor="let answer of analytics ; let i = index" id="s{{i+1}}" class="item ">
@@ -16,17 +15,27 @@
                             <div class="clear"></div>
                         </div>
                         <div class="image_video_container">
-                            <div class="main_container" *ngIf="answer.resource_type === 'video' || answer.resource_type === 'image'">
+                            <div class="main_container" *ngIf="answer.resource_type != ''">
 
                                 <div class="image_container" *ngIf="answer.resource_type === 'image'">
                                     <img src="{{answer.resource_url}}">
                                 </div>
-                                 <div class="video_container" *ngIf="answer.resource_type === 'video'" >
+                                <div class="video_container" id="{{answer.resource_code}}" *ngIf="answer.resource_type === 'video' && answer.resource_code!=''">
 
-                      <!--
-                        <iframe class="video_img_section" id="qwe{{i+1}}" width="450"  height="250" src="{{answer.resource_url}}" frameborder="0" allowfullscreen></iframe> 
-                     -->
-                    </div> 
+
+
+                                    {{get_youtube_frame(answer)}}
+
+                                    <!-- <iframe class="video_img_section"  width="450"  height="250" src="https://www.youtube.com/embed/{{answer.resource_code}}" frameborder="0" allowfullscreen></iframe>  -->
+
+
+
+                                    <p id="https://www.youtube.com/embed/{{answer.resource_code}}">fff</p>
+
+
+
+
+                                </div>
                             </div>
                             <div class="carousel-charts">
                                 <div class="charts">
@@ -43,22 +52,24 @@
                                         <p class="ans_by">
                                             {{answer.answered_by}}
                                         </p>
-                                        <p class="avg_total" *ngIf="answer.answered_by != 0">
-                                            {{100*answer.answered_by / answer.participants| round}}%
-                                        </p>
-                                        <p class="avg_total" *ngIf="answer.answered_by == 0">
-                                            0%
+                                        <p class="avg_total">
+                                            {{get_avg_total(answer)}}%
                                         </p>
                                     </div>
+                                    <div class="Voice_text">Voices</div>
 
                                 </div>
                                 <div class="clear"></div>
                             </div>
                         </div>
-                        <div class="question_label" *ngIf="answer.question_type ==='multiple_choice'">
+                        <div class="question_label" *ngIf="answer.question_type !='' ">
                             <ul>
                                 <div *ngFor="let analytics_list of answer.analytics ; let i = index"><span class="color_comb{{i+1}} first fl"></span>
-                                    <li class="fl">{{analytics_list.label}} </li><span class="choice_percent">[{{100* (analytics_list.total / answer.answered_by)| round}}%]</span>
+                                    <li class="fl">{{analytics_list.label}} </li><span class="choice_percent">
+
+                                  [{{get_analitical_percent(analytics_list, answer)}}%]
+
+                          </span>
                                     <div class="clear"></div>
                                 </div>
                             </ul>
@@ -93,4 +104,3 @@
         </div>
     </div>
 </div>
-
