@@ -63,6 +63,9 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
   ngAfterViewInit() {
      jQuery('.carousel-inner .item').removeClass( 'active' );
      jQuery('#s' + this.currentCard).addClass( 'active' );
+     jQuery('.image_video_container .carousel-charts').css({"display": "block"});
+     jQuery('.choice_percent').css({'display':'block'});
+     jQuery('.image_video_container .main_container').css({"display": "none"});
   }
 
 private mapQueries(response) {
@@ -108,13 +111,14 @@ private mapQueries(response) {
    showChart(event) {
         jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
         jQuery('.choice_percent').css({'display': 'block'});
-        jQuery('.image_video_container .image_container, .image_video_container .video_container ').css({'display': 'none'});
+        jQuery('.image_video_container .main_container').css({'display': 'none'});
    }
 
    hideChart(event) {
+        console.log(event + 'hide');
         jQuery('.image_video_container .carousel-charts').css({'display': 'none'});
         jQuery('.choice_percent').css({'display': 'none'});
-        jQuery('.image_video_container .image_container, .image_video_container .video_container').css({'display': 'block'});
+        jQuery('.image_video_container .main_container').css({'display': 'block'});
    }
 
 
