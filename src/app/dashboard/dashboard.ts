@@ -17,8 +17,7 @@ import * as moment from 'moment';
 declare var jQuery: any;
 declare var ga: any;
 declare var mixpanel: any;
- var nu=1;
- var pr=1;
+
 @Component({
   selector: 'dashboard',
   moduleId: module.id,
@@ -92,7 +91,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
   private mapAnalysis(response) {
     if (response.type === 'Success') {
        this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
-       pr=this.analytics.length;
     } else {
       this.analytics = [];
     }
@@ -128,12 +126,15 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
 openModal(event) {
 
-    let num = jQuery(event.target).attr('id');
+    let num: number = jQuery(event.target).attr('id');
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
+
+    let cardNo = Number(Number(num) +Number( 4* (Number(this.activePage - 1))));
+   
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<CarouselComponent>componentRef.instance).analytics = this.analytics;
-    (<CarouselComponent>componentRef.instance).currentCard = Number(num);
+    (<CarouselComponent>componentRef.instance).currentCard = Number(cardNo);
     (<CarouselComponent>componentRef.instance).queries = this.queries;
     jQuery('#myModal').openModal();
 
