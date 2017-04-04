@@ -123,21 +123,19 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private load() {
       this.loadDashboard();
-     // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
-      // jQuery( 'body' ).removeClass( 'modal-open' );
-      //this.timeOut();
+      // this.timeOut();
   }
 
 openModal(event) {
 
-    let num=jQuery(event.target).attr('id');
+    let num = jQuery(event.target).attr('id');
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<CarouselComponent>componentRef.instance).analytics = this.analytics;
     (<CarouselComponent>componentRef.instance).currentCard = Number(num);
     (<CarouselComponent>componentRef.instance).queries = this.queries;
-    jQuery('#myModal').openModal(); 
+    jQuery('#myModal').openModal();
 
 }
 

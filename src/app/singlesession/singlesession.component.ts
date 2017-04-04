@@ -177,17 +177,17 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     (<YesNoCardComponent>componentRef.instance).editService = this.editService;
     jQuery('#yesno-card-modal').openModal();
   }
-
+/*
   openCarouselModal(event) {
 
-    let num=jQuery(event.target).attr('id');
+    let num = jQuery(event.target).attr('id');
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<CarouselComponent>componentRef.instance).currentCard = Number(num);
-    jQuery('#myModal').openModal(); 
+    jQuery('#myModal').openModal();
 
-}
+  } */
 
 
   ngOnDestroy() {

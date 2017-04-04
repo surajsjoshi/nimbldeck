@@ -42,8 +42,7 @@ tooltips: {
 
 
  };
- private pieChartColor: any[] = [{ backgroundColor: ['#EAF1F5', '#DCDCDC'], borderColor: '#97BBCD', borderWidth: 2} ];
-
+ private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD','#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
 
 
 

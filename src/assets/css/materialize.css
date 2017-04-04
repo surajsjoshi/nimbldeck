@@ -12347,3 +12347,8 @@ span.upload-video-lbl {
 .analitic_data {
     margin: 0 auto;
 }
+.carousel-charts .charts .jqcloud span {
+    float: left;
+    position: unset !important;
+    width: 100%;
+}
