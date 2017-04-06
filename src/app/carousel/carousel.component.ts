@@ -58,14 +58,14 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
           this.queriesFetched = true;
         }
     });
+
+    jQuery('[data-toggle="tooltip"]').tooltip();
+
   }
 
   ngAfterViewInit() {
      jQuery('.carousel-inner .item').removeClass( 'active' );
      jQuery('#s' + this.currentCard).addClass( 'active' );
-     jQuery('.image_video_container .carousel-charts').css({"display": "block"});
-     jQuery('.choice_percent').css({'display':'block'});
-     jQuery('.image_video_container .main_container').css({"display": "none"});
   }
 
 private mapQueries(response) {
@@ -109,13 +109,20 @@ private mapQueries(response) {
    }
 
    showChart(event) {
+
+        jQuery('.icon_chart').addClass('active');
+        jQuery('.icon_view').removeClass('active');
+        
+        jQuery('.icon_chart').addClass('active');
         jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
         jQuery('.choice_percent').css({'display': 'block'});
-        jQuery('.image_video_container .main_container').css({'display': 'none'});
+        jQuery('.image_video_container .main_container ').css({'display': 'none'});
    }
 
    hideChart(event) {
-        console.log(event + 'hide');
+        jQuery('.icon_chart').removeClass('active');
+        jQuery('.icon_view').addClass('active');
+
         jQuery('.image_video_container .carousel-charts').css({'display': 'none'});
         jQuery('.choice_percent').css({'display': 'none'});
         jQuery('.image_video_container .main_container').css({'display': 'block'});
@@ -125,7 +132,7 @@ private mapQueries(response) {
    get_youtube_frame(event) {
      let code = event.resource_code;
      let url = 'https://www.youtube.com/embed/'+code;
-     let frame = '<iframe class="video_img_section"  width="450"  height="250" src="'+url+'" frameborder="0" allowfullscreen></iframe>';
+     let frame = '<iframe class="video_img_section"  width="400"  height="220" src="'+url+'" frameborder="0" allowfullscreen></iframe>';
      let frame_container = jQuery('.video_container').attr('id');
      if ( frame_container === code && frame_container !== '') {
       jQuery('.video_container').html(frame);

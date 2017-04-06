@@ -17,19 +17,14 @@ export class BarChartComponent implements OnInit {
    // tooltips: { enabled: true },
 
 
-
-
-
-
-tooltips: {
- enabled: true,
-
-                },
-
-
-
-
-
+  tooltips: {
+      enabled: true,
+      mode: 'label',
+    },
+    hover: {
+      mode: 'single',
+      intersect: false,
+    },
 
    scales: {
           yAxes: [{
@@ -42,7 +37,7 @@ tooltips: {
 
 
  };
- private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD','#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+ private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
 
 
 
@@ -73,6 +68,7 @@ tooltips: {
           }
       });
       this.barChartData.push(barData);
-  }
+
+}
 }
 

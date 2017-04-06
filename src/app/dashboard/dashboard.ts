@@ -57,10 +57,12 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
         this.loadDashboard();
-        //this.timeOut();
+        // this.timeOut();
         mixpanel.time_event('ViewDashboard');
+        jQuery('[data-toggle="tooltip"]').tooltip();
     });
-  }
+}
+
 
   private loadDashboard() {
       mixpanel.time_event('LoadDashboard');
@@ -79,7 +81,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
           (error => console.log(error)),
         () => this.analysisFetched = true);
   }
-
 
   private mapQueries(response) {
     this.queries = response.queries;
@@ -106,11 +107,9 @@ export class DashboardComponent implements OnInit , OnDestroy {
     mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
  }
 
-
   pageChanged(pageNo) {
     this.activePage = pageNo;
   }
-
 
   /*private timeOut() {
     let self = this;
@@ -130,14 +129,20 @@ openModal(event) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
 
-    let cardNo = Number(Number(num) +Number( 4* (Number(this.activePage - 1))));
-   
+    let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<CarouselComponent>componentRef.instance).analytics = this.analytics;
     (<CarouselComponent>componentRef.instance).currentCard = Number(cardNo);
     (<CarouselComponent>componentRef.instance).queries = this.queries;
-    jQuery('#myModal').openModal();
+    // jQuery('#myModal').openModal();
 
+
+    let min_width = jQuery(window).width() ;
+
+
+    if (min_width >= 787) {
+        jQuery('#myModal').openModal();
+    }
 }
 
 };

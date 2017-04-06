@@ -23,9 +23,28 @@ export class PieChartComponent implements OnInit {
 
 
 
-   constructor() {
-  }
 
+ private pieChartOptions = {
+
+
+  tooltips: {
+      callbacks: {
+        title: function() {
+          return '';
+        },
+        label: function(tooltipItem, data) {
+          let dataLabel = data.labels[tooltipItem.index];
+          let value = ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          return dataLabel + value;
+        }
+      }
+}
+
+
+ };
+
+  constructor() {
+  }
 
   ngOnInit() {
 

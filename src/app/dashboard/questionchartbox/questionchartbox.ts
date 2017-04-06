@@ -25,7 +25,7 @@ export class QuestionChartBoxComponent implements OnInit {
 
 
   openModal(event) {
-   
+
     jQuery("#myModal").openModal();
     
   }
