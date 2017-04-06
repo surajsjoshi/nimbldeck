@@ -167,4 +167,3 @@ private mapQueries(response) {
    }
 
 }
-``

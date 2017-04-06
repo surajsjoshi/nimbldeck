@@ -32,9 +32,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
   sessionFetched: boolean;
   analysisFetched: boolean;
   queriesFetched: boolean;
+  MatchAnaly: boolean;
   session: Session;
   queries;
   analytics;
+   analytics2;
   timer: any;
   activeSlideIndex: number;
   private subscription: Subscription;
@@ -49,20 +51,23 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
     this.sessionFetched = false;
+    this.MatchAnaly=true;
     this.queries = [];
     this.analytics = [];
+    this.analytics2=[];
   }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
         this.loadDashboard();
-        // this.timeOut();
+        this.timeOut();
         mixpanel.time_event('ViewDashboard');
         jQuery('[data-toggle="tooltip"]').tooltip();
     });
+    
 }
-
+ 
 
   private loadDashboard() {
       mixpanel.time_event('LoadDashboard');
@@ -91,7 +96,45 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-       this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+
+      
+         this.analytics2 = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+
+if(this.MatchAnaly)
+      {
+      
+        this.analytics=this.analytics2;
+        this.MatchAnaly=false;
+
+      }
+     // jQuery('body').append('NOT');
+  
+    for(let k=0; k<this.analytics2.length;k++)
+       {  
+             for(let m=0; m<this.analytics.length;m++)
+            {
+         
+                if(this.analytics2[k].question_id==this.analytics[m].question_id)
+                {
+                        for(let f=0; f<this.analytics2[k].analytics.length;f++)
+                         {  
+                               //for(let c=0; c<this.analytics[m].analytics.length;c++)
+                              {
+                            
+                                  if(this.analytics2[k].analytics[f].total!=this.analytics[m].analytics[f].total)
+                                  {
+                                       
+                                        this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+                                          this.analytics2=this.analytics;
+                                  }
+                                  
+                              }
+                        }
+                }
+                
+            }
+      }
+
     } else {
       this.analytics = [];
     }
@@ -103,7 +146,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-   // clearTimeout(this.timer);
+   clearTimeout(this.timer);
     mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
  }
 
@@ -111,16 +154,22 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.activePage = pageNo;
   }
 
-  /*private timeOut() {
+  private timeOut() {
     let self = this;
     this.timer =  setTimeout(function(){
           self.load();
      }, environment.dashboardReloadInterval);
-  }*/
+  }
 
   private load() {
-      this.loadDashboard();
-      // this.timeOut();
+
+      
+this.loadDashboard();
+
+       
+
+      
+      this.timeOut();
   }
 
 openModal(event) {
@@ -129,20 +178,23 @@ openModal(event) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
 
-    let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
+    let cardNo = Number(Number(num) +Number( 4* (Number(this.activePage - 1))));
+   
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<CarouselComponent>componentRef.instance).analytics = this.analytics;
     (<CarouselComponent>componentRef.instance).currentCard = Number(cardNo);
     (<CarouselComponent>componentRef.instance).queries = this.queries;
-    // jQuery('#myModal').openModal();
+    //jQuery('#myModal').openModal();
 
 
     let min_width = jQuery(window).width() ;
 
 
-    if (min_width >= 787) {
-        jQuery('#myModal').openModal();
+    if (min_width>=787) {
+      
+        jQuery("#myModal").openModal();
     }
+    
 }
 
 };
