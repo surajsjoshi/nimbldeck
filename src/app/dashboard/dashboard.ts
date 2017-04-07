@@ -32,13 +32,12 @@ export class DashboardComponent implements OnInit , OnDestroy {
   sessionFetched: boolean;
   analysisFetched: boolean;
   queriesFetched: boolean;
-  MatchAnaly: boolean;
+  isFirst: boolean;
   session: Session;
   queries;
   analytics;
-   analytics2;
+  analyticsNew;
   timer: any;
-  activeSlideIndex: number;
   private subscription: Subscription;
 
 
@@ -51,10 +50,10 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
     this.sessionFetched = false;
-    this.MatchAnaly=true;
+    this.isFirst = true;
     this.queries = [];
     this.analytics = [];
-    this.analytics2=[];
+    this.analyticsNew = [];
   }
 
   ngOnInit() {
@@ -65,9 +64,9 @@ export class DashboardComponent implements OnInit , OnDestroy {
         mixpanel.time_event('ViewDashboard');
         jQuery('[data-toggle="tooltip"]').tooltip();
     });
-    
+
 }
- 
+
 
   private loadDashboard() {
       mixpanel.time_event('LoadDashboard');
@@ -96,47 +95,41 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-
-      
-         this.analytics2 = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
-
-if(this.MatchAnaly)
-      {
-      
-        this.analytics=this.analytics2;
-        this.MatchAnaly=false;
-
-      }
-     // jQuery('body').append('NOT');
-  
-    for(let k=0; k<this.analytics2.length;k++)
-       {  
-             for(let m=0; m<this.analytics.length;m++)
-            {
-         
-                if(this.analytics2[k].question_id==this.analytics[m].question_id)
-                {
-                        for(let f=0; f<this.analytics2[k].analytics.length;f++)
-                         {  
-                               //for(let c=0; c<this.analytics[m].analytics.length;c++)
-                              {
-                            
-                                  if(this.analytics2[k].analytics[f].total!=this.analytics[m].analytics[f].total)
-                                  {
-                                       
-                                        this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
-                                          this.analytics2=this.analytics;
-                                  }
-                                  
-                              }
-                        }
-                }
-                
-            }
-      }
-
+         this.analyticsNew = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+         if (this.isFirst) {
+             this.analytics = this.analyticsNew;
+             this.isFirst = false;
+         } else {
+              for (let answer of this.analyticsNew){
+                  this.updateAnswer(answer);
+              }
+         }
     } else {
       this.analytics = [];
+    }
+  }
+
+  private updateAnswer(answer: any) {
+    let oldAnswer = Array.from(this.analytics).filter(ans => ans['question_id'] === answer.question_id)[0];
+    let update = false;
+    if (oldAnswer['analytics'].length !== answer['analytics'].length) {
+          update = true;
+    } else {
+        for (let data of answer['analytics']) {
+            let record = Array.from(oldAnswer['analytics']).filter(ans => ans['label'] === data['label'])[0];
+            if (record['total'] !== data['total']) {
+                update = true;
+            }
+        }
+    }
+    if (update) {
+      for (let i = 0; i < this.analytics.length; i++) {
+          if (this.analytics[i]['question_id'] === answer['question_id']) {
+            this.analytics[i]['analytics'] = answer['analytics'];
+            this.analytics[i]['answered_by'] = answer['answered_by'];
+            this.analytics[i]['participants'] = answer['participants'];
+          }
+      }
     }
   }
 

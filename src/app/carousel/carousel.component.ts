@@ -112,7 +112,6 @@ private mapQueries(response) {
 
         jQuery('.icon_chart').addClass('active');
         jQuery('.icon_view').removeClass('active');
-        
         jQuery('.icon_chart').addClass('active');
         jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
         jQuery('.choice_percent').css({'display': 'block'});
@@ -131,11 +130,11 @@ private mapQueries(response) {
 
    get_youtube_frame(event) {
      let code = event.resource_code;
-     let url = 'https://www.youtube.com/embed/'+code;
-     let frame = '<iframe class="video_img_section"  width="400"  height="220" src="'+url+'" frameborder="0" allowfullscreen></iframe>';
+     let url = 'https://www.youtube.com/embed/' + code;
+     let frame = '<iframe class="video_img_section"  width="400"  height="220" src="' + url + '" frameborder="0" allowfullscreen></iframe>';
      let frame_container = jQuery('.video_container').attr('id');
      if ( frame_container === code && frame_container !== '') {
-      jQuery('.video_container').html(frame);
+        jQuery('.video_container').html(frame);
      }
    }
 
