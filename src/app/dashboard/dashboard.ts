@@ -96,9 +96,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.queriesNew.forEach(element => {
        element.created_at = moment.utc(element.created_at).local().fromNow();
     });
+
     if (this.queriesNew.length !== this.queries.length) {
       this.queries = this.queriesNew;
       if (this.carousel) {
+        this.carousel.queries = this.queries;
         this.carousel.update();
       }
     }

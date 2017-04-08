@@ -69,6 +69,7 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
   update() {
     this.changeDetectorRef.markForCheck();
+    this.totalCards = this.analytics.length;
   }
 
   ngAfterViewInit() {
