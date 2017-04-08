@@ -21,11 +21,14 @@ export class AnalyticsService {
 
 
 private updateAnswer(answer: any, oldAnalytics: any): boolean {
-    let oldAnswer = Array.from(oldAnalytics).filter(ans => ans['question_id'] === answer.question_id)[0];
+    let oldAnswers = Array.from(oldAnalytics).filter(ans => ans['question_id'] === answer.question_id);
+    let oldAnswer = null;
     let update = false;
-    if (oldAnswer['analytics'].length !== answer['analytics'].length) {
+    if (oldAnswers.length > 0) {
+        oldAnswer = oldAnswers[0];
+        if (oldAnswer['analytics'].length !== answer['analytics'].length) {
           update = true;
-    } else {
+        } else {
         for (let data of answer['analytics']) {
             let record = Array.from(oldAnswer['analytics']).filter(ans => ans['label'] === data['label'])[0];
             if (record['total'] !== data['total']) {
@@ -40,7 +43,10 @@ private updateAnswer(answer: any, oldAnalytics: any): boolean {
                 oldAnalytics[i]['answered_by'] = answer['answered_by'];
                 oldAnalytics[i]['participants'] = answer['participants'];
           }
+        }
       }
+    } else {
+        oldAnalytics.push(answer);
     }
     return update;
   }

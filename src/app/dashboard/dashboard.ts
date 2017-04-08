@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   isFirst: boolean;
   session: Session;
   queries: Array<any>;
+  queriesNew: Array<any>;
   analytics: Array<any>;
   analyticsNew: Array<any>;
   timer: any;
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.sessionFetched = false;
     this.isFirst = true;
     this.queries = [];
+    this.queriesNew = [];
     this.analytics = [];
     this.analyticsNew = [];
   }
@@ -90,10 +92,16 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private mapQueries(response) {
-    this.queries = response.queries;
-    this.queries.forEach(element => {
+    this.queriesNew = response.queries;
+    this.queriesNew.forEach(element => {
        element.created_at = moment.utc(element.created_at).local().fromNow();
     });
+    if (this.queriesNew.length !== this.queries.length) {
+      this.queries = this.queriesNew;
+      if (this.carousel) {
+        this.carousel.update();
+      }
+    }
   }
 
   private mapAnalysis(response) {
@@ -105,7 +113,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
          } else {
               let changed = this.analyticsUpdateService.updateAnalytics(this.analyticsNew, this.analytics);
               if (changed && this.carousel ) {
-                  this.carousel.update(this.analyticsNew);
+                  this.carousel.update();
               }
          }
     } else {

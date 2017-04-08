@@ -67,7 +67,7 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
   }
 
-  update(analyticsNew: Array<any>) {
+  update() {
     this.changeDetectorRef.markForCheck();
   }
 
