@@ -157,5 +157,4 @@ openModal(event) {
         jQuery('#myModal').openModal();
     }
 }
-
 };

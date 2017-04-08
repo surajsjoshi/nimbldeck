@@ -35,6 +35,22 @@ export class BarChartComponent implements OnInit {
           }]
         },
 
+    animation: {
+        onComplete: function() {
+           this.chart.controller.draw();
+           let ctx = this.chart.ctx;
+           ctx.textAlign = 'center';
+           ctx.textBaseline = 'bottom';
+           this.data.datasets.forEach(function (dataset) {
+            for (let i = 0; i < dataset.data.length; i++) {
+              let model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+              ctx.fillText(dataset.data[i], model.x, model.y);
+            }
+      });
+    }
+
+  }
+
 
  };
  private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
