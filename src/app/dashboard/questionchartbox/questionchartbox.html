@@ -1,28 +1,25 @@
 <div class="card question-box hoverable">
-	<div class="question-box-head">
-		<!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
-		<a (click)="openModal($event)"  class="add-new-session"><h5>Q. {{answer.description}}</h5></a>
+    <div class="question-box-head">
+        <!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
+        <a (click)="openModal($event)" class="add-new-session">
+            <h5>Q. {{answer.description}}</h5>
+        </a>
 
-		<div class="digits">
-			<span>
+        <div class="digits">
+            <span>
 				{{answer.answered_by}} of {{answer.participants}}
 			</span>
-		</div>
+        </div>
 
-		<div class=pull-right></div>
+        <div class=pull-right></div>
 
-	</div>
-	<div class="charts">
-		<span class="pull-right"> </span>
+    </div>
+    <div class="charts">
+        <span class="pull-right"> </span>
 
-		<piechart [analytics]='answer.analytics'
-			*ngIf="answer.question_type === 'yes_no'"></piechart>
-		<barchart [analytics]='answer.analytics'
-			*ngIf="answer.question_type === 'multiple_choice'"></barchart>
-		 <wordcloud [answer]='answer'
-			*ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud> 
-		<rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
-	</div>
+        <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
+        <barchart [answer]='answer' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+        <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
+        <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
+    </div>
 </div>
-
-   

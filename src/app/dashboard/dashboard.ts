@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {CarouselComponent} from '../carousel/carousel.component';
-
+import { EditService } from '../services/edit.service';
 
 import * as moment from 'moment';
 
@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private analyticsService: SessionAnalyticsService,
    private conf: ConfigurationService,
    private queryService: QueriesService,
+   private editService: EditService,
    private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
    private componentFactoryResolver: ComponentFactoryResolver,
@@ -114,8 +115,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
              this.isFirst = false;
          } else {
               let changed = this.analyticsUpdateService.updateAnalytics(this.analyticsNew, this.analytics);
-              if (changed && this.carousel ) {
-                  this.carousel.update();
+              if (changed ) {
+                  this.editService.announceUpdate();
+                  if (this.carousel) {
+                    this.carousel.update();
+                  }
               }
          }
     } else {
