@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy , AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy , AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../services/configuration.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { QueriesService } from '../services/queries.service';
 import * as moment from 'moment';
 
@@ -13,7 +14,8 @@ declare var mixpanel: any;
   moduleId: module.id,
   selector: 'nd-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.css']
+  styleUrls: ['./carousel.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
@@ -29,6 +31,8 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
   constructor(private conf: ConfigurationService,
   private analyticsService: SessionAnalyticsService,
   private route: ActivatedRoute,
+  private analyticsUpdateService: AnalyticsService,
+  private changeDetectorRef: ChangeDetectorRef,
   private queryService: QueriesService) {
     this.totalCards = 0;
     this.currentCard = 1;
@@ -61,6 +65,10 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
     jQuery('[data-toggle="tooltip"]').tooltip();
 
+  }
+
+  update(analyticsNew: Array<any>) {
+    this.changeDetectorRef.markForCheck();
   }
 
   ngAfterViewInit() {

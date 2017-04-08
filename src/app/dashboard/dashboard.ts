@@ -4,6 +4,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { QueriesService } from '../services/queries.service';
 import { SessionService } from '../services/session.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { Session } from '../shared/models/session';
 import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy , ComponentFactoryResolver} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,10 +35,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
   queriesFetched: boolean;
   isFirst: boolean;
   session: Session;
-  queries;
-  analytics;
-  analyticsNew;
+  queries: Array<any>;
+  analytics: Array<any>;
+  analyticsNew: Array<any>;
   timer: any;
+  carousel: CarouselComponent;
   private subscription: Subscription;
 
 
@@ -45,6 +47,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private analyticsService: SessionAnalyticsService,
    private conf: ConfigurationService,
    private queryService: QueriesService,
+   private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
    private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
@@ -100,36 +103,13 @@ export class DashboardComponent implements OnInit , OnDestroy {
              this.analytics = this.analyticsNew;
              this.isFirst = false;
          } else {
-              for (let answer of this.analyticsNew){
-                  this.updateAnswer(answer);
+              let changed = this.analyticsUpdateService.updateAnalytics(this.analyticsNew, this.analytics);
+              if (changed && this.carousel ) {
+                  this.carousel.update(this.analyticsNew);
               }
          }
     } else {
       this.analytics = [];
-    }
-  }
-
-  private updateAnswer(answer: any) {
-    let oldAnswer = Array.from(this.analytics).filter(ans => ans['question_id'] === answer.question_id)[0];
-    let update = false;
-    if (oldAnswer['analytics'].length !== answer['analytics'].length) {
-          update = true;
-    } else {
-        for (let data of answer['analytics']) {
-            let record = Array.from(oldAnswer['analytics']).filter(ans => ans['label'] === data['label'])[0];
-            if (record['total'] !== data['total']) {
-                update = true;
-            }
-        }
-    }
-    if (update) {
-      for (let i = 0; i < this.analytics.length; i++) {
-          if (this.analytics[i]['question_id'] === answer['question_id']) {
-            this.analytics[i]['analytics'] = answer['analytics'];
-            this.analytics[i]['answered_by'] = answer['answered_by'];
-            this.analytics[i]['participants'] = answer['participants'];
-          }
-      }
     }
   }
 
@@ -155,13 +135,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private load() {
-
-      
-this.loadDashboard();
-
-       
-
-      
+      this.loadDashboard();
       this.timeOut();
   }
 
@@ -171,23 +145,17 @@ openModal(event) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
 
-    let cardNo = Number(Number(num) +Number( 4* (Number(this.activePage - 1))));
-   
+    let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
-    (<CarouselComponent>componentRef.instance).analytics = this.analytics;
-    (<CarouselComponent>componentRef.instance).currentCard = Number(cardNo);
-    (<CarouselComponent>componentRef.instance).queries = this.queries;
-    //jQuery('#myModal').openModal();
-
+    this.carousel = (<CarouselComponent>componentRef.instance);
+    this.carousel.analytics = this.analytics;
+    this.carousel.currentCard = Number(cardNo);
+    this.carousel.queries = this.queries;
 
     let min_width = jQuery(window).width() ;
-
-
-    if (min_width>=787) {
-      
-        jQuery("#myModal").openModal();
+    if (min_width >= 787) {
+        jQuery('#myModal').openModal();
     }
-    
 }
 
 };

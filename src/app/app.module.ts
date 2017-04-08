@@ -31,6 +31,7 @@ import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { QueriesService } from './services/queries.service';
 import { SessionAnalyticsService } from './services/sessionanalytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
 import { McqCardComponent } from './singlesession/mcqcard/mcqcard';
 import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
@@ -89,8 +90,9 @@ import { CarouselComponent } from './carousel/carousel.component';
     ClipboardModule
   ],
   providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-               ApiService, QueriesService, ConfigurationService,
-               CurrentUser, SessionService, CardService, EditService],
+               AnalyticsService, ApiService, QueriesService, 
+               ConfigurationService, CurrentUser, SessionService, CardService,
+                EditService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,
