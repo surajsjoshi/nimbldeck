@@ -149,7 +149,12 @@ private mapQueries(response) {
 
    get_analitical_percent( analitic, event) {
     let analitical_total = analitic.total;
-    let answer_by = event.answered_by;
+    let answer_by = Array.from(event['analytics'])
+                          .map(record => record['total'])
+                          .reduce(function(sum, current) {
+      return Number(sum) + Number(current); }, 0);
+
+      console.log(answer_by);
 
     if (answer_by !== 0 ) {
       let cal = 100 * analitical_total / answer_by;
