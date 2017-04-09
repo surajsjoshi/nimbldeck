@@ -154,8 +154,6 @@ private mapQueries(response) {
                           .reduce(function(sum, current) {
       return Number(sum) + Number(current); }, 0);
 
-      console.log(answer_by);
-
     if (answer_by !== 0 ) {
       let cal = 100 * analitical_total / answer_by;
       let limit = cal.toFixed(2);
