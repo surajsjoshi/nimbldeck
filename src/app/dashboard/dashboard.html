@@ -48,7 +48,7 @@
                                         <div class="charts">
                                             <span class="pull-right"> </span>
 
-                                            <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                            <piechart [answer]='answer' *ngIf="answer.question_type === 'yes_no'"></piechart>
                                             <barchart [answer]='answer' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
                                             <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
                                             <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>

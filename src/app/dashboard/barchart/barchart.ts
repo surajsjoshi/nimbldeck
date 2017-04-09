@@ -1,4 +1,4 @@
-import {  Component, Input, OnInit, OnDestroy  , ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {  Component, Input, OnInit, OnDestroy  , ViewChild} from '@angular/core';
 import { EditService } from '../../services/edit.service';
 import { Subscription }   from 'rxjs/Subscription';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
@@ -7,8 +7,7 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 @Component({
   selector: 'barchart',
   templateUrl: './barchart.html',
-  styles: ['./barchart.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: ['./barchart.css']
 })
 export class BarChartComponent implements OnInit, OnDestroy {
 
@@ -66,8 +65,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
 
 
- constructor(private editService: EditService,
- private changeDetectorRef: ChangeDetectorRef) {
+ constructor(private editService: EditService) {
     this.subscription = this.editService.updateSubscription()
               .subscribe(data => this.updateChart(data));
  }
@@ -76,7 +74,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
    this.chart.chart.data.datasets[0].data = Array.from(this.answer.analytics).map(record => record['total']);
    this.chart.chart.update();
-   this.changeDetectorRef.markForCheck();
 
  }
 

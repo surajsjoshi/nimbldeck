@@ -1,7 +1,8 @@
 
-
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
-
+import { Component, Input, OnInit, OnDestroy  , ViewChild } from '@angular/core';
+import { EditService } from '../../services/edit.service';
+import { Subscription }   from 'rxjs/Subscription';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 
 
 @Component({
@@ -10,14 +11,18 @@ import { Component, Input, OnInit, ElementRef } from '@angular/core';
   styles: ['./piechart.css']
 
 })
-export class PieChartComponent implements OnInit {
+export class PieChartComponent implements OnInit, OnDestroy {
 
    @Input() chartdata: any;
-   @Input() analytics: any;
+   @Input() answer: any;
    public pieChartData = [];
    private pieChartLabels = [];
    private pieChartType = 'pie';
    private pieChartColor: any[] =  [{ backgroundColor: ['#E9722B', '#276AAD'] }];
+
+  subscription: Subscription;
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
    private pieChartOptions = {
       tooltips: {
         callbacks: {
@@ -66,19 +71,30 @@ export class PieChartComponent implements OnInit {
 
  };
 
- constructor() {
+ constructor(private editService: EditService) {
+    this.subscription = this.editService.updateSubscription()
+              .subscribe(data => this.updateChart(data));
 }
+
+ updateChart(data) {
+   this.chart.chart.data.datasets[0].data = Array.from(this.answer.analytics).map(record => record['total']);
+   this.chart.chart.update();
+ }
 
 
   ngOnInit() {
 
       this.pieChartData = [];
       this.pieChartLabels = [];
-      this.analytics.forEach(data => {
+      this.answer.analytics.forEach(data => {
            this.pieChartData.push(data.total);
            this.pieChartLabels.push(data.label);
       });
   }
+
+    ngOnDestroy() {
+    this.subscription.unsubscribe();
+ }
 
   // Pie
 }

@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { ShortAnswerService } from '../../services/shortanswer.service';
 import { SessionService } from '../../services/session.service';
 import {Session} from '../../shared/models/session';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { EditService } from '../../services/edit.service';
+
 import * as moment from 'moment';
 
 declare var jQuery: any;
@@ -13,18 +15,27 @@ declare var jQuery: any;
   templateUrl: './wordcloud.component.html',
   styleUrls: ['./wordcloud.component.scss']
 })
-export class WordcloudComponent implements OnInit , AfterViewInit {
+export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
 
   @Input() answer: any;
   @Input() session: Session;
   words = [];
   answerList;
   private subscription: Subscription;
+  private updateSubscription: Subscription;
+
 
   constructor(private answerService: ShortAnswerService,
       public sessionService: SessionService,
+      private editService: EditService,
       private route: ActivatedRoute) {
     this.answerList = [];
+     this.updateSubscription = this.editService.updateSubscription()
+              .subscribe(data => this.updateChart(data));
+  }
+
+  updateChart(data) {
+  //  this.ngAfterViewInit();
   }
 
 
@@ -32,7 +43,8 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
     jQuery('.wordcloud_commnet_modal').openModal();
 
   }
-closeModal(event) {
+
+  closeModal(event) {
     jQuery('.wordcloud_commnet_modal').closeModal();
 
   }
@@ -56,17 +68,12 @@ closeModal(event) {
   }
 
   ngAfterViewInit() {
+   // this.words = [];
    this.answer.analytics.forEach(data => {
           let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
           this.words.push(JSON.parse(old));
     });
     let tagName = '#jqcloud' + this.answer.question_id;
-   /* jQuery('#answer' + this.answer.question_id).click(function(){
-    jQuery(this).css({'border': '1px solid red'});
-    jQuery('#myModal8aa92711-8d83-4d42-87cf-f3a077d064b3').removeClass('fade').addClass('fade in', function(){
-            jQuery('body').append('<div class="modal-backdrop fade in"></div>');
-          }).css('display', 'block');
-       });*/
 
     setTimeout(function() {
        jQuery(tagName).jQCloud(this.words, {
@@ -83,4 +90,9 @@ closeModal(event) {
           element.created_at = moment.utc(element.created_at).local().fromNow();
       });
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.updateSubscription.unsubscribe();
+ }
 }
