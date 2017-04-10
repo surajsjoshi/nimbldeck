@@ -279,4 +279,11 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
   }
+
+  toggle_modal_layout(event){
+
+            jQuery('.toHide').hide();
+            jQuery("#blk-"+event).show();
+    }
+
 }
