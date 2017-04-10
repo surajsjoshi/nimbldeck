@@ -25,6 +25,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
 
    private pieChartOptions = {
       tooltips: {
+        enabled: false,
         callbacks: {
           title: function() {
             return '';

@@ -15,8 +15,8 @@
                 <h4 class="modal-title" id="myModalLabel">Q: {{answer.description}}</h4>
             </div>
             <div class="modal-body">
-                <div class="row-align" *ngFor="let des of answersList">
-                    <div class="row-align">
+                <div class="row-align" *ngFor="let des of answerList">
+                    <div>
                         <p>{{des.description}}</p>
                         <span>{{des.posted_by}} [{{des.created_at}}]</span>
                     </div>

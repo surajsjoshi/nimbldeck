@@ -24,7 +24,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    scaleShowVerticalLines: false,
    responsive: true,
    tooltips: {
-      enabled: true,
+      enabled: false,
       mode: 'label',
    },
    hover: {
@@ -47,12 +47,13 @@ export class BarChartComponent implements OnInit, OnDestroy {
            let width = this.chart.width;
            let height = this.chart.height;
            let fontSize = (height / 114).toFixed(2);
-           ctx.font = fontSize + 'em Verdana';
+           ctx.font = '10px  Verdana';
            ctx.textAlign = 'center';
            ctx.textBaseline = 'top';
            this.data.datasets.forEach(function (dataset) {
             for (let i = 0; i < dataset.data.length; i++) {
               let model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+              ctx.fillStyle = '#fff';
               ctx.fillText(dataset.data[i], model.x, model.y);
             }
       });

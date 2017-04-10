@@ -35,7 +35,7 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
   }
 
   updateChart(data) {
-  //  this.ngAfterViewInit();
+   this.ngAfterViewInit();
   }
 
 
@@ -56,15 +56,15 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
         this.sessionService.getSession(sessionId)
         .subscribe(sess => this.mapSession(sess),
             (error => console.log(error)));
-        this.answerService.getAnswers(sessionId,
-          this.answer.question_id,
-          this.populateAnswers.bind(this));
     });
 
   }
 
   private mapSession(response) {
     this.session = response;
+    this.answerService.getAnswers(this.session.session_id,
+          this.answer.question_id,
+          this.populateAnswers.bind(this));
   }
 
   ngAfterViewInit() {
@@ -74,13 +74,11 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
           this.words.push(JSON.parse(old));
     });
     let tagName = '#jqcloud' + this.answer.question_id;
-
-    setTimeout(function() {
-       jQuery(tagName).jQCloud(this.words, {
+    jQuery(tagName).jQCloud(this.words, {
           width: 400,
           height: 250
-       });
-    }.bind(this), 1500);
+    });
+
   }
 
 
