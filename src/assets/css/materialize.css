@@ -2501,6 +2501,7 @@ input[type="radio"] {
     box-sizing: border-box;
     /* 1 */
     padding: 0;
+    margin: 5px 5px 0 !important;
     /* 2 */
 }
 
@@ -9192,8 +9193,9 @@ textarea.materialize-textarea {
 [type="radio"]:not(:checked),
 [type="radio"]:checked {
     position: absolute;
-    left: -9999px;
-    visibility: hidden;
+    /*left: -9999px;
+    visibility: hidden;*/
+    z-index: 9;
 }
 
 [type="radio"]:not(:checked) + label,
@@ -9251,7 +9253,7 @@ textarea.materialize-textarea {
     border-radius: 50%;
     border: 2px solid #26a69a;
     background-color: #26a69a;
-    z-index: 0;
+    z-index: 99;
     -webkit-transform: scale(1.02);
     transform: scale(1.02);
 }
@@ -12374,3 +12376,28 @@ span.upload-video-lbl {
 .icon_chart:hover i, .icon_view:hover i , .icon_chart.active i, .icon_view.active i{
     color: #fff;
 }
+
+
+
+
+/*=========== UI Css Code=======*/
+
+
+/*===toggle cards====*/
+
+
+/*.card_toggle_radio input[type='radio']{
+    margin: 0 10px !important;
+    position: unset !important;
+    visibility: visible;    
+}*/
+#yesno-card-modal{
+    min-height:80% !important;
+}
+.feed_container {
+    width: 45%;
+}
+
+
+
+
