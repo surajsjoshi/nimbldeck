@@ -9196,6 +9196,7 @@ textarea.materialize-textarea {
     /*left: -9999px;
     visibility: hidden;*/
     z-index: 9;
+    opacity:0;
 }
 
 [type="radio"]:not(:checked) + label,
@@ -11951,7 +11952,7 @@ nav .row {
     font-size: 2em !important;
     color: #039be5 !important;
 }
-#mcq-card-modal textarea.materialize-textarea {
+#mcq-card-modal textarea.materialize-textarea, #yesno-card-modal textarea.materialize-textarea{
     padding: 0.5rem 0 !important;
 }
 .mcq-option input[type="text"]{
@@ -12400,7 +12401,14 @@ span.upload-video-lbl {
     min-height:80% !important;
 }
 .feed_container {
-    width: 45%;
+    width: 100%;
+    margin-bottom:10px;
+}
+
+
+.feed_container > textarea.materialize-textarea {
+    height: 1.5rem;
+    min-height: 1rem !important;
 }
 
 
