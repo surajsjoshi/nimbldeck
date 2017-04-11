@@ -9,9 +9,9 @@
 
 
 					<div class="card_toggle_radio">
-                        <label><input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked"/>Servey</label>
-                        <label><input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" />Test</label>
-                    </div>
+                                <input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked"/><label for="rdb1">Servey</label>
+                                <input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="rdb1">Test</label>
+                            </div>
 
                     <div id="blk-1" class="toHide" style="">
 					<form [formGroup]="cardForm" (submit)="submitMcqCard($event)">
@@ -115,7 +115,7 @@
 						<div class="clearfix"></div>
 						<div *ngFor="let option of options;let i = index" class="row">
 							<div class="col s1">
-								<input type="checkbox" disabled="disabled" /> <label>&nbsp;</label>
+								<input type="checkbox"  /> <label>&nbsp;</label>
 							</div>
 							<div class="col s9 mcq-option">
 								<input type="text" value={{option.label}} name="option-{{i}}"
@@ -134,7 +134,7 @@
 
 						<div class="row" *ngIf="options && options.length < 4 ">
 							<div class="col s1">
-								<input type="checkbox" disabled="disabled" /> <label>&nbsp;</label>
+								<input type="checkbox"  /> <label>&nbsp;</label>
 							</div>
 							<div class="col s10 mcq-option">
 								<div class="row">
