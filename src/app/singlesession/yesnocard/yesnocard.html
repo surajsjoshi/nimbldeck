@@ -14,8 +14,8 @@
 
 
                             <div class="card_toggle_radio">
-                                <input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked"/><label for="rdb1">Servey</label>
-                                <input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="rdb1">Test</label>
+                                <input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked"/><label for="toggler">Servey</label>
+                                <input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="toggler">Test</label>
                             </div>
                             <div id="blk-1" class="toHide" style="">
                                  <form [formGroup]="cardForm" (submit)="submitYesNoCard($event)">
@@ -74,7 +74,7 @@
                                             <label for="optno">No</label>
                                         </p>
                                     </div>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="fl feed_container">
                                             <input name="right_feed" type="text" id="right_feed"  /><label for="optyes">Right Feedback (optional)</label>
                                         </div>
@@ -82,7 +82,23 @@
                                             <input name="wrong_feed" type="text" id="wrong_feed" />
                                             <label for="optno">Wrong Feedback (optional)</label>
                                         </div>
+                                    </div> -->
+
+                                    <div class="row">
+                                            <div class="feed_container">
+                                                <textarea name="right_feed" id="right_feed" class="materialize-textarea "></textarea>
+                                                 <!-- <input name="right_feed" type="text" id="right_feed"  /> -->
+                                                 <label for="right_feed">Right Feedback (optional)</label>
+                                            </div>
+                                            <div class="feed_container">
+                                                <textarea name="wrong_feed" id="wrong_feed" class="materialize-textarea "></textarea>
+                                                <!-- input name="wrong_feed" type="text" id="wrong_feed" /> -->
+                                                <label for="wrong_feed">Wrong Feedback (optional)</label>
+                                            </div>
                                     </div>
+
+
+                        
                                     <div class="row img-upload">
                                         <div *ngIf="!fileUploaded" class="img-uploader">
                                             <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
