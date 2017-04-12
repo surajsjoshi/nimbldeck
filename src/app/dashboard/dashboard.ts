@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
   timer: any;
   carousel: CarouselComponent;
   private subscription: Subscription;
+  private componentFactory: any;
 
 
   constructor(public sessionService: SessionService,
@@ -60,6 +61,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.queriesNew = [];
     this.analytics = [];
     this.analyticsNew = [];
+    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
   }
 
   ngOnInit() {
@@ -154,21 +156,19 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
 openModal(event) {
-
     let num: number = jQuery(event.target).attr('id');
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
-
     let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
-    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    let componentRef = this.viewContainerRef.createComponent(this.componentFactory);
     this.carousel = (<CarouselComponent>componentRef.instance);
     this.carousel.analytics = this.analytics;
     this.carousel.currentCard = Number(cardNo);
     this.carousel.queries = this.queries;
 
-    let min_width = jQuery(window).width() ;
+    let min_width = jQuery(window).width();
+
     if (min_width >= 787) {
-        jQuery('#myModal').openModal();
+      jQuery('#myModal').openModal();
     }
 }
 };
