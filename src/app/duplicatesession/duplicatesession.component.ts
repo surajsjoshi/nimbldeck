@@ -128,7 +128,8 @@ export class DuplicatesessionComponent implements OnInit, OnDestroy {
   }
 
    ngOnDestroy() {
-    this.editService.resetEdits();
+   
+  //  this.editService.resetEdits();
   }
 
 }
