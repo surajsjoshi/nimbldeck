@@ -55,11 +55,21 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+          image_url: [''],
+          video_url: [''],
+          youtube_url: [''],
+          video_code: ['']
       });
 
-      if (this.updateQuestion.resource_url) {
-        this.fileUploaded = true;
+      if (this.updateQuestion.resource_type) {
+            if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                this.cardForm.controls['video_url'].setValue(this.updateQuestion.resource_url);
+                this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+            }
       }
       ga('send', 'pageview', '/sessions/yesnocard/edit');
     } else {
