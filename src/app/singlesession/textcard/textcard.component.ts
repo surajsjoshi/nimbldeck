@@ -202,6 +202,9 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
         _this.textCardForm.controls['image_url'].setValue(data.Location);
+        
+        jQuery('.video-upload, .or_text').css('display','none');
+        jQuery('.img-upload').addClass('fullWidth');
       }
     });
   }
@@ -215,18 +218,31 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.fileUploaded = true;
     this.imgUploadingInProcess = false;
     this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
-     this.textCardForm.controls['video_code'].setValue(resource_code);
+
+    if(this.textCardForm.controls['video_url'].value!=''){
+      jQuery('.img-upload, .or_text').css('display','none');
+      jQuery('.video-upload').addClass('fullWidth');
+    } 
+
+    this.textCardForm.controls['video_code'].setValue(resource_code);
 }
 
   removeImage() {
     this.textCardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+
+    jQuery('.video-upload, .or_text').css('display','block');
+    jQuery('.img-upload').removeClass('fullWidth');
   }
 
 removeVideo() {
   this.textCardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
+    jQuery('.img-upload, .or_text').css('display','block');
+    jQuery('.video-upload').removeClass('fullWidth');
   }
+
+
   ngAfterViewInit() {
     Materialize.updateTextFields();
   }

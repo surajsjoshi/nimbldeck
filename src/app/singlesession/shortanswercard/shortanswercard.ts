@@ -116,6 +116,9 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
         _this.cardForm.controls['image_url'].setValue(data.Location);
+
+        jQuery('.video-upload, .or_text').css('display','none');
+        jQuery('.img-upload').addClass('fullWidth');
       }
     });
   }
@@ -129,19 +132,29 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
     this.fileUploaded = true;
     this.imgUploadingInProcess = false;
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
-     this.cardForm.controls['video_code'].setValue(resource_code);
+
+    if(this.cardForm.controls['video_url'].value!=''){
+      jQuery('.img-upload, .or_text').css('display','none');
+      jQuery('.video-upload').addClass('fullWidth');
+    }    
+    this.cardForm.controls['video_code'].setValue(resource_code);
 }
 
 
-
-  removeImage() {
+   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+
+    jQuery('.video-upload, .or_text').css('display','block');
+    jQuery('.img-upload').removeClass('fullWidth');
   }
 
   removeVideo() {
-  this.cardForm.controls['video_url'].setValue(null);
+    this.cardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
+    jQuery('.img-upload, .or_text').css('display','block');
+    jQuery('.video-upload').removeClass('fullWidth');
+    
   }
 
 

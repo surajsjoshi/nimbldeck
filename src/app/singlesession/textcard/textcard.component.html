@@ -29,7 +29,7 @@
                                 </div>
                                 <div *ngIf="fileUploaded">
                                     <span (click)="removeImage()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
+                                    <img [src]="textCardForm.controls['image_url'].value" width="200" alt="" />
                                 </div>
                             </div>
                             <div class="col s12 m2 or_text fl">OR</div>
@@ -54,7 +54,7 @@
 
                                 <div *ngIf="fileUploaded">
                                     <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['video_url'].value" width="200" alt="" />
+                                    <img [src]="textCardForm.controls['video_url'].value" width="200" alt="" />
                                 </div>
                             </div>
                             <div class="clearfix"></div>
