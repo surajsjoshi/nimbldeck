@@ -75,7 +75,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         text_question: ['', Validators.required],
         image_url: [''],
         mcqoption: [''],
-        option_image_url: ['']
+        option_image_url: [''],
+        video_url: [''],
+        youtube_url: [''],
+        video_code: ['']
       });
       ga('send', 'pageview', '/sessions/mcqcard/add');
     }
@@ -117,11 +120,28 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+
+
+
+  uploadVideo() {
+    let files = jQuery('input.video-upload').val();
+    let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
+    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
+    this.fileUploaded = true;
+    this.imgUploadingInProcess = false;
+    this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+     this.cardForm.controls['video_code'].setValue(resource_code);
+}
+
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
   }
 
+removeVideo() {
+  this.cardForm.controls['video_url'].setValue(null);
+    this.fileUploaded = false;
+  }
 
   submitMcqCard(event) {
     event.preventDefault();
@@ -142,15 +162,29 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm.controls['mcqoption'].setValue(null);
     }
 
-    let params = {
-      type: 'multiple_choice',
-      description: this.cardForm.controls['text_question'].value,
-      required: false,
-      allow_multiple_selections: true,
-      choices: this.options,
-      resource_url: this.cardForm.controls['image_url'].value,
-      resource_type: 'image'
-    };
+    let params;
+    if (this.cardForm.controls['youtube_url'].value !== '') {
+      params = {
+          type: 'yes_no',
+          description: this.cardForm.controls['text_question'].value,
+          required: false,
+          resource_url:  this.cardForm.controls['youtube_url'].value,
+          resource_type: 'video',
+          resource_code: this.cardForm.controls['video_code'].value
+        };
+
+    } else {
+         params = {
+          type: 'yes_no',
+          description: this.cardForm.controls['text_question'].value,
+          required: false,
+          resource_url: this.cardForm.controls['image_url'].value,
+          resource_type: 'image'
+        };
+    }
+
+
+
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateMCQCard');
       params['position'] = 1;
@@ -158,7 +192,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.cardService.cards.length > 0) {
         params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
       }
-      console.log(params);
       let observable = this.cardService.addQuestion(params, this.sessionId);
       observable.subscribe(
         (resp => this.questionCreated(resp)),

@@ -64,7 +64,10 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.textCardForm = formBuilder.group({
         text_question: ['', Validators.required],
-        image_url: ['']
+        image_url: [''],
+        video_url: [''],
+        youtube_url: [''],
+        video_code: ['']
       });
       ga('send', 'pageview', '/sessions/textcard/add');
     }
@@ -85,13 +88,28 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.textCardForm.valid) {
       return false;
     }
-    let params = {
-      type: 'long_text',
-      description: this.textCardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.textCardForm.controls['image_url'].value,
-      resource_type: 'image'
-    };
+    let params;
+    if (this.textCardForm.controls['youtube_url'].value !== '') {
+      params = {
+          type: 'yes_no',
+          description: this.textCardForm.controls['text_question'].value,
+          required: false,
+          resource_url:  this.textCardForm.controls['youtube_url'].value,
+          resource_type: 'video',
+          resource_code: this.textCardForm.controls['video_code'].value
+        };
+
+    }else {
+         params = {
+          type: 'yes_no',
+          description: this.textCardForm.controls['text_question'].value,
+          required: false,
+          resource_url: this.textCardForm.controls['image_url'].value,
+          resource_type: 'image'
+
+
+        };
+    }
 
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateTextCard');
@@ -177,11 +195,27 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+
+    uploadVideo() {
+
+    let files = jQuery('input.video-upload').val();
+    let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
+    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
+    this.fileUploaded = true;
+    this.imgUploadingInProcess = false;
+    this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
+     this.textCardForm.controls['video_code'].setValue(resource_code);
+}
+
   removeImage() {
     this.textCardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
   }
 
+removeVideo() {
+  this.textCardForm.controls['video_url'].setValue(null);
+    this.fileUploaded = false;
+  }
   ngAfterViewInit() {
     Materialize.updateTextFields();
   }

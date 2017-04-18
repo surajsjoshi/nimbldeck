@@ -12380,3 +12380,13 @@ span.upload-video-lbl {
 .material-tooltip {
     display: none !important;
 }
+
+
+.video-uploader span{
+      padding-top: 9px !important;
+       text-align: center;
+}
+.or_text {
+    position: relative;
+    top: 25px;
+}

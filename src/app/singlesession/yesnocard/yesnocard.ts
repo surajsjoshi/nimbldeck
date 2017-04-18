@@ -24,6 +24,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   uploadError: string;
   fileUploaded: boolean;
   imgUploadingInProcess: boolean;
+  videoUploadingInProcess: boolean;
   cardError: boolean;
   cardForm: FormGroup;
   updateQuestionFlag: boolean;
@@ -43,6 +44,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.uploadError = '';
       this.fileUploaded = false;
       this.imgUploadingInProcess = false;
+      this.videoUploadingInProcess = false;
       this.cardError = false;
       this.updateQuestionFlag = false;
       this.saveCardErrorText = '';
@@ -59,11 +61,14 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       if (this.updateQuestion.resource_url) {
         this.fileUploaded = true;
       }
-        ga('send', 'pageview', '/sessions/yesnocard/edit');
+      ga('send', 'pageview', '/sessions/yesnocard/edit');
     } else {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
-        image_url: ['']
+        image_url: [''],
+        video_url: [''],
+        youtube_url: [''],
+        video_code: ['']
       });
       ga('send', 'pageview', '/sessions/yesnocard/add');
     }
@@ -105,8 +110,26 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+
+uploadVideo() {
+
+    let files = jQuery('input.video-upload').val();
+    let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
+    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
+    this.fileUploaded = true;
+    this.imgUploadingInProcess = false;
+    this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+     this.cardForm.controls['video_code'].setValue(resource_code);
+}
+
+
+
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
+    this.fileUploaded = false;
+  }
+  removeVideo() {
+    this.cardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
   }
 
@@ -121,14 +144,30 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     if (!this.cardForm.valid) {
       return false;
     }
-    let params = {
+  let params;
+  if (this.cardForm.controls['youtube_url'].value !== '') {
+  params = {
+      type: 'yes_no',
+      description: this.cardForm.controls['text_question'].value,
+      required: false,
+      resource_url:  this.cardForm.controls['youtube_url'].value,
+      resource_type: 'video',
+      resource_code: this.cardForm.controls['video_code'].value
+    };
+
+}else {
+     params = {
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
       required: false,
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
 
+
     };
+}
+
+
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateYesNoCard');
       params['position'] = 1;
@@ -192,3 +231,5 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
   }
 }
+
+

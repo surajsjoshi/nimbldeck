@@ -36,7 +36,7 @@ export class SessionService {
   }
 
   sessionsFetched(response, isSample: boolean) {
-      if(isSample) {
+      if (isSample) {
           Array.from(response.sessions).forEach(session => this.samples.push(new Session(session, true)));
           this.samplesNextPageToken = response.next_page_token;
       } else {
@@ -59,13 +59,11 @@ export class SessionService {
   }
 
   sampleSessions(): Array<Session> {
-    
     let samplesUrl = `/sessions?limit=6&next_page_token=${this.samplesNextPageToken}`;
     this.api.get(samplesUrl)
       .map(rawResponse => rawResponse.json())
       .subscribe((resp) => this.sessionsFetched(resp, true),
          (error) => console.log(error));
-      
     return this.samples;
   }
 
