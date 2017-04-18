@@ -15,6 +15,7 @@ export class Card {
   choices: any;
   resource_type: string;
   resource_code: string;
+  scope: string;
 
 
 

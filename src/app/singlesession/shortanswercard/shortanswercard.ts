@@ -53,11 +53,22 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+          image_url: [''],
+          video_url: [''],
+          youtube_url: [''],
+          video_code: ['']
       });
 
-      if (this.updateQuestion.resource_url) {
-        this.fileUploaded = true;
+       if (this.updateQuestion.resource_type) {
+            if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
+                this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+                this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+            }
       }
         ga('send', 'pageview', '/sessions/shortanswercard/edit');
     } else {

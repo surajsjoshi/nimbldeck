@@ -66,7 +66,8 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.textCardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
             } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
-                this.textCardForm.controls['video_url'].setValue(this.updateQuestion.resource_url);
+                let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
+                this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.textCardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
             }
       }
