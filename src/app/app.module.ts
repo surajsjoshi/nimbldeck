@@ -45,6 +45,7 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
 import { CarouselComponent } from './carousel/carousel.component';
+import {DragulaService, DragulaModule} from '../../node_modules/ng2-dragula/ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     WordcloudComponent,
     RoundNumberPipe,
     CarouselComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -86,11 +88,12 @@ import { CarouselComponent } from './carousel/carousel.component';
     RatingModule,
     CarouselModule,
     DropdownModule,
-    ClipboardModule
+    ClipboardModule,
+    DragulaModule
   ],
   providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
                ApiService, QueriesService, ConfigurationService,
-               CurrentUser, SessionService, CardService, EditService],
+               CurrentUser, SessionService, CardService, EditService, DragulaService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,
