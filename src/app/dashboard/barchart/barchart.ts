@@ -10,7 +10,7 @@ export class BarChartComponent implements OnInit {
  barChartData = [];
  barChartType = 'bar';
  barChartLabels = [];
-
+barChartColor=  [];
  private barChartOptions = {
    scaleShowVerticalLines: false,
    responsive: true,
@@ -37,7 +37,7 @@ export class BarChartComponent implements OnInit {
 
 
  };
- private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+ //private barChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD','#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
 
 
 
@@ -66,9 +66,22 @@ export class BarChartComponent implements OnInit {
           } else {
              this.barChartLabels.push(data.label);
           }
+          let a= 1;
+
+          if(a!=1){ 
+          this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD','#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+
+          }
+
+          else{
+          let wrong_answer='#FF2101';
+          let right_answer='#97CF58';
+          this.barChartColor = [{ backgroundColor: [wrong_answer, wrong_answer,right_answer, wrong_answer], borderColor: '#97BBCD', borderWidth: 0} ];
+          }
       });
       this.barChartData.push(barData);
 
+  
 }
 }
 
