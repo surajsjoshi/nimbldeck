@@ -63,7 +63,8 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm = formBuilder.group({
         text_question: [this.updateQuestion.description, Validators.required],
         image_url: [this.updateQuestion.resource_url],
-        mcqoption: [''],
+        mcqoption: ['', Validators.required],
+        isTosRead: [false, Validators.pattern('true')],
         option_image_url: ['']
       });
       if (this.updateQuestion.resource_url) {
@@ -74,8 +75,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
         image_url: [''],
-        mcqoption: [''],
+        mcqoption: ['', Validators.required],
+        isTosRead: [false, Validators.pattern('true')],
         option_image_url: ['']
+
       });
       ga('send', 'pageview', '/sessions/mcqcard/add');
     }

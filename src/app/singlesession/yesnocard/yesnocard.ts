@@ -53,7 +53,9 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+          image_url: [this.updateQuestion.resource_url],
+          choice: ['', Validators.required]
+
       });
 
       if (this.updateQuestion.resource_url) {
@@ -63,7 +65,10 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
+        choice: ['', Validators.required],
         image_url: ['']
+
+
       });
       ga('send', 'pageview', '/sessions/yesnocard/add');
     }
@@ -121,6 +126,16 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     if (!this.cardForm.valid) {
       return false;
     }
+
+if(!this.cardForm.controls['choice'].value)
+{
+  jQuery("#YesNoErrorMsg").css('display','block');
+  return false;
+}else
+{
+  jQuery("#YesNoErrorMsg").css('display','none');
+}
+
     let params = {
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
