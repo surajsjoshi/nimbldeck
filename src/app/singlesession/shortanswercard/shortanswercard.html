@@ -20,25 +20,8 @@
 									class="alert alert-danger">Question is Required</div>
 							</div>
 						</div>
-						<!-- <div class="row img-upload">
-							<div *ngIf="!fileUploaded" class="img-uploader">
-								<span class="fa fa-picture-o"> </span> <span
-									class="upload-img-lbl">Upload Image</span> <input type="file"
-									class="file-upload" accept="image/*" (change)="uploadFile()" />
-							</div>
-							<input id="image-url" type="hidden"
-								formControlName="image_url" />
-							<div *ngIf="uploadError">{{uploadError}}</div>
-							<div *ngIf="imgUploadingInProcess">
-								<span class="loading-img">Image Uploading...</span>
-							</div>
-							<div *ngIf="fileUploaded">
-								<span (click)="removeImage()" class="fa fa-times right"></span>
-								<img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
-							</div>
-						</div> -->
 
-						<div class="row">
+						<div class="row upload_container">
                             <div class="col s12 m5 fl img-upload">
                                 <div *ngIf="!fileUploaded" class="img-uploader">
                                     <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
