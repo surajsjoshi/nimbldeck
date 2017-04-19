@@ -28,6 +28,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   optionFileUploaded: boolean;
   uploadError: string;
   fileUploaded: boolean;
+  filestaus: string;
   imgUploadingInProcess: boolean;
   cardError: boolean;
   cardForm: FormGroup;
@@ -48,6 +49,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.uploadError = '';
       this.fileUploaded = false;
+      this.filestaus='';
       this.imgUploadingInProcess = false;
       this.cardError = false;
       this.updateQuestionFlag = false;
@@ -72,12 +74,23 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.updateQuestion.resource_type) {
             if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
+                this.filestaus='image';
                 this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+
+                
+                jQuery('.img-upload').addClass('fullWidth');
+
+
             } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
+                this.filestaus='video';
                 let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
                 this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+
+                jQuery('.video-upload').addClass('fullWidth');
+
+
             }
       }
       ga('send', 'pageview', '/sessions/mcqcard/edit');
@@ -125,6 +138,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.uploadError = 'Failed to upload file';
       } else {
         _this.fileUploaded = true;
+        this.filestaus='';
         _this.imgUploadingInProcess = false;
         _this.cardForm.controls['image_url'].setValue(data.Location);
 
@@ -143,6 +157,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
     let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
     this.fileUploaded = true;
+    this.filestaus='';
     this.imgUploadingInProcess = false;
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
 
@@ -157,6 +172,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+    this.filestaus='';
 
      jQuery('.video-upload, .or_text').css('display','block');
     jQuery('.img-upload').removeClass('fullWidth');
@@ -165,6 +181,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
+    this.filestaus='';
     jQuery('.img-upload, .or_text').css('display','block');
     jQuery('.video-upload').removeClass('fullWidth');
     

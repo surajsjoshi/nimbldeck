@@ -23,6 +23,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
 
   uploadError: string;
   fileUploaded: boolean;
+  filestaus: string;
   imgUploadingInProcess: boolean;
   videoUploadingInProcess: boolean;
   cardError: boolean;
@@ -43,6 +44,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
 
       this.uploadError = '';
       this.fileUploaded = false;
+      this.filestaus='';
       this.imgUploadingInProcess = false;
       this.videoUploadingInProcess = false;
       this.cardError = false;
@@ -64,12 +66,20 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       if (this.updateQuestion.resource_type) {
             if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
+                this.filestaus = 'image';
                 this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
-            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+
+                jQuery('.img-upload').addClass('fullWidth');
+            } 
+            else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
+                 this.filestaus = 'video';
                 let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
                 this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+
+               
+                jQuery('.video-upload').addClass('fullWidth');
             }
       }
       ga('send', 'pageview', '/sessions/yesnocard/edit');
@@ -118,6 +128,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
         _this.imgUploadingInProcess = false;
          _this.cardForm.controls['image_url'].setValue(data.Location);
 
+          this.filestaus = '';
           jQuery('.video-upload, .or_text').css('display','none');
           jQuery('.img-upload').addClass('fullWidth');
         
@@ -133,6 +144,7 @@ uploadVideo() {
     let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
     this.fileUploaded = true;
     this.imgUploadingInProcess = false;
+     this.filestaus = '';
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
     if(this.cardForm.controls['video_url'].value!=''){
       jQuery('.img-upload, .or_text').css('display','none');
@@ -146,6 +158,7 @@ uploadVideo() {
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+     this.filestaus = '';
 
     jQuery('.video-upload, .or_text').css('display','block');
     jQuery('.img-upload').removeClass('fullWidth');
@@ -154,6 +167,7 @@ uploadVideo() {
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
+     this.filestaus = '';
     jQuery('.img-upload, .or_text').css('display','block');
     jQuery('.video-upload').removeClass('fullWidth');
     

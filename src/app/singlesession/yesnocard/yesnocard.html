@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="row upload_container">
-                            <div class="col s12 m5 fl img-upload">
+                            <div class="col s12 m5 fl img-upload"  *ngIf="filestaus=='image' || filestaus==''">
                                 <div *ngIf="!fileUploaded" class="img-uploader">
                                     <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
                                 </div>
@@ -42,8 +42,8 @@
                                     <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
                                 </div>
                             </div>
-                            <div class="col s12 m2 or_text fl">OR</div>
-                            <div class="col s12 m5 fr video-upload">
+                            <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
+                            <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''">
                                 <div *ngIf="!fileUploaded" class="video-uploader">
                                     <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()"  >
 
