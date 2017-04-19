@@ -102,7 +102,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     let params;
     if (this.textCardForm.controls['youtube_url'].value !== '') {
       params = {
-          type: 'yes_no',
+          type: 'long_text',
           description: this.textCardForm.controls['text_question'].value,
           required: false,
           resource_url:  this.textCardForm.controls['youtube_url'].value,
@@ -112,7 +112,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }else {
          params = {
-          type: 'yes_no',
+          type: 'long_text',
           description: this.textCardForm.controls['text_question'].value,
           required: false,
           resource_url: this.textCardForm.controls['image_url'].value,

@@ -193,7 +193,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let params;
     if (this.cardForm.controls['youtube_url'].value !== '') {
       params = {
-          type: 'yes_no',
+          type: 'multiple_choice',
           description: this.cardForm.controls['text_question'].value,
           required: false,
           resource_url:  this.cardForm.controls['youtube_url'].value,
@@ -203,7 +203,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     } else {
          params = {
-          type: 'yes_no',
+          type: 'multiple_choice',
           description: this.cardForm.controls['text_question'].value,
           required: false,
           resource_url: this.cardForm.controls['image_url'].value,

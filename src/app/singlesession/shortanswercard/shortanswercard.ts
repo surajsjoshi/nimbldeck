@@ -168,18 +168,12 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
     if (!this.cardForm.valid) {
       return false;
     }
-    /*let params = {
-      type: 'short_text',
-      description: this.cardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.cardForm.controls['image_url'].value,
-      resource_type: 'image'
-    };*/
+
 
     let params;
     if (this.cardForm.controls['youtube_url'].value !== '') {
       params = {
-          type: 'yes_no',
+          type: 'short_text',
           description: this.cardForm.controls['text_question'].value,
           required: false,
           resource_url:  this.cardForm.controls['youtube_url'].value,
@@ -189,7 +183,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
 
     } else {
          params = {
-          type: 'yes_no',
+          type: 'short_text',
           description: this.cardForm.controls['text_question'].value,
           required: false,
           resource_url: this.cardForm.controls['image_url'].value,
