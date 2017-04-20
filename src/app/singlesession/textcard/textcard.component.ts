@@ -24,6 +24,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadError: string;
   fileUploaded: boolean;
+  filestaus: string;
   imgUploadingInProcess: boolean;
   textCardError: boolean;
   textCardForm: FormGroup;
@@ -43,6 +44,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.uploadError = '';
       this.fileUploaded = false;
+      this.filestaus='';
       this.imgUploadingInProcess = false;
       this.textCardError = false;
       this.updateQuestionFlag = false;
@@ -54,17 +56,33 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
          this.updateQuestionFlag = true;
          this.textCardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+          image_url: [''],
+          video_url: [''],
+          youtube_url: [''],
+          video_code: ['']
       });
 
-      if (this.updateQuestion.resource_url) {
-        this.fileUploaded = true;
+       if (this.updateQuestion.resource_type) {
+            if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                this.filestaus='image';
+                this.textCardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+                this.fileUploaded = true;
+                this.filestaus='video';
+                let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
+                this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
+                this.textCardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+            }
       }
-        ga('send', 'pageview', '/sessions/textcard/edit');
+      ga('send', 'pageview', '/sessions/textcard/edit');
     } else {
       this.textCardForm = formBuilder.group({
         text_question: ['', Validators.required],
-        image_url: ['']
+        image_url: [''],
+        video_url: [''],
+        youtube_url: [''],
+        video_code: ['']
       });
       ga('send', 'pageview', '/sessions/textcard/add');
     }
@@ -85,13 +103,28 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.textCardForm.valid) {
       return false;
     }
-    let params = {
-      type: 'long_text',
-      description: this.textCardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.textCardForm.controls['image_url'].value,
-      resource_type: 'image'
-    };
+    let params;
+    if (this.textCardForm.controls['youtube_url'].value !== '') {
+      params = {
+          type: 'long_text',
+          description: this.textCardForm.controls['text_question'].value,
+          required: false,
+          resource_url:  this.textCardForm.controls['youtube_url'].value,
+          resource_type: 'video',
+          resource_code: this.textCardForm.controls['video_code'].value
+        };
+
+    }else {
+         params = {
+          type: 'long_text',
+          description: this.textCardForm.controls['text_question'].value,
+          required: false,
+          resource_url: this.textCardForm.controls['image_url'].value,
+          resource_type: 'image'
+
+
+        };
+    }
 
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateTextCard');
@@ -171,16 +204,51 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.uploadError = 'Failed to upload file';
       } else {
         _this.fileUploaded = true;
+        this.filestaus='';
         _this.imgUploadingInProcess = false;
         _this.textCardForm.controls['image_url'].setValue(data.Location);
+        
+        jQuery('.video-upload, .or_text').css('display','none');
+        jQuery('.img-upload').addClass('fullWidth');
       }
     });
   }
 
+
+    uploadVideo() {
+
+    let files = jQuery('input.video-upload').val();
+    let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
+    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
+    this.fileUploaded = true;
+    this.filestaus='';
+    this.imgUploadingInProcess = false;
+    this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
+
+    if(this.textCardForm.controls['video_url'].value!=''){
+      jQuery('.img-upload, .or_text').css('display','none');
+      jQuery('.video-upload').addClass('fullWidth');
+    } 
+
+    this.textCardForm.controls['video_code'].setValue(resource_code);
+}
+
   removeImage() {
     this.textCardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
+    this.filestaus='';
+    jQuery('.video-upload, .or_text').css('display','block');
+    jQuery('.img-upload').removeClass('fullWidth');
   }
+
+removeVideo() {
+  this.textCardForm.controls['video_url'].setValue(null);
+    this.fileUploaded = false;
+    this.filestaus='';
+    jQuery('.img-upload, .or_text').css('display','block');
+    jQuery('.video-upload').removeClass('fullWidth');
+  }
+
 
   ngAfterViewInit() {
     Materialize.updateTextFields();

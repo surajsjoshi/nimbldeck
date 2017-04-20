@@ -12468,7 +12468,7 @@ span.upload-video-lbl {
 }
 
 
-/*====== video upload last update=====*
+/*====== video upload last update=====*/
 
 .video-uploader {
     text-align: left;
@@ -12576,7 +12576,7 @@ span.upload-video-lbl {
 .image_video_container {
     text-align: center;
     margin: 10px 0;
-    //height:250px;
+    /*height:250px; */
 }
 
 .image_container {
@@ -12633,10 +12633,11 @@ span.upload-video-lbl {
     overflow-y: auto;
 }
 
-.main_container .video_container,
-.main_container .image_container {
+
+/*.main_container {
     height: 225px;
 }
+*/
 
 
 /* feed design*/
@@ -12894,10 +12895,10 @@ span.upload-video-lbl {
 }
 
 .column.over {
-    /* border: 2px dashed #000;*/
+    /*border: 2px dashed #000; */
     border-top: 2px solid blue;
 }
 
-.material-tooltip {
+body .gu-mirror {
     display: none !important;
 }
