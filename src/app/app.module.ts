@@ -94,7 +94,8 @@ import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
   ],
   providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
                ApiService, QueriesService, ConfigurationService,
-               CurrentUser, SessionService, CardService, EditService, DragulaService],
+               AnalyticsService, CurrentUser, SessionService, CardService,
+                EditService, DragulaService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,

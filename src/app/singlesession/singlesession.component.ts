@@ -15,14 +15,13 @@ import { ShortAnswerCardComponent } from './shortanswercard/shortanswercard';
 import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import {CarouselComponent} from '../carousel/carousel.component';
+meimport { Subscription } from 'rxjs';
 
 // new module
 import {NgModule} from '@angular/core';
 import {Ng2DragDropModule} from "ng2-drag-drop";
 
-import {DragulaModule , DragulaService} from "../../../node_modules/ng2-dragula/ng2-dragula"
+import {DragulaModule , DragulaService} from 'ng2-dragula/ng2-dragula';
 
 
 
