@@ -12461,5 +12461,7 @@ span.upload-video-lbl {
   border-top: 2px solid blue;
 }
 
-
+body .gu-mirror {
+    display: none !important;
+}
 

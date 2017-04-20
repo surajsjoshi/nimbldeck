@@ -63,7 +63,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.sessionFetched = false;
     this.questionDeleteError = false;
     dragulaService.setOptions('third-bag', {
-      removeOnSpill: true
+     
     });
     
 
