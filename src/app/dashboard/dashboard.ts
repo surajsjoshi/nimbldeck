@@ -4,13 +4,14 @@ import { ConfigurationService } from '../services/configuration.service';
 import { QueriesService } from '../services/queries.service';
 import { SessionService } from '../services/session.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { Session } from '../shared/models/session';
 import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy , ComponentFactoryResolver} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {CarouselComponent} from '../carousel/carousel.component';
-
+import { EditService } from '../services/edit.service';
 
 import * as moment from 'moment';
 
@@ -32,29 +33,35 @@ export class DashboardComponent implements OnInit , OnDestroy {
   sessionFetched: boolean;
   analysisFetched: boolean;
   queriesFetched: boolean;
-  MatchAnaly: boolean;
+  isFirst: boolean;
   session: Session;
-  queries;
-  analytics;
-   analytics2;
+  queries: Array<any>;
+  queriesNew: Array<any>;
+  analytics: Array<any>;
+  analyticsNew: Array<any>;
   timer: any;
-  activeSlideIndex: number;
+  carousel: CarouselComponent;
   private subscription: Subscription;
+  private componentFactory: any;
 
 
   constructor(public sessionService: SessionService,
    private analyticsService: SessionAnalyticsService,
    private conf: ConfigurationService,
    private queryService: QueriesService,
+   private editService: EditService,
+   private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
    private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
     this.sessionFetched = false;
-    this.MatchAnaly=true;
+    this.isFirst = true;
     this.queries = [];
+    this.queriesNew = [];
     this.analytics = [];
-    this.analytics2=[];
+    this.analyticsNew = [];
+    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
   }
 
   ngOnInit() {
@@ -65,9 +72,9 @@ export class DashboardComponent implements OnInit , OnDestroy {
         mixpanel.time_event('ViewDashboard');
         jQuery('[data-toggle="tooltip"]').tooltip();
     });
-    
+
 }
- 
+
 
   private loadDashboard() {
       mixpanel.time_event('LoadDashboard');
@@ -88,53 +95,35 @@ export class DashboardComponent implements OnInit , OnDestroy {
   }
 
   private mapQueries(response) {
-    this.queries = response.queries;
-    this.queries.forEach(element => {
+    this.queriesNew = response.queries;
+    this.queriesNew.forEach(element => {
        element.created_at = moment.utc(element.created_at).local().fromNow();
     });
+
+    if (this.queriesNew.length !== this.queries.length) {
+      this.queries = this.queriesNew;
+      if (this.carousel) {
+        this.carousel.queries = this.queries;
+        this.carousel.update();
+      }
+    }
   }
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-
-      
-         this.analytics2 = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
-
-if(this.MatchAnaly)
-      {
-      
-        this.analytics=this.analytics2;
-        this.MatchAnaly=false;
-
-      }
-     // jQuery('body').append('NOT');
-  
-    for(let k=0; k<this.analytics2.length;k++)
-       {  
-             for(let m=0; m<this.analytics.length;m++)
-            {
-         
-                if(this.analytics2[k].question_id==this.analytics[m].question_id)
-                {
-                        for(let f=0; f<this.analytics2[k].analytics.length;f++)
-                         {  
-                               //for(let c=0; c<this.analytics[m].analytics.length;c++)
-                              {
-                            
-                                  if(this.analytics2[k].analytics[f].total!=this.analytics[m].analytics[f].total)
-                                  {
-                                       
-                                        this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
-                                          this.analytics2=this.analytics;
-                                  }
-                                  
-                              }
-                        }
-                }
-                
-            }
-      }
-
+         this.analyticsNew = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+         if (this.isFirst) {
+             this.analytics = this.analyticsNew;
+             this.isFirst = false;
+         } else {
+              let changed = this.analyticsUpdateService.updateAnalytics(this.analyticsNew, this.analytics);
+              if (changed ) {
+                  this.editService.announceUpdate();
+                  if (this.carousel) {
+                    this.carousel.update();
+                  }
+              }
+         }
     } else {
       this.analytics = [];
     }
@@ -162,39 +151,24 @@ if(this.MatchAnaly)
   }
 
   private load() {
-
-      
-this.loadDashboard();
-
-       
-
-      
+      this.loadDashboard();
       this.timeOut();
   }
 
 openModal(event) {
-
     let num: number = jQuery(event.target).attr('id');
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
     this.viewContainerRef.clear();
+    let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
+    let componentRef = this.viewContainerRef.createComponent(this.componentFactory);
+    this.carousel = (<CarouselComponent>componentRef.instance);
+    this.carousel.analytics = this.analytics;
+    this.carousel.currentCard = Number(cardNo);
+    this.carousel.queries = this.queries;
 
-    let cardNo = Number(Number(num) +Number( 4* (Number(this.activePage - 1))));
-   
-    let componentRef = this.viewContainerRef.createComponent(componentFactory);
-    (<CarouselComponent>componentRef.instance).analytics = this.analytics;
-    (<CarouselComponent>componentRef.instance).currentCard = Number(cardNo);
-    (<CarouselComponent>componentRef.instance).queries = this.queries;
-    //jQuery('#myModal').openModal();
+    let min_width = jQuery(window).width();
 
-
-    let min_width = jQuery(window).width() ;
-
-
-    if (min_width>=787) {
-      
-        jQuery("#myModal").openModal();
+    if (min_width >= 787) {
+      jQuery('#myModal').openModal();
     }
-    
 }
-
 };

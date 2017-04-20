@@ -34,7 +34,7 @@
                                     <div class="card question-box hoverable">
                                         <div class="question-box-head">
                                             <!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
-                                            <a (click)="openModal($event)" data-toggle="tooltip" title="Click to view the graph in full view"  class="add-new-session" data-target="{{i}}">
+                                            <a (click)="openModal($event)" data-toggle="tooltip" title="Click to view the graph in full view" class="add-new-session" data-target="{{i}}">
                                                 <h5 id="{{i+1}}">Q. {{answer.description}}</h5>
                                             </a>
 
@@ -48,8 +48,8 @@
                                         <div class="charts">
                                             <span class="pull-right"> </span>
 
-                                            <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
-                                            <barchart [analytics]='answer.analytics' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+                                            <piechart [answer]='answer' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                            <barchart [answer]='answer' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
                                             <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
                                             <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
                                         </div>
@@ -85,35 +85,3 @@
         </div>
     </tab>
 </tabs>
-
-
-
-
-
-<!-- 
-<div class="">
-	<div class="rowiner">
-		<div class="col s12">
-			 <div class="container">
-				<h5 class="text-center">No Records</h5>
-			</div>
- 
-
-			<div class="row session_list">
-				<div class="container">
-					<div class="row-ui">
-						 <div class="col s12 m6"
-							*ngFor="#answer of _sessionAnalyticsService.useranalytics  | paginate: { itemsPerPage: 4, currentPage: activePage }; #i=index">
-							<question-chart-box [answer]='answer' [index]='i'
-								[page]="activePage" [perPage]='4' [session]='session'></question-chart-box>
-						</div> 
-					</div>
-				
-
-					<div class="clearfix"></div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div> -->

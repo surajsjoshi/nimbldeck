@@ -33,8 +33,8 @@
                                 <div class="charts">
                                     <span class="pull-right"> </span>
 
-                                    <piechart [analytics]='answer.analytics' *ngIf="answer.question_type === 'yes_no'"></piechart>
-                                    <barchart [analytics]='answer.analytics' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+                                    <piechart [answer]='answer' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                    <barchart [answer]='answer' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
                                     <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
                                     <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
                                 </div>
@@ -58,7 +58,7 @@
                             <ul>
                                 <div *ngFor="let analytics_list of answer.analytics ; let i = index">
                                     <span class="color_comb{{i+1}} first fl"></span>
-                                    <li class="">{{analytics_list.label}} 
+                                    <li class="">{{analytics_list.label}}
                                         <span class="choice_percent">[{{get_analitical_percent(analytics_list, answer)}}%]</span>
                                     </li>
                                     <div class="clear"></div>

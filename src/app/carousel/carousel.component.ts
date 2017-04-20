@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy , AfterViewInit} from '@angular/core';
+import { Component, OnInit, OnDestroy , AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../services/configuration.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { QueriesService } from '../services/queries.service';
 import * as moment from 'moment';
 
@@ -13,7 +14,8 @@ declare var mixpanel: any;
   moduleId: module.id,
   selector: 'nd-carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.css']
+  styleUrls: ['./carousel.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
@@ -29,6 +31,8 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
   constructor(private conf: ConfigurationService,
   private analyticsService: SessionAnalyticsService,
   private route: ActivatedRoute,
+  private analyticsUpdateService: AnalyticsService,
+  private changeDetectorRef: ChangeDetectorRef,
   private queryService: QueriesService) {
     this.totalCards = 0;
     this.currentCard = 1;
@@ -61,6 +65,11 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
     jQuery('[data-toggle="tooltip"]').tooltip();
 
+  }
+
+  update() {
+    this.changeDetectorRef.markForCheck();
+    this.totalCards = this.analytics.length;
   }
 
   ngAfterViewInit() {
@@ -112,7 +121,6 @@ private mapQueries(response) {
 
         jQuery('.icon_chart').addClass('active');
         jQuery('.icon_view').removeClass('active');
-        
         jQuery('.icon_chart').addClass('active');
         jQuery('.image_video_container .carousel-charts').css({'display': 'block'});
         jQuery('.choice_percent').css({'display': 'block'});
@@ -131,17 +139,20 @@ private mapQueries(response) {
 
    get_youtube_frame(event) {
      let code = event.resource_code;
-     let url = 'https://www.youtube.com/embed/'+code;
-     let frame = '<iframe class="video_img_section"  width="400"  height="220" src="'+url+'" frameborder="0" allowfullscreen></iframe>';
+     let url = 'https://www.youtube.com/embed/' + code;
+     let frame = '<iframe class="video_img_section"  width="400"  height="220" src="' + url + '" frameborder="0" allowfullscreen></iframe>';
      let frame_container = jQuery('.video_container').attr('id');
      if ( frame_container === code && frame_container !== '') {
-      jQuery('.video_container').html(frame);
+        jQuery('.video_container').html(frame);
      }
    }
 
    get_analitical_percent( analitic, event) {
     let analitical_total = analitic.total;
-    let answer_by = event.answered_by;
+    let answer_by = Array.from(event['analytics'])
+                          .map(record => record['total'])
+                          .reduce(function(sum, current) {
+      return Number(sum) + Number(current); }, 0);
 
     if (answer_by !== 0 ) {
       let cal = 100 * analitical_total / answer_by;

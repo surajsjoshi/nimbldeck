@@ -31,6 +31,7 @@ import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { QueriesService } from './services/queries.service';
 import { SessionAnalyticsService } from './services/sessionanalytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
 import { McqCardComponent } from './singlesession/mcqcard/mcqcard';
 import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
@@ -45,7 +46,7 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
 import { CarouselComponent } from './carousel/carousel.component';
-import {DragulaService, DragulaModule} from '../../node_modules/ng2-dragula/ng2-dragula';
+import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,7 @@ import {DragulaService, DragulaModule} from '../../node_modules/ng2-dragula/ng2-
     WordcloudComponent,
     RoundNumberPipe,
     CarouselComponent
-    
+
   ],
   imports: [
     BrowserModule,
