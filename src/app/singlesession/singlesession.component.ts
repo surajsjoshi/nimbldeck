@@ -59,7 +59,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.sessionFetched = false;
     this.questionDeleteError = false;
     dragulaService.setOptions('third-bag', {
-      removeOnSpill: true
+
     });
    }
 
@@ -138,7 +138,7 @@ function handleDrop(e) {
     // this.innerHTML = e.dataTransfer.getData('text/html');
     this.parentNode.removeChild(dragSrcEl);
     let dropHTML = e.dataTransfer.getData('text/html');
-    this.insertAdjacentHTML('beforebegin',dropHTML);
+    this.insertAdjacentHTML('beforebegin', dropHTML);
     let dropElem = this.previousSibling;
     this.addDnDHandlers(dropElem);
 
@@ -158,7 +158,7 @@ function handleDragEnd(e) {
 
 function addDnDHandlers(elem) {
   elem.addEventListener('dragstart', handleDragStart, false);
-  elem.addEventListener('dragenter', handleDragEnter, false)
+  elem.addEventListener('dragenter', handleDragEnter, false);
   elem.addEventListener('dragover', handleDragOver, false);
   elem.addEventListener('dragleave', handleDragLeave, false);
   elem.addEventListener('drop', handleDrop, false);
@@ -284,8 +284,4 @@ let cols = document.querySelectorAll('.sortable_columns  .column');
    }
 }
 
-
-
-
-// 
 
