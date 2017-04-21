@@ -54,13 +54,12 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
               private el: ElementRef,
               private dragulaService: DragulaService
              ) {
+             
     this.nextPageToken = '';
     this.cardsFetched = false;
     this.sessionFetched = false;
     this.questionDeleteError = false;
-    dragulaService.setOptions('third-bag', {
-
-    });
+   
    }
 
 
