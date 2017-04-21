@@ -7,6 +7,7 @@ export class Session {
   status: string;
   updated_at: Date;
   created_at: Date;
+  paused_at: Date;
   organization: string;
   title: string;
   share_token: string;
