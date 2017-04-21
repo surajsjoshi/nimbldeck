@@ -169,15 +169,18 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateMCQCard', {'user': this.conf.getUser().emailId});
     } else {
-      mixpanel.time_event('EditMCQCard');
-      params['question_id'] = this.card.question_id;
-      params['position'] = this.card.position;
-      let observable = this.cardService.updateQuestion(params, this.card.session_id);
-      observable.subscribe(
-        (resp => this.questionUpdated(resp)),
-        (error => this.cardError = true)
-      );
-      mixpanel.track('EditMCQCard', {'user': this.conf.getUser().emailId});
+      if(this.cardService.confirmationRequiredForUpdate(this.session, this.card) &&
+            confirm(environment.updateCardWarning)){
+              mixpanel.time_event('EditMCQCard');
+              params['question_id'] = this.card.question_id;
+              params['position'] = this.card.position;
+              let observable = this.cardService.updateQuestion(params, this.card.session_id);
+              observable.subscribe(
+                (resp => this.questionUpdated(resp)),
+                (error => this.cardError = true)
+              );
+              mixpanel.track('EditMCQCard', {'user': this.conf.getUser().emailId});
+            }
     }
 
   }

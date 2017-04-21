@@ -145,15 +145,18 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateYesNoCard', {'user': this.conf.getUser().emailId});
     } else {
-      mixpanel.time_event('EditYesNoCard');
-      params['question_id'] = this.card.question_id;
-      params['position'] = this.card.position;
-      let observable = this.cardService.updateQuestion(params, this.sessionId);
-      observable.subscribe(
-        (resp => this._questionUpdated(resp)),
-        (error => this.cardError = true)
-      );
-      mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+      if(this.cardService.confirmationRequiredForUpdate(this.session, this.card) &&
+            confirm(environment.updateCardWarning)){
+          mixpanel.time_event('EditYesNoCard');
+          params['question_id'] = this.card.question_id;
+          params['position'] = this.card.position;
+          let observable = this.cardService.updateQuestion(params, this.sessionId);
+          observable.subscribe(
+            (resp => this._questionUpdated(resp)),
+            (error => this.cardError = true)
+          );
+          mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+      }
     }
 
   }
