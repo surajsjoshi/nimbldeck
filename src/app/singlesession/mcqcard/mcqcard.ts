@@ -7,6 +7,7 @@ import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angula
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Session } from '../../shared/models/session';
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -32,9 +33,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   cardError: boolean;
   cardForm: FormGroup;
   updateQuestionFlag: boolean;
-  updateQuestion: Card;
+  card: Card;
   saveCardErrorText: string;
   sessionId: string;
+  session: Session;
   private subscription: Subscription;
 
 
@@ -55,18 +57,18 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.optionFileUploaded = false;
       this.optionUploadError = '';
 
-      this.updateQuestion = this.editService.getCurrent();
+      this.card = this.editService.getCurrent();
       ga('set', 'userId', this.conf.getUser().userId);
       if (editService.isEditing()) {
       this.updateQuestionFlag = true;
-      this.options = this.updateQuestion.choices;
+      this.options = this.card.choices;
       this.cardForm = formBuilder.group({
-        text_question: [this.updateQuestion.description, Validators.required],
-        image_url: [this.updateQuestion.resource_url],
+        text_question: [this.card.description, Validators.required],
+        image_url: [this.card.resource_url],
         mcqoption: [''],
         option_image_url: ['']
       });
-      if (this.updateQuestion.resource_url) {
+      if (this.card.resource_url) {
         this.fileUploaded = true;
       }
       ga('send', 'pageview', '/sessions/mcqcard/edit');
@@ -167,9 +169,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       mixpanel.track('CreateMCQCard', {'user': this.conf.getUser().emailId});
     } else {
       mixpanel.time_event('EditMCQCard');
-      params['question_id'] = this.updateQuestion.question_id;
-      params['position'] = this.updateQuestion.position;
-      let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
+      params['question_id'] = this.card.question_id;
+      params['position'] = this.card.position;
+      let observable = this.cardService.updateQuestion(params, this.card.session_id);
       observable.subscribe(
         (resp => this.questionUpdated(resp)),
         (error => this.cardError = true)
