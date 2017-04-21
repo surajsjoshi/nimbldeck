@@ -72,9 +72,9 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
           (error => console.log(error))
         );
     } else {
-      this.sessionService.startStopSession(this.session.session_id, 'stop')
+      this.sessionService.startStopSession(this.session.session_id, 'pause')
         .subscribe(
-          (resp => this.onStartStop(resp, 'stop')),
+          (resp => this.onStartStop(resp, 'pause')),
           (error => console.log(error))
         );
     }
@@ -88,11 +88,22 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
           this.session.status = 'Running';
           mixpanel.people.increment('RunningSessions');
 
+      } else if ('pause' === action) {
+        this.playStatus = 'play';
+        this.hideClass = '';
+        this.session.status = 'Paused';
+        mixpanel.people.increment('PausedSessions', 1);
+        mixpanel.people.increment('RunningSessions', -1);
       } else {
         this.isComplete = true;
+        mixpanel.people.increment('CompletedSessions', 1);
         mixpanel.people.increment('RunningSessions', -1);
+      }
     }
-    }
+  }
+
+  showDashBoardLink(): boolean {
+     return !this.session.isSample && this.session.status !== 'Created';
   }
 
   duplicateSession(evt, session) {

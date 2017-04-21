@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
@@ -38,8 +38,8 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import {Ng2PaginationModule} from 'ng2-pagination';
-import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { RatingModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
@@ -79,14 +79,14 @@ import { CarouselComponent } from './carousel/carousel.component';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     routing,
     PageTitleModule,
-    Ng2PaginationModule,
+    NgxPaginationModule,
     ChartsModule,
-    RatingModule,
-    CarouselModule,
-    DropdownModule,
+    RatingModule.forRoot(),
+    BsDropdownModule.forRoot(),
     ClipboardModule
   ],
   providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
