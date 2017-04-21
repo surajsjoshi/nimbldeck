@@ -180,6 +180,8 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
                 (error => this.cardError = true)
               );
               mixpanel.track('EditMCQCard', {'user': this.conf.getUser().emailId});
+            } else {
+               jQuery(this.el.nativeElement).find('#mcq-card-modal').closeModal();
             }
     }
 

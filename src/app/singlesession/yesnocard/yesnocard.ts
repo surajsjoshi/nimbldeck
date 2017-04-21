@@ -156,6 +156,8 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
             (error => this.cardError = true)
           );
           mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+      } else {
+        jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
       }
     }
 

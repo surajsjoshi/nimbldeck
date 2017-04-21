@@ -156,6 +156,8 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
               (error => this.cardError = true)
             );
             mixpanel.track('EditShortAnswerCard', {'user': this.conf.getUser().emailId});
+          } else {
+               jQuery(this.el.nativeElement).find('#shortanswer-card-modal').closeModal();
           }
     }
   }

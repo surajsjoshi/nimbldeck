@@ -118,6 +118,8 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
               (error => this.cardError = true)
             );
             mixpanel.track('EditRatingCard', {'user': this.conf.getUser().emailId});
+      } else {
+           jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
       }
     }
 
