@@ -107,23 +107,29 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateRatingCard', {'user': this.conf.getUser().emailId});
     } else {
-       if(this.cardService.confirmationRequiredForUpdate(this.session, this.card) &&
-            confirm(environment.updateCardWarning)){
-            mixpanel.time_event('EditRatingCard');
-            params['question_id'] = this.card.question_id;
-            params['position'] = this.card.position;
-            let observable = this.cardService.updateQuestion(params, this.card.session_id);
-            observable.subscribe(
-              (resp => this.questionUpdated(resp)),
-              (error => this.cardError = true)
-            );
-            mixpanel.track('EditRatingCard', {'user': this.conf.getUser().emailId});
-      } else {
-           jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
-      }
+
+      if(this.cardService.confirmationRequiredForUpdate(this.session, this.card)){
+          if(confirm(environment.updateCardWarning)){
+              this.updateQuestion(params);
+           } else {
+              jQuery(this.el.nativeElement).find('#rating-card-modal').closeModal();
+           }
+       } else {
+            this.updateQuestion(params);
+       }
     }
 
 
+  }
+
+  updateQuestion(params: any) {
+     mixpanel.time_event('EditRatingCard');
+     params['question_id'] = this.card.question_id;
+     params['position'] = this.card.position;
+     let observable = this.cardService.updateQuestion(params, this.card.session_id);
+     observable.subscribe((resp => this.questionUpdated(resp)),
+                (error => this.cardError = true));
+     mixpanel.track('EditRatingCard', {'user': this.conf.getUser().emailId});
   }
 
   questionCreated(resp) {

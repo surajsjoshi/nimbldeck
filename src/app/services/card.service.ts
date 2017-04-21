@@ -58,7 +58,7 @@ export class CardService {
   }
 
   confirmationRequiredForUpdate(session: Session, card: Card): boolean {
-    return true;
+    return new Date(card.created_at) < new Date(session.paused_at);
   }
 
 

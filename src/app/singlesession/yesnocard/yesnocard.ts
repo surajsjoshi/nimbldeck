@@ -145,23 +145,30 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateYesNoCard', {'user': this.conf.getUser().emailId});
     } else {
-      if(this.cardService.confirmationRequiredForUpdate(this.session, this.card) &&
-            confirm(environment.updateCardWarning)){
-          mixpanel.time_event('EditYesNoCard');
-          params['question_id'] = this.card.question_id;
-          params['position'] = this.card.position;
-          let observable = this.cardService.updateQuestion(params, this.sessionId);
-          observable.subscribe(
-            (resp => this._questionUpdated(resp)),
-            (error => this.cardError = true)
-          );
-          mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
-      } else {
-        jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
-      }
+
+     if(this.cardService.confirmationRequiredForUpdate(this.session, this.card)){
+          if(confirm(environment.updateCardWarning)){
+              this.updateQuestion(params);
+           } else {
+              jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
+           }
+       } else {
+            this.updateQuestion(params);
+       }
     }
 
   }
+
+  updateQuestion(params: any) {
+     mixpanel.time_event('EditYesNoCard');
+     params['question_id'] = this.card.question_id;
+     params['position'] = this.card.position;
+     let observable = this.cardService.updateQuestion(params, this.card.session_id);
+     observable.subscribe((resp => this.questionUpdated(resp)),
+                (error => this.cardError = true));
+     mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+  }
+
 
   _questionCreated(resp) {
     if (resp.type === 'Failure') {
@@ -179,7 +186,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  _questionUpdated(resp) {
+  questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
