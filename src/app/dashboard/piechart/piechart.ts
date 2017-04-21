@@ -16,14 +16,14 @@ export class PieChartComponent implements OnInit, OnDestroy {
    @Input() chartdata: any;
    @Input() answer: any;
    public pieChartData = [];
-   private pieChartLabels = [];
-   private pieChartType = 'pie';
-   private pieChartColor: any[] =  [{ backgroundColor: ['#E9722B', '#276AAD'] }];
+   pieChartLabels = [];
+   pieChartType = 'pie';
+   pieChartColor: any[] =  [{ backgroundColor: ['#E9722B', '#276AAD'] }];
 
-  subscription: Subscription;
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+   subscription: Subscription;
+   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
-   private pieChartOptions = {
+   pieChartOptions = {
       tooltips: {
         enabled: false,
         callbacks: {

@@ -106,15 +106,15 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
      return !this.session.isSample && this.session.status !== 'Created';
   }
 
-  duplicateSession(evt, session) {
+  duplicateSession(evt) {
     evt.preventDefault();
-    this.editService.setCurrentEdit('session', session);
+    this.editService.setCurrentEdit('session', this.session);
     this.onShowDuplicateModal.emit(true);
   }
 
   editSession(evt, session) {
     evt.preventDefault();
-    this.editService.setCurrentEdit('session', session);
+    this.editService.setCurrentEdit('session', this.session);
     this.onShowEditModal.emit(true);
   }
    ngAfterViewInit() {

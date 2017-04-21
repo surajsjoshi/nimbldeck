@@ -18,9 +18,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
  subscription: Subscription;
  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
- private pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+ pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
 
- private barChartOptions = {
+ barChartOptions = {
    scaleShowVerticalLines: false,
    responsive: true,
    tooltips: {

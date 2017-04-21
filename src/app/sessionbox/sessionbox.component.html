@@ -2,8 +2,8 @@
     <div class="card-image">
         <img src="{{session.image_url}}" alt="{{session.title}}" height="250" class="responsive-img" />
         <div class="overlay {{hideClass}}">
-            <a class="duplicate-session" href="#duplicate-session-modal" (click)="duplicateSession($event, session)" ga-on="click" ga-event-category="Sessions" ga-event-action="duplicate"> <i class="fa fa-clone tooltipped" data-position="bottom" data-delay="50" data-tooltip="Duplicate Session"></i>
-            </a> <i (click)="editSession($event, session)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"></i>
+            <a class="duplicate-session" href="#duplicate-session-modal" (click)="duplicateSession($event)" ga-on="click" ga-event-category="Sessions" ga-event-action="duplicate"> <i class="fa fa-clone tooltipped" data-position="bottom" data-delay="50" data-tooltip="Duplicate Session"></i>
+            </a> <i (click)="editSession($event)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit"></i>
             <a [routerLink]="['dashboard', session.session_id]"><i *ngIf="showDashBoardLink()" class="fa fa-bar-chart tooltipped" data-position="bottom" data-delay="50" data-tooltip="Statistics" ga-on="click" ga-event-category="Sessions" ga-event-action="dashboard"></i></a>
             <i *ngIf="!session.isSample" (click)="deleteSession()" class="fa fa-trash tooltipped" data-position="bottom" data-delay="50" data-tooltip="Delete" ga-on="click" ga-event-category="Sessions" ga-event-action="delete"></i>
             <div class="urltextbox-{{playStatus}}" *ngIf="session.status !== 'Created' && !isComplete && !session.isSample">
@@ -13,7 +13,7 @@
             </div>
             <div *ngIf="textCopied" class="copy-success">Link Copied!</div>
         </div>
-        <i class="fa fa-bars menu-icon" (click)="clicked()"></i>
+        <i class="fa fa-bars menu-icon" (click)="clicked($event)"></i>
     </div>
     <div class="card-content">
         <h5 class="truncate">
