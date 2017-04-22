@@ -10,6 +10,7 @@
                 <input id="sessiontexturl" name="copysessionurl" class="texturl" value="{{session.share_token}}" #inputTarget />
                 <button type="button" [ngxClipboard]="inputTarget" data-clipboard-target="#sessiontexturl" data-clipboard-action="copy" class="copy-btn waves-effect waves-light btn light-green darken-2">COPY
 				</button>
+            <p class="copy-success">Share code with your trainees</p>
             </div>
             <div *ngIf="textCopied" class="copy-success">Link Copied!</div>
         </div>
@@ -25,7 +26,7 @@
         <a class="start-stop-session" (click)="startStopSession()" ga-on="click" ga-event-category="Sessions" ga-event-action="start-stop" *ngIf="!isComplete && !session.isSample">
             <i class="fa fa-{{playStatus}}-circle-o {{playStatus}}"></i>
         </a> <span class="completed" *ngIf="isComplete && !session.isSample">Complete</span>
-        <span class="completed" *ngIf="session.isSample">&nbsp;</span> <a href="#" class="last-seen"><i class="fa fa-clock-o"></i>
+        <span class="completed" *ngIf="session.isSample">&nbsp;</span> <a [routerLink]="['/app/sessions', session.session_id]" class="last-seen"><i class="fa fa-clock-o"></i>
 			{{session.updated_at}}</a>
     </div>
 </div>

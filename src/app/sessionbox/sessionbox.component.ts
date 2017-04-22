@@ -26,6 +26,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
   playStatus: string;
   isComplete: boolean;
   textCopied: boolean;
+  toolTip: string;
 
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
@@ -85,6 +86,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
       if ('start' === action) {
           this.playStatus = 'stop';
           this.hideClass = '';
+          this.toolTip = 'Pause Session';
           this.session.status = 'Running';
           mixpanel.people.increment('RunningSessions');
 
@@ -92,9 +94,11 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
         this.playStatus = 'play';
         this.hideClass = '';
         this.session.status = 'Paused';
+        this.toolTip = 'Start Session';
         mixpanel.people.increment('PausedSessions', 1);
         mixpanel.people.increment('RunningSessions', -1);
       } else {
+        this.toolTip = 'Session Completed';
         this.isComplete = true;
         mixpanel.people.increment('CompletedSessions', 1);
         mixpanel.people.increment('RunningSessions', -1);
