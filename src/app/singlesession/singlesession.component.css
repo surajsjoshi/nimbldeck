@@ -309,3 +309,6 @@ dir {
     position: relative;
     top: 25px;
 }
+.fullWidth {
+    width: 100% !important;
+}
