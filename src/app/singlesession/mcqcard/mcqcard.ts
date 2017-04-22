@@ -78,7 +78,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.filestaus = 'image';
                 this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
 
-                jQuery('.img-upload').addClass('fullWidth');
+               
 
 
             } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
@@ -88,7 +88,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
 
-                jQuery('.video-upload').addClass('fullWidth');
+               
 
 
             }
