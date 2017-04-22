@@ -46,6 +46,7 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
 import { CarouselComponent } from './carousel/carousel.component';
+import {TooltipModule} from "ngx-tooltip";
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     CarouselComponent
   ],
   imports: [
+    TooltipModule,
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,

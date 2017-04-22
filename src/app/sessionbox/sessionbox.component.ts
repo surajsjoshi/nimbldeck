@@ -45,8 +45,11 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     image.src = this.session.image_url;
     if (this.session.status === 'Running') {
       this.playStatus = 'stop';
+      this.toolTip = 'Pause Session';
     } else if (this.session.status === 'Completed') {
       this.isComplete = true;
+    } else {
+      this.toolTip = 'Start Session';
     }
   }
 
