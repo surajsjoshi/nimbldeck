@@ -12893,3 +12893,21 @@ span.upload-video-lbl {
 body .gu-mirror {
     display: none !important;
 }
+
+
+
+
+
+.video-uploader span {
+    padding-top: 9px !important;
+    text-align: center;
+}
+
+.or_text {
+    position: relative;
+    top: 25px;
+}
+
+.row.upload_container {
+    margin: 20px 0;
+}
