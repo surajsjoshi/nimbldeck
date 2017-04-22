@@ -65,6 +65,20 @@ export class CarouselComponent implements OnInit , OnDestroy, AfterViewInit {
 
     jQuery('[data-toggle="tooltip"]').tooltip();
 
+
+    let first_item = jQuery('.carousel-inner .item:first-child');
+    let last_item = jQuery('.carousel-inner .item:last-child');
+
+    if(first_item.hasClass("active")){
+
+
+jQuery('body').append('hiee');
+     // jQuery('.left.carousel-control').css('border','3px solid red');
+
+      //jQuery('.left.carousel-control').css({'color':'#cacaca !important','text-shadow':'0 1px 2px rgba(0, 0, 0, 0.2)'});
+
+    }
+
   }
 
   update() {
