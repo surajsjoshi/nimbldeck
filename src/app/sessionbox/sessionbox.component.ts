@@ -84,6 +84,12 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     }
   }
 
+  sessionExport(event) {
+    this.sessionService.exportSession(this.session.session_id).subscribe(
+      (resp => console.log(resp)),
+        (error => console.log(error)));
+  }
+
   private onStartStop(resp, action: string) {
     if ('Success' === resp.type) {
       if ('start' === action) {

@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { ConfigurationService } from './configuration.service';
 import { Injectable } from '@angular/core';
 import { Observable , Operator} from 'rxjs/Rx';
+import {Response} from '@angular/http';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -157,6 +158,12 @@ export class SessionService {
     }
     this.userSessions[index] = session;
     return session;
+  }
+
+  public exportSession(sessionId: string): Observable<Response> {
+     let userId = this.conf.getUser().getUserId();
+     let url = `/sessions/${sessionId}/export?user_id=${userId}`;
+     return this.api.post(url,null);
   }
 
 }
