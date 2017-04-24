@@ -67,12 +67,17 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.fileUploaded = true;
                 this.filestaus='image';
                 this.textCardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+
+                jQuery('.img-upload').addClass('fullWidth');
+
             } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
                 this.filestaus='video';
                 let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
                 this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.textCardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+
+                jQuery('.video-upload').addClass('fullWidth');
             }
       }
       ga('send', 'pageview', '/sessions/textcard/edit');
