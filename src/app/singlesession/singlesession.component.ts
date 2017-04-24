@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {Ng2DragDropModule} from 'ng2-drag-drop';
 
-import {DragulaModule , DragulaService} from 'ng2-dragula/ng2-dragula';
+import { DragulaService} from 'ng2-dragula/ng2-dragula';
 
 
 
@@ -60,9 +60,6 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.sessionFetched = false;
     this.questionDeleteError = false;
    
-   dragulaService.setOptions('third-bag', {
-      revertOnSpill: true
-    });
    }
 
   ngOnInit() {
