@@ -12895,11 +12895,6 @@ span.upload-video-lbl {
 body .gu-mirror {
     display: none !important;
 }
-
-
-
-
-
 .video-uploader span {
     padding-top: 9px !important;
     text-align: center;
@@ -12917,3 +12912,7 @@ body .gu-mirror {
 .fullWidth {
     width: 100% !important;
 }
+.container.question-container {
+    cursor: move;
+}
+.material-tooltip{display:none!important}

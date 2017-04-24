@@ -37,9 +37,9 @@
                 </div>
             </div>
         </div>
-        <div class="container question-container" [dragula]='"third-bag"' *ngFor="let question of cardService.cards | orderby : 'position' ; let i = index" [attr.data-index]="i">
+        <div class="container question-container " [dragula]='"third-bag"' >
 
-            <ul >
+            <ul id="{{i+1}}"class="session_listing move{{i+1}}" (click)="shorting(i)" *ngFor="let question of cardService.cards | orderby : 'position' ; let i = index" [attr.data-index]="i">
                 
                 <li>
                     <div class="row">

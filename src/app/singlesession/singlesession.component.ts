@@ -54,15 +54,16 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
               private el: ElementRef,
               private dragulaService: DragulaService
              ) {
-             
+              
     this.nextPageToken = '';
     this.cardsFetched = false;
     this.sessionFetched = false;
     this.questionDeleteError = false;
    
+   dragulaService.setOptions('third-bag', {
+      revertOnSpill: true
+    });
    }
-
-
 
   ngOnInit() {
       this.subscription = this.route.params.subscribe(params => {
@@ -82,6 +83,11 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
     });
       mixpanel.track('ListCards', {'user': this.conf.getUser().getEmailId()});
+
+
+     
+
+
   }
 
   private mapSession(response) {
@@ -264,6 +270,18 @@ let cols = document.querySelectorAll('.sortable_columns  .column');
     (<YesNoCardComponent>componentRef.instance).editService = this.editService;
     jQuery('#yesno-card-modal').openModal();
   }
+
+
+shorting(index){
+        
+        let i=1;
+
+        jQuery('.session_listing').each(function (index, value) { 
+          jQuery(this).find('.index').text(i);
+          i++;           
+        });
+}
+
 /*
   openCarouselModal(event) {
 
