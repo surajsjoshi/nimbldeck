@@ -35,6 +35,8 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
   }
 
   updateChart(data) {
+
+    this.words = [];
    this.ngAfterViewInit();
   }
 
