@@ -19,7 +19,7 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
 
   @Input() answer: any;
   @Input() session: Session;
-  words = [];
+  words: Array<any>;
   answerList;
   private subscription: Subscription;
   private updateSubscription: Subscription;
@@ -30,12 +30,19 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
       private editService: EditService,
       private route: ActivatedRoute) {
     this.answerList = [];
+    this.words = [];
      this.updateSubscription = this.editService.updateSubscription()
               .subscribe(data => this.updateChart(data));
   }
 
   updateChart(data) {
-   this.ngAfterViewInit();
+  this.words.length = 0;
+   this.answer.analytics.forEach(data => {
+          let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
+          this.words.push(JSON.parse(old));
+    });
+    let tagName = '#jqcloud' + this.answer.question_id;
+    jQuery(tagName).jQCloud('update', this.words);
   }
 
 
@@ -68,7 +75,7 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-   // this.words = [];
+   
    this.answer.analytics.forEach(data => {
           let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
           this.words.push(JSON.parse(old));
@@ -76,7 +83,9 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
     let tagName = '#jqcloud' + this.answer.question_id;
     jQuery(tagName).jQCloud(this.words, {
           width: 400,
-          height: 250
+          height: 250,
+          autoResize: true,
+          delay: 50
     });
 
   }
