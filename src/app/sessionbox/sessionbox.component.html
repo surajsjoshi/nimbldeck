@@ -5,7 +5,6 @@
             <a class="duplicate-session" href="#duplicate-session-modal" (click)="duplicateSession($event)" ga-on="click" ga-event-category="Sessions" ga-event-action="duplicate"> <i class="fa fa-clone tooltipped" data-position="bottom" data-delay="50" title="Duplicate Session"></i>
             </a> <i (click)="editSession($event)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" title="Edit Session"></i>
             <a [routerLink]="['dashboard', session.session_id]"><i *ngIf="showDashBoardLink()" class="fa fa-bar-chart tooltipped" data-position="bottom" data-delay="50" title="View Dashboard" ga-on="click" ga-event-category="Sessions" ga-event-action="dashboard"></i></a>
- <a (click)="sessionExport($event)"><i *ngIf="showDashBoardLink()" class="fa fa-file-excel-o tooltipped" data-position="bottom" data-delay="50" title="Export Session" ga-on="click" ga-event-category="Sessions" ga-event-action="export"></i></a>
 
 
             <i *ngIf="!session.isSample" (click)="deleteSession()" class="fa fa-trash tooltipped" data-position="bottom" data-delay="50" title="Delete Session" ga-on="click" ga-event-category="Sessions" ga-event-action="delete"></i>

@@ -155,6 +155,12 @@ export class DashboardComponent implements OnInit , OnDestroy {
       this.timeOut();
   }
 
+  sessionExport(event) {
+    this.sessionService.exportSession(this.session.session_id).subscribe(
+      (resp => console.log(resp)),
+        (error => console.log(error)));
+  }
+
 openModal(event) {
     let num: number = jQuery(event.target).attr('id');
     this.viewContainerRef.clear();

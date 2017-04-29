@@ -27,7 +27,7 @@ export class RatingComponent implements OnInit, OnDestroy {
   }
 
   updateChart(data) {
-      this.averageRate = this.getRating(this.answer.average);
+      this.averageRate = this.answer.average;
       this.answer.analytics.forEach(chartData => {
             this.ratings[this.getRating(chartData.label)] = chartData.total;
        });

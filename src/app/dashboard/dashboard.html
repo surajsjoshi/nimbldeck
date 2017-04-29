@@ -10,6 +10,8 @@
         </div>
     </div>
 </div>
+
+
 <tabs>
     <tab title="Questions">
         <div class="container">
@@ -84,4 +86,6 @@
             </div>
         </div>
     </tab>
+
+ <a (click)="sessionExport($event)"><i *ngIf="analysisFetched && analytics.length > 0" class="fa fa-file-excel-o tooltipped" data-position="bottom" data-delay="50" title="Export Session" ga-on="click" ga-event-category="Sessions" ga-event-action="export"></i></a>
 </tabs>
