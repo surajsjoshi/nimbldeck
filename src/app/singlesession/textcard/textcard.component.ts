@@ -244,14 +244,12 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
   removeVideo() {
     this.textCardForm.controls['video_url'].setValue(null);
     this.textCardForm.controls['youtube_url'].setValue(null);
-    /*this.textCardForm.controls['video_url'].setValue(null);
-    this.textCardForm.controls['video_code'].setValue(null);*/
-
+    this.textCardForm.controls['video_url'].setValue(null);
+    this.textCardForm.controls['video_code'].setValue(null);
     this.fileUploaded = false;
     this.filestaus='';
     jQuery('.img-upload, .or_text').css('display','block');
     jQuery('.video-upload').removeClass('fullWidth');
-    
   }
 
 

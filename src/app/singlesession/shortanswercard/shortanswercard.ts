@@ -160,12 +160,10 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
     this.cardForm.controls['youtube_url'].setValue(null);
     this.cardForm.controls['video_url'].setValue(null);
     this.cardForm.controls['video_code'].setValue(null);
-
     this.fileUploaded = false;
     this.filestaus='';
     jQuery('.img-upload, .or_text').css('display','block');
     jQuery('.video-upload').removeClass('fullWidth');
-    
   }
 
 
