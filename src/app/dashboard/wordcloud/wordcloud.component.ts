@@ -35,7 +35,13 @@ export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
   }
 
   updateChart(data) {
-   this.ngAfterViewInit();
+   this.words.length = 0;
+   this.answer.analytics.forEach(data => {
+          let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
+          this.words.push(JSON.parse(old));
+    });
+    let tagName = '#jqcloud' + this.answer.question_id;
+    jQuery(tagName).jQCloud('update', this.words);
   }
 
 
