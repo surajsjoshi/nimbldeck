@@ -7,6 +7,8 @@ import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angula
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Session } from '../../shared/models/session';
+import { environment } from '../../../environments/environment';
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -27,9 +29,10 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   cardError: boolean;
   cardForm: FormGroup;
   updateQuestionFlag: boolean;
-  updateQuestion: Card;
+  card: Card;
   saveCardErrorText: string;
   sessionId: string;
+  session: Session;
   private subscription: Subscription;
 
     constructor(public editService: EditService,
@@ -47,16 +50,16 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       this.updateQuestionFlag = false;
       this.saveCardErrorText = '';
 
-      this.updateQuestion = this.editService.getCurrent();
+      this.card = this.editService.getCurrent();
       ga('set', 'userId', this.conf.getUser().userId);
       if (this.editService.isEditing()) {
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
-          text_question: [this.updateQuestion.description, Validators.required],
-          image_url: [this.updateQuestion.resource_url]
+          text_question: [this.card.description, Validators.required],
+          image_url: [this.card.resource_url]
       });
 
-      if (this.updateQuestion.resource_url) {
+      if (this.card.resource_url) {
         this.fileUploaded = true;
       }
         ga('send', 'pageview', '/sessions/yesnocard/edit');
@@ -142,18 +145,30 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateYesNoCard', {'user': this.conf.getUser().emailId});
     } else {
-      mixpanel.time_event('EditYesNoCard');
-      params['question_id'] = this.updateQuestion.question_id;
-      params['position'] = this.updateQuestion.position;
-      let observable = this.cardService.updateQuestion(params, this.sessionId);
-      observable.subscribe(
-        (resp => this._questionUpdated(resp)),
-        (error => this.cardError = true)
-      );
-      mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+
+     if(this.cardService.confirmationRequiredForUpdate(this.session, this.card)){
+          if(confirm(environment.updateCardWarning)){
+              this.updateQuestion(params);
+           } else {
+              jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
+           }
+       } else {
+            this.updateQuestion(params);
+       }
     }
 
   }
+
+  updateQuestion(params: any) {
+     mixpanel.time_event('EditYesNoCard');
+     params['question_id'] = this.card.question_id;
+     params['position'] = this.card.position;
+     let observable = this.cardService.updateQuestion(params, this.card.session_id);
+     observable.subscribe((resp => this.questionUpdated(resp)),
+                (error => this.cardError = true));
+     mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+  }
+
 
   _questionCreated(resp) {
     if (resp.type === 'Failure') {
@@ -171,7 +186,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-  _questionUpdated(resp) {
+  questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;

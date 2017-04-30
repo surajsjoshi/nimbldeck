@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
@@ -31,18 +31,21 @@ import { EditsessionComponent } from './editsession/editsession.component';
 import { DuplicatesessionComponent } from './duplicatesession/duplicatesession.component';
 import { QueriesService } from './services/queries.service';
 import { SessionAnalyticsService } from './services/sessionanalytics.service';
+import { AnalyticsService } from './services/analytics.service';
 import { ChoosecardtypeComponent } from './singlesession/choosecardtype/choosecardtype.component';
 import { McqCardComponent } from './singlesession/mcqcard/mcqcard';
 import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import {Ng2PaginationModule} from 'ng2-pagination';
-import { RatingModule, CarouselModule, DropdownModule } from 'ng2-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { RatingModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
 import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -69,24 +72,27 @@ import { ClipboardModule } from 'ngx-clipboard';
     PieChartComponent,
     BarChartComponent,
     RatingComponent,
-    WordcloudComponent
+    WordcloudComponent,
+    RoundNumberPipe,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     routing,
     PageTitleModule,
-    Ng2PaginationModule,
+    NgxPaginationModule,
     ChartsModule,
-    RatingModule,
-    CarouselModule,
-    DropdownModule,
+    RatingModule.forRoot(),
+    BsDropdownModule.forRoot(),
     ClipboardModule
   ],
   providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-               ApiService, QueriesService, ConfigurationService,
-               CurrentUser, SessionService, CardService, EditService],
+               AnalyticsService, ApiService, QueriesService, 
+               ConfigurationService, CurrentUser, SessionService, CardService,
+                EditService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,
@@ -96,7 +102,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     ShortAnswerCardComponent,
     YesNoCardComponent,
     RatingCardComponent,
-    McqCardComponent
+    McqCardComponent,
+    CarouselComponent
   ]
 })
 export class AppModule { }

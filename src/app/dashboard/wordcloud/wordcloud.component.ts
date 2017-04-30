@@ -1,7 +1,11 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnDestroy } from '@angular/core';
 import { ShortAnswerService } from '../../services/shortanswer.service';
+import { SessionService } from '../../services/session.service';
 import {Session} from '../../shared/models/session';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { EditService } from '../../services/edit.service';
+
 import * as moment from 'moment';
 
 declare var jQuery: any;
@@ -11,44 +15,76 @@ declare var jQuery: any;
   templateUrl: './wordcloud.component.html',
   styleUrls: ['./wordcloud.component.scss']
 })
-export class WordcloudComponent implements OnInit , AfterViewInit {
+export class WordcloudComponent implements OnInit , AfterViewInit, OnDestroy {
 
   @Input() answer: any;
   @Input() session: Session;
   words = [];
   answerList;
+  private subscription: Subscription;
+  private updateSubscription: Subscription;
+
 
   constructor(private answerService: ShortAnswerService,
-  private router: Router) {
+      public sessionService: SessionService,
+      private editService: EditService,
+      private route: ActivatedRoute) {
     this.answerList = [];
+     this.updateSubscription = this.editService.updateSubscription()
+              .subscribe(data => this.updateChart(data));
   }
 
-
-  ngOnInit() {
-
-    try {
-     this.answerService.getAnswers(this.session.session_id,
-      this.answer.question_id,
-       this.populateAnswers.bind(this));
-    }  catch (e) {
-      this.router.navigate(['/app/sessions']);
-    }
-
-  }
-
-  ngAfterViewInit() {
+  updateChart(data) {
+   this.words.length = 0;
    this.answer.analytics.forEach(data => {
           let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
           this.words.push(JSON.parse(old));
     });
     let tagName = '#jqcloud' + this.answer.question_id;
-    jQuery('#answer' + this.answer.question_id).attr('data-target', '#myModal' + this.answer.question_id);
-    setTimeout(function() {
-       jQuery(tagName).jQCloud(this.words, {
+    jQuery(tagName).jQCloud('update', this.words);
+  }
+
+
+  openModal(event) {
+    jQuery('.wordcloud_commnet_modal').openModal();
+
+  }
+
+  closeModal(event) {
+    jQuery('.wordcloud_commnet_modal').closeModal();
+
+  }
+
+
+  ngOnInit() {
+      this.subscription = this.route.params.subscribe(params => {
+        let sessionId = params['id'];
+        this.sessionService.getSession(sessionId)
+        .subscribe(sess => this.mapSession(sess),
+            (error => console.log(error)));
+    });
+
+  }
+
+  private mapSession(response) {
+    this.session = response;
+    this.answerService.getAnswers(this.session.session_id,
+          this.answer.question_id,
+          this.populateAnswers.bind(this));
+  }
+
+  ngAfterViewInit() {
+   // this.words = [];
+   this.answer.analytics.forEach(data => {
+          let old = JSON.stringify(data).replace('label', 'text').replace('total', 'weight');
+          this.words.push(JSON.parse(old));
+    });
+    let tagName = '#jqcloud' + this.answer.question_id;
+    jQuery(tagName).jQCloud(this.words, {
           width: 400,
           height: 250
-       });
-    }.bind(this), 1500);
+    });
+
   }
 
 
@@ -58,4 +94,9 @@ export class WordcloudComponent implements OnInit , AfterViewInit {
           element.created_at = moment.utc(element.created_at).local().fromNow();
       });
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.updateSubscription.unsubscribe();
+ }
 }

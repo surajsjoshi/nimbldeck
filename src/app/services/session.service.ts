@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { ConfigurationService } from './configuration.service';
 import { Injectable } from '@angular/core';
 import { Observable , Operator} from 'rxjs/Rx';
+import {Response} from '@angular/http';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -31,19 +32,19 @@ export class SessionService {
     this.samplesNextPageToken = '';
     this.isfetched = false;
     this.totalUserSessions = 0;
-    let samplesUrl = '/sessions?limit=6';
-    this.api.get(samplesUrl)
-      .flatMap(rawResponse => rawResponse.json().sessions)
-      .map(session => new Session(session, true))
-      .subscribe((session) => this.samples.push(session),
-         (error) => console.log(error));
+    this.sampleSessions();
     this.defaultSessions();
   }
 
-  userSessionsFetched(response) {
-      Array.from(response.sessions).forEach(session => this.userSessions.push(new Session(session, false)));
-      this.totalUserSessions = parseInt(response.total_sessions, 10);
-      this.nextPageToken = response.next_page_token;
+  sessionsFetched(response, isSample: boolean) {
+      if(isSample) {
+          Array.from(response.sessions).forEach(session => this.samples.push(new Session(session, true)));
+          this.samplesNextPageToken = response.next_page_token;
+      } else {
+        Array.from(response.sessions).forEach(session => this.userSessions.push(new Session(session, false)));
+        this.totalUserSessions = parseInt(response.total_sessions, 10);
+        this.nextPageToken = response.next_page_token;
+      }
    }
 
   defaultSessions(): Array<Session> {
@@ -52,13 +53,20 @@ export class SessionService {
     this.api.get(url)
       .map(rawResponse => rawResponse.json())
       .subscribe(
-        (resp => this.userSessionsFetched(resp)),
+        (resp => this.sessionsFetched(resp, false)),
         (error => console.log(error)),
         (() => this.isfetched = true));
-    return this.samples;
+    return this.userSessions;
   }
 
   sampleSessions(): Array<Session> {
+    
+    let samplesUrl = `/sessions?limit=6&next_page_token=${this.samplesNextPageToken}`;
+    this.api.get(samplesUrl)
+      .map(rawResponse => rawResponse.json())
+      .subscribe((resp) => this.sessionsFetched(resp, true),
+         (error) => console.log(error));
+      
     return this.samples;
   }
 
@@ -150,6 +158,12 @@ export class SessionService {
     }
     this.userSessions[index] = session;
     return session;
+  }
+
+  public exportSession(sessionId: string): Observable<Response> {
+     let userId = this.conf.getUser().getUserId();
+     let url = `/sessions/${sessionId}/export?user_id=${userId}`;
+     return this.api.post(url,null);
   }
 
 }

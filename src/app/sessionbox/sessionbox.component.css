@@ -57,6 +57,25 @@
     line-height: 36px;
   }
 
+  span.completed .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+span.completed:hover .tooltiptext {
+    visibility: visible;
+}
+
   .card-content {
     h5 {
       font-size: 1.2em !important;

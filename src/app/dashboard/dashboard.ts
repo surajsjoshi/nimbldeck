@@ -4,12 +4,14 @@ import { ConfigurationService } from '../services/configuration.service';
 import { QueriesService } from '../services/queries.service';
 import { SessionService } from '../services/session.service';
 import { SessionAnalyticsService } from '../services/sessionanalytics.service';
+import { AnalyticsService } from '../services/analytics.service';
 import { Session } from '../shared/models/session';
-import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy } from '@angular/core';
+import { ElementRef, Component, ViewContainerRef, OnInit, OnDestroy , ComponentFactoryResolver} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
-
+import {CarouselComponent} from '../carousel/carousel.component';
+import { EditService } from '../services/edit.service';
 
 import * as moment from 'moment';
 
@@ -31,23 +33,35 @@ export class DashboardComponent implements OnInit , OnDestroy {
   sessionFetched: boolean;
   analysisFetched: boolean;
   queriesFetched: boolean;
+  isFirst: boolean;
   session: Session;
-  queries;
-  analytics;
+  queries: Array<any>;
+  queriesNew: Array<any>;
+  analytics: Array<any>;
+  analyticsNew: Array<any>;
   timer: any;
-  activeSlideIndex: number;
+  carousel: CarouselComponent;
   private subscription: Subscription;
+  private componentFactory: any;
+
 
   constructor(public sessionService: SessionService,
    private analyticsService: SessionAnalyticsService,
    private conf: ConfigurationService,
    private queryService: QueriesService,
+   private editService: EditService,
+   private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
+   private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
     this.sessionFetched = false;
+    this.isFirst = true;
     this.queries = [];
+    this.queriesNew = [];
     this.analytics = [];
+    this.analyticsNew = [];
+    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
   }
 
   ngOnInit() {
@@ -56,8 +70,11 @@ export class DashboardComponent implements OnInit , OnDestroy {
         this.loadDashboard();
         this.timeOut();
         mixpanel.time_event('ViewDashboard');
+        jQuery('[data-toggle="tooltip"]').tooltip();
     });
-  }
+
+}
+
 
   private loadDashboard() {
       mixpanel.time_event('LoadDashboard');
@@ -77,17 +94,36 @@ export class DashboardComponent implements OnInit , OnDestroy {
         () => this.analysisFetched = true);
   }
 
-
   private mapQueries(response) {
-    this.queries = response.queries;
-    this.queries.forEach(element => {
+    this.queriesNew = response.queries;
+    this.queriesNew.forEach(element => {
        element.created_at = moment.utc(element.created_at).local().fromNow();
     });
+
+    if (this.queriesNew.length !== this.queries.length) {
+      this.queries = this.queriesNew;
+      if (this.carousel) {
+        this.carousel.queries = this.queries;
+        this.carousel.update();
+      }
+    }
   }
 
   private mapAnalysis(response) {
     if (response.type === 'Success') {
-       this.analytics = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+         this.analyticsNew = Array.from(response.answers).filter(answer => answer['answered_by'] > 0);
+         if (this.isFirst) {
+             this.analytics = this.analyticsNew;
+             this.isFirst = false;
+         } else {
+              let changed = this.analyticsUpdateService.updateAnalytics(this.analyticsNew, this.analytics);
+              if (changed ) {
+                  this.editService.announceUpdate();
+                  if (this.carousel) {
+                    this.carousel.update();
+                  }
+              }
+         }
     } else {
       this.analytics = [];
     }
@@ -99,15 +135,13 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    clearTimeout(this.timer);
+   clearTimeout(this.timer);
     mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
  }
-
 
   pageChanged(pageNo) {
     this.activePage = pageNo;
   }
-
 
   private timeOut() {
     let self = this;
@@ -118,9 +152,29 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private load() {
       this.loadDashboard();
-     // jQuery( 'div' ).removeClass( 'in, modal-backdrop' );
-      // jQuery( 'body' ).removeClass( 'modal-open' );
       this.timeOut();
   }
 
+  sessionExport(event) {
+    this.sessionService.exportSession(this.session.session_id).subscribe(
+      (resp => console.log(resp)),
+        (error => console.log(error)));
+  }
+
+openModal(event) {
+    let num: number = jQuery(event.target).attr('id');
+    this.viewContainerRef.clear();
+    let cardNo = Number(Number(num) + Number( 4 * (Number(this.activePage - 1))));
+    let componentRef = this.viewContainerRef.createComponent(this.componentFactory);
+    this.carousel = (<CarouselComponent>componentRef.instance);
+    this.carousel.analytics = this.analytics;
+    this.carousel.currentCard = Number(cardNo);
+    this.carousel.queries = this.queries;
+
+    let min_width = jQuery(window).width();
+
+    if (min_width >= 787) {
+      jQuery('#myModal').openModal();
+    }
+}
 };

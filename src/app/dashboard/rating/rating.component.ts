@@ -1,11 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input , OnDestroy} from '@angular/core';
+import { EditService } from '../../services/edit.service';
+import { Subscription }   from 'rxjs/Subscription';
 
 @Component({
   selector: 'rate',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.css']
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnInit, OnDestroy {
 
   max = 5;
   rate = 2;
@@ -16,17 +18,26 @@ export class RatingComponent implements OnInit {
   averageRate: number;
   ratings = {};
   titles: string[];
+  subscription: Subscription;
 
-  constructor() {
+  constructor(private editService: EditService) {
    this.titles = ['One Star', 'Two Star', 'Three Star', 'Four Star', 'Five Star'];
+   this.subscription = this.editService.updateSubscription()
+              .subscribe(data => this.updateChart(data));
+  }
+
+  updateChart(data) {
+      this.averageRate = this.answer.average;
+      this.answer.analytics.forEach(chartData => {
+            this.ratings[this.getRating(chartData.label)] = chartData.total;
+       });
   }
 
   ngOnInit() {
-      this.averageRate = this.getRating(this.answer.average);
-      this.answer.analytics.forEach(data => {
-            this.ratings[this.getRating(data.label)] = data.total;
-       });
+      this.updateChart(null);
   }
+
+
 
   public hoveringOver(value: number) {
     // this.overStar = value;
@@ -53,4 +64,8 @@ export class RatingComponent implements OnInit {
             return 0;
         }
     }
+
+    ngOnDestroy() {
+    this.subscription.unsubscribe();
+ }
 }

@@ -26,6 +26,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
   playStatus: string;
   isComplete: boolean;
   textCopied: boolean;
+  toolTip: string;
 
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
@@ -44,8 +45,11 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     image.src = this.session.image_url;
     if (this.session.status === 'Running') {
       this.playStatus = 'stop';
+      this.toolTip = 'Pause Session';
     } else if (this.session.status === 'Completed') {
       this.isComplete = true;
+    } else {
+      this.toolTip = 'Start Session';
     }
   }
 
@@ -72,38 +76,54 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
           (error => console.log(error))
         );
     } else {
-      this.sessionService.startStopSession(this.session.session_id, 'stop')
+      this.sessionService.startStopSession(this.session.session_id, 'pause')
         .subscribe(
-          (resp => this.onStartStop(resp, 'stop')),
+          (resp => this.onStartStop(resp, 'pause')),
           (error => console.log(error))
         );
     }
   }
+
+ 
 
   private onStartStop(resp, action: string) {
     if ('Success' === resp.type) {
       if ('start' === action) {
           this.playStatus = 'stop';
           this.hideClass = '';
+          this.toolTip = 'Pause Session';
           this.session.status = 'Running';
           mixpanel.people.increment('RunningSessions');
 
-      } else {
-        this.isComplete = true;
+      } else if ('pause' === action) {
+        this.playStatus = 'play';
+        this.hideClass = '';
+        this.session.status = 'Paused';
+        this.toolTip = 'Start Session';
+        mixpanel.people.increment('PausedSessions', 1);
         mixpanel.people.increment('RunningSessions', -1);
-    }
+      } else {
+        this.toolTip = 'Session Completed';
+        this.isComplete = true;
+        mixpanel.people.increment('CompletedSessions', 1);
+        mixpanel.people.increment('RunningSessions', -1);
+      }
     }
   }
 
-  duplicateSession(evt, session) {
+  showDashBoardLink(): boolean {
+     return !this.session.isSample && this.session.status !== 'Created';
+  }
+
+  duplicateSession(evt) {
     evt.preventDefault();
-    this.editService.setCurrentEdit('session', session);
+    this.editService.setCurrentEdit('session', this.session);
     this.onShowDuplicateModal.emit(true);
   }
 
   editSession(evt, session) {
     evt.preventDefault();
-    this.editService.setCurrentEdit('session', session);
+    this.editService.setCurrentEdit('session', this.session);
     this.onShowEditModal.emit(true);
   }
    ngAfterViewInit() {

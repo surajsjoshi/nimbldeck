@@ -11,6 +11,7 @@
     </div>
 </div>
 
+
 <tabs>
     <tab title="Questions">
         <div class="container">
@@ -25,21 +26,38 @@
                     <div class="container" *ngIf="analytics.length == 0">
                         <h5 class="text-center">No Trainee has attempted your session</h5>
                     </div>
-                    <!-- 
-			<carousel [interval]="1500" [noWrap]="false"> <slide
-				*ngFor="let slide of analytics; let i=index"> <questionchartbox
-				[answer]='slide'></questionchartbox> </slide> </carousel> -->
-
-
-
                     <div class="row session_list" *ngIf="analytics.length > 0">
                         <div class="container">
                             <div class="row-ui">
                                 <div class="col s12 m6" *ngFor="let answer of analytics | paginate: { itemsPerPage: 4, currentPage: activePage }; let i = index">
-                                    <questionchartbox [answer]='answer' [index]='i' [page]="activePage" [perPage]='4' [session]='session'>
-                                    </questionchartbox>
+                                    <!--  <questionchartbox [answer]='answer' [index]='i' [page]="activePage" [perPage]='4' [session]='session'>
+                                    </questionchartbox> -->
 
+                                    <div class="card question-box hoverable">
+                                        <div class="question-box-head">
+                                            <!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
+                                            <a (click)="openModal($event)" data-toggle="tooltip" title="Click to view the graph in full view" class="add-new-session" data-target="{{i}}">
+                                                <h5 id="{{i+1}}">Q. {{answer.description}}</h5>
+                                            </a>
+
+                                            <div class="digits">
+                                                <span>
+                                                    {{answer.answered_by}} of {{answer.participants}}
+                                                </span>
+                                            </div>
+                                            <div class=pull-right></div>
+                                        </div>
+                                        <div class="charts">
+                                            <span class="pull-right"> </span>
+
+                                            <piechart [answer]='answer' *ngIf="answer.question_type === 'yes_no'"></piechart>
+                                            <barchart [answer]='answer' *ngIf="answer.question_type === 'multiple_choice'"></barchart>
+                                            <wordcloud [answer]='answer' *ngIf="answer.question_type === 'short_text'" [session]='session'></wordcloud>
+                                            <rate [answer]='answer' *ngIf="answer.question_type === 'rating'"></rate>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                             <pagination-controls (pageChange)="pageChanged($event)" class="pull-right"></pagination-controls>
                             <div class="clearfix"></div>
@@ -56,7 +74,7 @@
         <div class="tab-section">
             <div class="container">
                 <div class="container" *ngIf="queries.length == 0">
-                    <h5 class="text-center">No queries to display</h5>
+                    <h5 class="text-center">No Queries yet</h5>
                 </div>
 
                 <div class="scrollbar" *ngIf="queries.length > 0">
@@ -68,33 +86,6 @@
             </div>
         </div>
     </tab>
+
+ <!--<a (click)="sessionExport($event)"><i *ngIf="analysisFetched && analytics.length > 0" class="fa fa-file-excel-o tooltipped" data-position="bottom" data-delay="50" title="Export Session" ga-on="click" ga-event-category="Sessions" ga-event-action="export"></i></a> -->
 </tabs>
-
-
-<!-- 
-<div class="">
-	<div class="rowiner">
-		<div class="col s12">
-			 <div class="container">
-				<h5 class="text-center">No Records</h5>
-			</div>
- 
-
-			<div class="row session_list">
-				<div class="container">
-					<div class="row-ui">
-						 <div class="col s12 m6"
-							*ngFor="#answer of _sessionAnalyticsService.useranalytics  | paginate: { itemsPerPage: 4, currentPage: activePage }; #i=index">
-							<question-chart-box [answer]='answer' [index]='i'
-								[page]="activePage" [perPage]='4' [session]='session'></question-chart-box>
-						</div> 
-					</div>
-				
-
-					<div class="clearfix"></div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div> -->

@@ -16,6 +16,7 @@ import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import {CarouselComponent} from '../carousel/carousel.component';
 
 declare var ga: any;
 declare var jQuery: any;
@@ -150,6 +151,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<RatingCardComponent>componentRef.instance).editService = this.editService;
+    (<RatingCardComponent>componentRef.instance).session = this.session;
     jQuery('#rating-card-modal').openModal();
   }
 
@@ -158,6 +160,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<ShortAnswerCardComponent>componentRef.instance).editService = this.editService;
+    (<ShortAnswerCardComponent>componentRef.instance).session = this.session;
     jQuery('#shortanswer-card-modal').openModal();
   }
 
@@ -166,6 +169,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<McqCardComponent>componentRef.instance).editService = this.editService;
+    (<McqCardComponent>componentRef.instance).session = this.session;
     jQuery('#mcq-card-modal').openModal();
   }
 
@@ -174,8 +178,20 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<YesNoCardComponent>componentRef.instance).editService = this.editService;
+    (<YesNoCardComponent>componentRef.instance).session = this.session;
     jQuery('#yesno-card-modal').openModal();
   }
+/*
+  openCarouselModal(event) {
+
+    let num = jQuery(event.target).attr('id');
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<CarouselComponent>componentRef.instance).currentCard = Number(num);
+    jQuery('#myModal').openModal();
+
+  } */
 
 
   ngOnDestroy() {

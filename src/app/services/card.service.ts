@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { ConfigurationService } from './configuration.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { Session } from '../shared/models/session';
 
 @Injectable()
 export class CardService {
@@ -54,6 +55,10 @@ export class CardService {
         break;
       }
     }
+  }
+
+  confirmationRequiredForUpdate(session: Session, card: Card): boolean {
+    return new Date(card.created_at) < new Date(session.paused_at);
   }
 
 
