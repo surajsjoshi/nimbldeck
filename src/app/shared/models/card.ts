@@ -13,7 +13,9 @@ export class Card {
   resource_url: string;
   position: number;
   choices: any;
-
+  resource_type: string;
+  resource_code: string;
+  scope: string;
 
 
 
