@@ -16,7 +16,6 @@ import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {Ng2DragDropModule} from 'ng2-drag-drop';
 
 import { DragulaService} from 'ng2-dragula/ng2-dragula';
 
@@ -59,6 +58,8 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.cardsFetched = false;
     this.sessionFetched = false;
     this.questionDeleteError = false;
+
+   
    
    }
 
@@ -86,6 +87,17 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
 
   }
+
+private onDrag(args){
+    let [e, el] = args;
+    //this.removeClass(e, 'ex-moved');
+  }
+
+  private onDrop(args) {
+    let [e, el] = args;
+   // this.addClass(e, 'ex-moved');
+}
+
 
   private mapSession(response) {
     this.session = response;
