@@ -180,7 +180,7 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
 
 
     let params;
-    if (this.cardForm.controls['youtube_url'].value !== '') {
+    if(jQuery('.video-upload').hasClass("fullWidth")){ 
       params = {
           type: 'short_text',
           description: this.cardForm.controls['text_question'].value,

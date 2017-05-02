@@ -104,7 +104,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
       return false;
     }
     let params;
-    if (this.textCardForm.controls['youtube_url'].value !== '') {
+    if(jQuery('.video-upload').hasClass("fullWidth")){ 
       params = {
           type: 'long_text',
           description: this.textCardForm.controls['text_question'].value,

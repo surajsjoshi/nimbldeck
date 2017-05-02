@@ -209,28 +209,27 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm.controls['mcqoption'].setValue(null);
     }
 
-    let params;
-    if (this.cardForm.controls['youtube_url'].value !== '') {
+
+    let params={};
+    if (jQuery('.video-upload').hasClass("fullWidth")){  
       params = {
-          type: 'multiple_choice',
-          description: this.cardForm.controls['text_question'].value,
-          required: false,
-          resource_url:  this.cardForm.controls['youtube_url'].value,
-          resource_type: 'video',
-          resource_code: this.cardForm.controls['video_code'].value
-        };
-
-    } else {
-         params = {
-          type: 'multiple_choice',
-          description: this.cardForm.controls['text_question'].value,
-          required: false,
-          resource_url: this.cardForm.controls['image_url'].value,
-          resource_type: 'image'
-        };
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url:  this.cardForm.controls['youtube_url'].value,
+        resource_type: 'video',
+        resource_code: this.cardForm.controls['video_code'].value
+      };
+      }
+    else{
+      params = {
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url: this.cardForm.controls['image_url'].value,
+        resource_type: 'image'
+      };
     }
-
-
 
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateMCQCard');

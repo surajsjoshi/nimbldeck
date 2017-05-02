@@ -185,8 +185,10 @@ uploadVideo() {
     if (!this.cardForm.valid) {
       return false;
     }
-  let params;
-  if (this.cardForm.controls['youtube_url'].value !== '') {
+  let params={};
+  if (jQuery('.video-upload').hasClass("fullWidth")){
+
+  
   params = {
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
@@ -196,15 +198,14 @@ uploadVideo() {
       resource_code: this.cardForm.controls['video_code'].value
     };
 
-}else {
-     params = {
+}
+else{
+  params = {
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
       required: false,
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
-
-
     };
 }
 
