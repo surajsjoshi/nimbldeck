@@ -212,7 +212,7 @@
 						 <p class="text_instruction">Click on the check button(s) to select correct answer(s)</p>
 						<div *ngFor="let option of options;let i = index" class="row">
 							<div class="col s1">
-								<input type="checkbox" id="isTosRead" formControlName="isTosRead"  required /> <label>&nbsp;</label>
+								<input type="checkbox" class="optionCheck" id="isTosRead{{i}}" checked={{option.checkStatus}}  required /> <label>&nbsp;</label>
 							</div>
 							<div class="col s9 mcq-option">
 								<input type="text" value={{option.label}} name="option-{{i}}"
@@ -231,7 +231,7 @@
 
 						<div class="row" *ngIf="options && options.length < 4 ">
 							<div class="col s1">
-								<input type="checkbox" id="isTosRead" formControlName="isTosRead" required /> <label>&nbsp;</label>
+								<input type="checkbox" id="isTosRead" class="optionCheck" formControlName="isTosRead" required /> <label>&nbsp;</label>
 							</div>
 							<div class="col s10 mcq-option">
 								<div class="row">
