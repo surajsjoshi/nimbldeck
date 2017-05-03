@@ -12,5 +12,5 @@ export const environment = {
   basePath: '/homepage/index.html',
   logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   dashboardReloadInterval: 15000,
-  updateCardWarning: 'This card has analytics. Updating the card will reset analytics. Are you sure, you want to update this card?'
+  updateCardWarning: 'Updating the card will reset analytics if any. Are you sure, you want to update this card?'
 };

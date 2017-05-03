@@ -111,4 +111,3 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
  }
 }
-
