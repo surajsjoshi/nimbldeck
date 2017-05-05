@@ -1,0 +1,88 @@
+<div class="wizard-container">
+  <div class="card wizard-card" data-color="red" id="wizard">
+    <form action="" method="">
+      <div class="wizard-header">
+        <h3 class="wizard-title">
+          Onboarding
+        </h3>
+        <h5>This information will help you to get started with the platform.</h5>
+      </div>
+      <div class="wizard-navigation">
+        <ul>
+          <li (click)="activeTab='create'"><a href="#create" data-toggle="tab">Create</a></li>
+          <li (click)="activeTab='share'"><a href="#share" data-toggle="tab">Share</a></li>
+          <li (click)="activeTab='analyse'"><a href="#analyse" data-toggle="tab">Analyse</a></li>
+          <li (click)="activeTab='finish'"><a href="#finish" data-toggle="tab">Finish</a></li>
+        </ul>
+      </div>
+
+      <div class="tab-content">
+
+        <!-- Create a bite -->
+        <div class="tab-pane" id="create" *ngIf="activeTab === 'create'">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="info-text">Where to use nimblDeck</h4>
+            </div>
+            <div class="col-sm-8 col-sm-offset-2">
+              <app-player [url]="introVideo"></app-player>
+            </div>
+          </div>
+        </div>
+
+        <!-- Share a bite -->
+        <div class="tab-pane" id="share" *ngIf="activeTab === 'share'">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="info-text">How to share a bite-sized session with your trainees?</h4>
+            </div>
+            <div class="col-sm-8 col-sm-offset-2">
+              <app-player [url]="introVideo"></app-player>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analyse Audience -->
+        <div class="tab-pane" id="analyse" *ngIf="activeTab === 'analyse'">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="info-text">Real time insights on your audience</h4>
+            </div>
+            <div class="col-sm-8 col-sm-offset-2">
+              <app-player [url]="introVideo"></app-player>
+            </div>
+          </div>
+        </div>
+
+        <!-- Finish -->
+        <div class="tab-pane" id="finish" *ngIf="activeTab === 'finish'">
+          <div class="row">
+            <div class="col-sm-12">
+              <h4 class="info-text">You are READY to get started</h4>
+            </div>
+            <div class="text-center">
+              <input (click)="onFinish()" type='button' class='btn btn-warning btn-sm' name='next' value='CREATE YOUR FIRST SESSION' />
+            </div>
+            <br />
+            <div class="text-center">
+              If you need any help, we are just a click away. Send your
+              <a class="action" (click)="onAskQuery()">query</a> here
+              <br /> Or email support@nimbldeck.com
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!--<div class="wizard-footer">
+        <div class="pull-right">
+          <input type='button' class='btn btn-next btn-fill btn-danger btn-sm' name='next' value='Next' />
+          <input type='button' class='btn btn-finish btn-fill btn-danger btn-sm' name='finish' value='Finish' />
+        </div>
+        <div class="pull-left">
+          <input type='button' class='btn btn-previous btn-fill btn-default btn-sm' name='previous' value='Previous' />
+        </div>
+        <div class="clearfix"></div>
+      </div>-->
+    </form>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+#welcome-user {
+    top: 10%;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.modal-title {
+    color: #3C4858;
+    font-size: 1.825em;
+    line-height: 1.4em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+#welcome-user .modal-dialog {
+    left: 10%;
+    width: 80% !important;
+    position: fixed;
+}
+
+#welcome-user .modal-content {
+    padding: 0;
+}
+
+.modal button.close {
+    z-index: 10000;
+    position: absolute;
+    right: -15px;
+    top: -12px;
+    width: 35px;
+    height: 35px;
+    background: #fff;
+    opacity: 1;
+    border: 3px solid #000;
+    border-radius: 20px;
+}

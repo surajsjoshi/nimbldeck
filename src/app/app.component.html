@@ -1,5 +1,4 @@
-
-  <nav>
+<nav>
   <div class="row">
     <div class="col offset-m1 s5 m5">
       <a [routerLink]="['/app']">
@@ -9,9 +8,15 @@
     <div class="col s7 m5">
       <ul id="nav-mobile" class="right">
         <li>
-          <a href="#contact-us-modal" (click)="openModal($event)" class="help-icon contact-us-btn" ga-on="click" ga-event-category="Contact Us"  ga-event-action="play">
+          <a (click)="isHelpNeeded=true" class="help-icon help-btn">
             <i class="material-icons">live_help</i>
           </a>
+        </li>
+        <li>
+          <a href="#contact-us-modal" (click)="openModal($event)" class="help-icon contact-us-btn" ga-on="click" ga-event-category="Contact Us"
+            ga-event-action="play">
+            <i class="material-icons">feedback</i>
+            </a>
         </li>
         <li>
           <userdropdown></userdropdown>
@@ -19,9 +24,8 @@
       </ul>
     </div>
   </div>
- 
-</nav>
- 
-<router-outlet></router-outlet>
-<contactus></contactus> 
 
+</nav>
+<app-welcome-user (query)="onAskQuery()" (finish)="onHelpFinish()" (closed)="onHelpClosed()" *ngIf="isHelpNeeded"></app-welcome-user>
+<router-outlet></router-outlet>
+<contactus></contactus>

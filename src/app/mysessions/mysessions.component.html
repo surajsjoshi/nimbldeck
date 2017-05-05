@@ -3,9 +3,7 @@
 		<div class="title-container container">
 
 			<pagetitle [pageTitle]="title"></pagetitle>
-			<a data-tooltip="Add new session" (click)="openModal($event)"
-				href="#create-session-modal"
-				class="add-new-session btn-floating btn-large waves-effect waves-light floating-add-btn">
+			<a data-tooltip="Add new session" (click)="openModal($event)" href="#create-session-modal" class="add-new-session btn-floating btn-large waves-effect waves-light floating-add-btn">
 				<i class="material-icons">add</i>
 			</a>
 		</div>
@@ -17,26 +15,21 @@
 		<i class="fa fa-spinner fa-spin fa-2x"></i>
 	</p>
 </div>
+<app-welcome-user (query)="onAskQuery()" (finish)="onHelpFinish()"></app-welcome-user>
+
 <div class="container" *ngIf="sessionService.isfetched">
 	<div class="row">
 		<div class="col s12">
 			<h5 *ngIf="sessionService.userSessions.length == 0">
-				No sessions added. <a data-tooltip="Add new session"
-					(click)="openModal($event)" href="#create-session-modal"
-					class="add-new-session">Add</a> your first session.
+				No sessions added. <a data-tooltip="Add new session" (click)="openModal($event)" href="#create-session-modal" class="add-new-session">Add</a>				your first session.
 			</h5>
 			<div class="row session_list">
-				<div class="col s12 m6 l4"
-					*ngFor="let session of sessionService.userSessions">
-					<sessionbox (onShowEditModal)="onShowEditModal($event)"
-						(onShowDuplicateModal)="onShowDuplicateModal($event)"
-						[session]="session"></sessionbox>
+				<div class="col s12 m6 l4" *ngFor="let session of sessionService.userSessions">
+					<sessionbox (onShowEditModal)="onShowEditModal($event)" (onShowDuplicateModal)="onShowDuplicateModal($event)" [session]="session"></sessionbox>
 				</div>
 				<div class="clearfix"></div>
 				<div class="col-xs-12 center-align">
-					<div class="btn waves-effect"
-						*ngIf="sessionService.nextPageToken && sessionService.nextPageToken !== ''"
-						(click)="sessionService.defaultSessions()">Load More</div>
+					<div class="btn waves-effect" *ngIf="sessionService.nextPageToken && sessionService.nextPageToken !== ''" (click)="sessionService.defaultSessions()">Load More</div>
 				</div>
 			</div>
 		</div>
@@ -45,23 +38,17 @@
 		<div class="row">
 			<div class="col s12">
 				<div class="row">
-					<div class="col s12 m6 l4"
-						*ngFor="let session of sessionService.samples">
-						<sessionbox (onShowEditModal)="onShowEditModal($event)"
-							(onShowDuplicateModal)="onShowDuplicateModal($event)"
-							[session]="session"></sessionbox>
+					<div class="col s12 m6 l4" *ngFor="let session of sessionService.samples">
+						<sessionbox (onShowEditModal)="onShowEditModal($event)" (onShowDuplicateModal)="onShowDuplicateModal($event)" [session]="session"></sessionbox>
 					</div>
-						<div class="clearfix"></div>
-				<div class="col-xs-12 center-align">
-					<div class="btn waves-effect"
-						*ngIf="sessionService.samplesNextPageToken && sessionService.samplesNextPageToken !== ''"
-						(click)="sessionService.sampleSessions()">Load More</div>
-				</div>
+					<div class="clearfix"></div>
+					<div class="col-xs-12 center-align">
+						<div class="btn waves-effect" *ngIf="sessionService.samplesNextPageToken && sessionService.samplesNextPageToken !== ''" (click)="sessionService.sampleSessions()">Load More</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<createsession></createsession> 
+<createsession></createsession>
 <div #duplicate></div>
-

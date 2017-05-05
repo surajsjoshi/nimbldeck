@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { PageTitleModule } from './shared/page-title/pagetitle.module';
@@ -11,7 +12,7 @@ import { OrderbyPipe } from './shared/pipes/orderby.pipe';
 import { UserdropdownComponent } from './userdropdown/userdropdown.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { MysessionsComponent } from './mysessions/mysessions.component';
-import {routing} from './app.routes';
+import { routing } from './app.routes';
 import { CreatesessionComponent } from './createsession/createsession.component';
 import { BarChartComponent } from './dashboard/barchart/barchart';
 import { DashboardComponent } from './dashboard/dashboard';
@@ -38,7 +39,7 @@ import { RatingCardComponent } from './singlesession/ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './singlesession/shortanswercard/shortanswercard';
 import { TextcardComponent } from './singlesession/textcard/textcard.component';
 import { YesNoCardComponent } from './singlesession/yesnocard/yesnocard';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { RatingModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { RatingComponent } from './dashboard/rating/rating.component';
@@ -46,6 +47,10 @@ import { WordcloudComponent } from './dashboard/wordcloud/wordcloud.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RoundNumberPipe } from './shared/pipes/roundnumber.pipe';
 import { CarouselComponent } from './carousel/carousel.component';
+import { WelcomeUserComponent } from './shared/components/modals/welcome-user/welcome-user.component';
+import { OnboardingComponent } from './shared/components/help/onboarding/onboarding.component';
+import { PlayerComponent } from './shared/components/player/player.component';
+import { AppSharedService } from './app-shared.service';
 
 @NgModule({
   declarations: [
@@ -74,7 +79,10 @@ import { CarouselComponent } from './carousel/carousel.component';
     RatingComponent,
     WordcloudComponent,
     RoundNumberPipe,
-    CarouselComponent
+    CarouselComponent,
+    WelcomeUserComponent,
+    OnboardingComponent,
+    PlayerComponent
   ],
   imports: [
     BrowserModule,
@@ -87,12 +95,13 @@ import { CarouselComponent } from './carousel/carousel.component';
     ChartsModule,
     RatingModule.forRoot(),
     BsDropdownModule.forRoot(),
-    ClipboardModule
+    ClipboardModule,
+    ModalModule
   ],
-  providers: [ OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-               AnalyticsService, ApiService, QueriesService, 
-               ConfigurationService, CurrentUser, SessionService, CardService,
-                EditService],
+  providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
+    AnalyticsService, ApiService, QueriesService,
+    ConfigurationService, CurrentUser, SessionService, CardService,
+    EditService, AppSharedService],
   bootstrap: [AppComponent],
   entryComponents: [
     EditsessionComponent,

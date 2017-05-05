@@ -8,6 +8,7 @@ import { Component, ElementRef, OnInit, OnDestroy, AfterViewInit, ComponentFacto
 import { SessionService } from '../services/session.service';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
+import { AppSharedService } from '../app-shared.service';
 
 declare var jQuery: any;
 declare var ga: any;
@@ -19,22 +20,27 @@ declare var mixpanel: any;
   templateUrl: './mysessions.component.html',
   styleUrls: ['./mysessions.component.scss']
 })
-export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
+export class MysessionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public title = 'My Sessions';
 
- constructor(public sessionService: SessionService,
-   private conf: ConfigurationService,
-   private viewContainerRef: ViewContainerRef,
-   private editService: EditService,
-   private componentFactoryResolver: ComponentFactoryResolver,
-   private el: ElementRef) {
- }
+  constructor(public sessionService: SessionService,
+    private conf: ConfigurationService,
+    private viewContainerRef: ViewContainerRef,
+    private editService: EditService,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private el: ElementRef,
+    private appSharedService: AppSharedService) {
+  }
 
   ngOnInit() {
+    this.appSharedService.helpFinish$.subscribe((resp) => {
+      // Help finished
+      this.openModal();
+    });
     mixpanel.time_event('ListSessions');
     this.sessionService.init();
-    mixpanel.track('ListSessions', {'user': this.conf.getUser().emailId});
+    mixpanel.track('ListSessions', { 'user': this.conf.getUser().emailId });
     ga('set', 'userId', this.conf.getUser().getUserId());
     ga('send', 'pageview', 'sessions');
   }
@@ -51,27 +57,37 @@ export class MysessionsComponent  implements OnInit, OnDestroy, AfterViewInit {
     this.sessionService.defaultSessions();
   }
 
-  openModal(event) {
-    event.preventDefault();
+  openModal(event?) {
+    if (event) {
+      event.preventDefault();
+    }
     let button = jQuery(this.el.nativeElement).find('.add-new-session');
     let modal = button.attr('href');
     jQuery(modal).openModal();
   }
 
   onShowEditModal(event) {
-     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(EditsessionComponent);
-     this.viewContainerRef.clear();
-     let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(EditsessionComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<EditsessionComponent>componentRef.instance).editService = this.editService;
     jQuery('#edit-session-modal').openModal();
   }
 
   onShowDuplicateModal(event) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(DuplicatesessionComponent);
-     this.viewContainerRef.clear();
-     let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<DuplicatesessionComponent>componentRef.instance).editService = this.editService;
     jQuery('#duplicate-session-modal').openModal();
+  }
+
+  onHelpFinish() {
+    this.openModal();
+  }
+
+  onAskQuery() {
+    this.appSharedService.emitAskQuery({});
   }
 
 }

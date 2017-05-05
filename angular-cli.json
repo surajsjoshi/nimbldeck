@@ -18,9 +18,16 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/mediaelement/build/mediaelementplayer.min.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/mediaelement/build/mediaelement-and-player.js",
+        "../node_modules/mediaelement/build/renderers/facebook.min.js",
+        "../node_modules/mediaelement/build/renderers/vimeo.min.js",
+        "../node_modules/mediaelement/build/renderers/dailymotion.min.js",
+        "../node_modules/mediaelement/build/renderers/twitch.min.js"
+      ],
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",

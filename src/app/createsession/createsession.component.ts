@@ -5,7 +5,7 @@ import { SessionService } from '../services/session.service';
 import { Component, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import {Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 declare var AWS: any;
 declare var jQuery: any;
@@ -43,11 +43,11 @@ export class CreatesessionComponent {
     this.fileUploaded = false;
     this.header = 'Create New Session';
     this.addSessionForm = this.formBuilder.group({
-          session_title: new FormControl('', Validators.required),
-           organization: new FormControl(''),
-           image_url: new FormControl(''),
-           session_id: new FormControl('')
-     });
+      session_title: new FormControl('', Validators.required),
+      organization: new FormControl(''),
+      image_url: new FormControl(''),
+      session_id: new FormControl('')
+    });
   }
 
 
@@ -70,7 +70,7 @@ export class CreatesessionComponent {
     });
     bucket.upload(params, function (err, data) {
       if (err) {
-         self.uploadError = 'Failed to upload file';
+        self.uploadError = 'Failed to upload file';
       } else {
         self.fileUploaded = true;
         self.imgUploadingInProcess = false;
@@ -79,7 +79,7 @@ export class CreatesessionComponent {
     });
   }
 
-    submitAddSession(event) {
+  submitAddSession(event) {
     let btnSave = this.el.nativeElement.getElementsByClassName('btn')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
@@ -90,31 +90,31 @@ export class CreatesessionComponent {
     if (this.editService.isEditing()) {
 
       mixpanel.time_event('EditSession');
-        /* let observale = this.sessionService.editSession(this.editSession.value);
-            observale.subscribe(
-            (resp => console.log(resp)),
-            (error => this.sessionError = true)
-         );*/
-        event.preventDefault();
-        mixpanel.track('EditSession', {'user': this.conf.getUser().getEmailId()});
-    } else {
-        mixpanel.time_event('CreateSession');
-        let observale = this.sessionService.addSession(this.addSessionForm.value);
-        observale.subscribe(
-          (resp => this.onSessionCreate(resp)),
+      /* let observale = this.sessionService.editSession(this.editSession.value);
+          observale.subscribe(
+          (resp => console.log(resp)),
           (error => this.sessionError = true)
-        );
-        event.preventDefault();
-        mixpanel.track('CreateSession', {'user': this.conf.getUser().getEmailId()});
+       );*/
+      event.preventDefault();
+      mixpanel.track('EditSession', { 'user': this.conf.getUser().getEmailId() });
+    } else {
+      mixpanel.time_event('CreateSession');
+      let observale = this.sessionService.addSession(this.addSessionForm.value);
+      observale.subscribe(
+        (resp => this.onSessionCreate(resp)),
+        (error => this.sessionError = true)
+      );
+      event.preventDefault();
+      mixpanel.track('CreateSession', { 'user': this.conf.getUser().getEmailId() });
     }
   }
 
 
-   onSessionCreate(resp) {
+  onSessionCreate(resp) {
     if (resp.type === 'Failure') {
       this.sessionError = true;
       mixpanel.people.increment('CreateSessionFailed');
-      mixpanel.track('CreateSessionFailed', {'error' : resp.errors[0].message});
+      mixpanel.track('CreateSessionFailed', { 'error': resp.errors[0].message });
       return;
     }
     this.sessionCreated = true;
@@ -129,7 +129,7 @@ export class CreatesessionComponent {
 
   }
 
-    removeImage() {
+  removeImage() {
     this.addSessionForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
   }

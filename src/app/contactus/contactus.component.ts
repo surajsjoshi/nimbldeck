@@ -13,7 +13,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 })
 export class ContactusComponent {
 
-  logoPath = 'https://app.nimbldeck.com/assets/img/nimbldeck-logo.jpg';
+  logoPath = 'https://www.nimbldeck.com/assets/img/nimbldeck-logo.jpg';
   contactSent = false;
   contactError = false;
   contactForm: FormGroup;
