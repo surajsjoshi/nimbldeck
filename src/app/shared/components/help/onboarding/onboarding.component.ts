@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
 declare var $;
 declare var $validator;
 declare var refreshAnimation;
@@ -11,7 +12,9 @@ declare var refreshAnimation;
 export class OnboardingComponent implements OnInit {
   @Output() finish = new EventEmitter();
   @Output() query = new EventEmitter();
-  public introVideo = 'https://www.youtube.com/watch?v=gvCXL7vUCCM';
+  public createVideo = environment.introVideos.create;
+  public shareVideo = environment.introVideos.share;
+  public analyseVideo = environment.introVideos.analyse;
   public activeTab = 'create';
   constructor() { }
 

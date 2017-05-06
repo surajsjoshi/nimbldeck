@@ -12,6 +12,7 @@ export class AppComponent {
   public isHelpNeeded: boolean = false;
   nimblDeckLogo = environment.logoPath;
   url = 'https://nimbldeck.com';
+  public isGetStartedActive = true;
   constructor(private el: ElementRef, private appSharedService: AppSharedService) { }
 
   ngOnInit() {

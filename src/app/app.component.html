@@ -26,6 +26,7 @@
   </div>
 
 </nav>
-<app-welcome-user (query)="onAskQuery()" (finish)="onHelpFinish()" (closed)="onHelpClosed()" *ngIf="isHelpNeeded"></app-welcome-user>
-<router-outlet></router-outlet>
-<contactus></contactus>
+<app-welcome-user [isGetStartedActive]="isGetStartedActive" (query)="onAskQuery()" (finish)="onHelpFinish()" (closed)="onHelpClosed()"
+  *ngIf="isHelpNeeded"></app-welcome-user>
+  <router-outlet></router-outlet>
+  <contactus></contactus>

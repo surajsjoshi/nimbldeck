@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { environment } from '../../../../../environments/environment';
 
@@ -9,12 +9,13 @@ import { environment } from '../../../../../environments/environment';
 })
 export class WelcomeUserComponent implements OnInit {
   @ViewChild('childModal') public childModal: ModalDirective;
+  @Input() isGetStartedActive: boolean = false;
   @Output() closed = new EventEmitter();
   @Output() finish = new EventEmitter();
   @Output() query = new EventEmitter();
   public isModalShown: boolean = false;
   public logoPath = environment.logoPath;
-  public isGetStartedActive: boolean = false;
+  
   constructor() { }
 
   ngOnInit() {
