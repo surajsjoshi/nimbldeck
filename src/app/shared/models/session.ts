@@ -5,9 +5,9 @@ export class Session {
   session_id: string;
   image_url: string;
   status: string;
-  updated_at: Date;
-  created_at: Date;
-  paused_at: Date;
+  updated_at: string;
+  created_at: string;
+  paused_at: string;
   organization: string;
   title: string;
   share_token: string;
