@@ -24,8 +24,9 @@ declare var mixpanel: any;
 export class MysessionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public title = 'My Sessions';
+  public isNewUser: boolean;
   private sub: any;
-  private isNewUser: any;
+  
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
     private viewContainerRef: ViewContainerRef,
