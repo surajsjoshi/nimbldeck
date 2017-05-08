@@ -49,7 +49,6 @@ export class ConfigurationService {
       });
         AWS.config.credentials.get(function (err) {
     if (err) {
-       console.log(err);
        self.home();
     }
   });

@@ -17,7 +17,6 @@ export class EditService {
   }
 
   announceUpdate() {
-    console.log('Announce update');
     this.updateSource.next(true);
   }
 
