@@ -7,6 +7,7 @@ declare var refreshAnimation;
 declare var mixpanel: any;
 
 @Component({
+  moduleId: module.id,
   selector: 'app-onboarding',
   templateUrl: './onboarding.component.html',
   styleUrls: ['./onboarding.component.css']
