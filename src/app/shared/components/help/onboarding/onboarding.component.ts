@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
+import { ConfigurationService } from '../../../../services/configuration.service';
 declare var $;
 declare var $validator;
 declare var refreshAnimation;
+declare var mixpanel: any;
 
 @Component({
   selector: 'app-onboarding',
@@ -12,16 +14,24 @@ declare var refreshAnimation;
 export class OnboardingComponent implements OnInit {
   @Output() finish = new EventEmitter();
   @Output() query = new EventEmitter();
-  public createVideo = environment.introVideos.create;
-  public shareVideo = environment.introVideos.share;
-  public analyseVideo = environment.introVideos.analyse;
+  public createVideo = environment.introVideos.create[0];
+  public shareVideo = environment.introVideos.share[0];
+  public analyseVideo = environment.introVideos.analyse[0];
   public activeTab = 'create';
-  constructor() { }
+  public isWidgetInitialized: boolean = false;
+  constructor(private conf: ConfigurationService,) { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
+    setTimeout(() => {
+      this.initWidget();
+      this.isWidgetInitialized = true;
+    }, 500);
+  }
+
+  initWidget() {
     // Initializing the wizard
     // This is required to be called by the plugin
     $('.wizard-card').bootstrapWizard({
@@ -84,6 +94,7 @@ export class OnboardingComponent implements OnInit {
         }
 
         var button_text = navigation.find('li:nth-child(' + $current + ') a').html();
+        mixpanel.track(button_text + ' opened');
 
         setTimeout(function () {
           $('.moving-tab').text(button_text);
@@ -95,10 +106,12 @@ export class OnboardingComponent implements OnInit {
   }
 
   onAskQuery() {
+    mixpanel.track('Clicked Ask Query', { 'user': this.conf.getUser().emailId });
     this.query.emit();
   }
 
   onFinish() {
+    mixpanel.track('Finished Help', { 'user': this.conf.getUser().emailId });
     this.finish.emit();
   }
 }

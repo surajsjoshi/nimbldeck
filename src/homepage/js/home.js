@@ -2,7 +2,7 @@
  * Created by happydoodles on 18/2/16.
  */
 
-var baseUrl = 'https://7ewecdfppd.execute-api.us-east-1.amazonaws.com/prod';
+var baseUrl = 'https://7ewecdfppd.execute-api.us-east-1.amazonaws.com/v1_0';
 var apiKey = 'aYecjavQzV6i679wrL42Tq0FYzKFJTYbi9ko4Yi0';
 
 ga = window.ga;
@@ -19,7 +19,7 @@ function login(email, password, onSuccessCallback, onFailureCallback, fromSignUp
         password: password,
         identityId: AWS.config.credentials.identityId
     };
-    $.post(baseUrl + '/users/authenticate', JSON.stringify(data), function(data) {
+    $.post(baseUrl + '/users/authenticate', JSON.stringify(data), function (data) {
         // console.log(data);
         $(self).removeAttr('disabled').text('Login');
         if (data.type === 'Success') {
@@ -41,7 +41,11 @@ function login(email, password, onSuccessCallback, onFailureCallback, fromSignUp
             ga('set', 'userId', data.user.user_id); // Set the user ID using signed-in user_id.
             ga('set', 'page', '/login.html');
             ga('send', 'pageview');
-            location.href = "/app";
+            if (fromSignUp) {
+                location.href = "/app/new";
+            } else {
+                location.href = "/app";
+            }
         } else {
             mixpanel.track('LoginFailure', { 'user': data['emailId'] });
             onFailureCallback(data);
@@ -92,7 +96,7 @@ function init() {
     mixpanel.track_forms('.login-button', 'Login');
 
 
-    AWS.config.credentials.get(function(err) {
+    AWS.config.credentials.get(function (err) {
         if (!err && typeof user !== 'undefined' && user !== null) {
             if (!user.sessionexpired) {
                 location.href = "/app";
@@ -102,13 +106,13 @@ function init() {
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     function getUrlParams() {
         var p = {};
         var match,
             pl = /\+/g, // Regex for replacing addition symbol with a space
             search = /([^&=]+)=?([^&]*)/g,
-            decode = function(s) { return decodeURIComponent(s.replace(pl, " ")); },
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
             query = window.location.search.substring(1);
         while (match = search.exec(query))
             p[decode(match[1])] = decode(match[2]);
@@ -119,7 +123,7 @@ $(document).ready(function() {
         headers: { 'X-API-KEY': apiKey }
     });
 
-    $(window).scroll(function() {
+    $(window).scroll(function () {
         if ($(window).scrollTop() > 280) {
             $('#nav_bar').addClass('navbar-fixed fadeInDown');
         }
@@ -128,24 +132,24 @@ $(document).ready(function() {
         }
     });
 
-    $('.scroll-to-section').click(function(e) {
+    $('.scroll-to-section').click(function (e) {
         e.preventDefault();
         var hash = $(this).attr('href');
         $('html, body').animate({
             scrollTop: $(hash).offset().top
-        }, 1000, function() {
+        }, 1000, function () {
             $(hash).find('input').first().focus();
         });
     });
 
-    $(window).load(function() {
+    $(window).load(function () {
         init();
         if (!Modernizr.mq('(min-width: 768px)')) {
             return;
         }
-        $('.section-text').each(function() {
+        $('.section-text').each(function () {
             var heightArr = [];
-            $(this).closest('.row').children('div').each(function() {
+            $(this).closest('.row').children('div').each(function () {
                 heightArr.push($(this).height());
             });
             var height = Math.max.apply(null, heightArr);
@@ -154,11 +158,11 @@ $(document).ready(function() {
 
     });
 
-    $('.forgot-password,.back-to-login').click(function(e) {
+    $('.forgot-password,.back-to-login').click(function (e) {
         e.preventDefault();
         $('.login-section').slideToggle();
         $('.forgot-password-section').slideToggle();
-        setTimeout(function() {
+        setTimeout(function () {
             if ($('.forgot-password-section').is(':visible')) {
                 $('.forgot-password-section').addClass('visible');
             } else {
@@ -168,7 +172,7 @@ $(document).ready(function() {
     });
 
     //scroll to
-    $('.scroll-to-section').click(function(e) {
+    $('.scroll-to-section').click(function (e) {
         e.preventDefault();
         var hash = $(this).attr('href');
         $('html,body').animate({
@@ -176,22 +180,22 @@ $(document).ready(function() {
         }, 700);
     });
 
-    $('.sign-up-from-modal').click(function(e) {
+    $('.sign-up-from-modal').click(function (e) {
         e.preventDefault();
         $('#login-modal').modal('toggle');
-        setTimeout(function() {
+        setTimeout(function () {
             $('.scroll-to-section').click();
         }, 500);
     });
 
-    var removeMessage = function(alert) {
-        setTimeout(function() {
+    var removeMessage = function (alert) {
+        setTimeout(function () {
             alert.slideToggle();
 
         }, 2000);
     };
 
-    $('#login-modal').on('show.bs.modal', function(e) {
+    $('#login-modal').on('show.bs.modal', function (e) {
         $('#login-modal').find('input').val('');
         $('.parsley-errors-list li').hide();
         if ($('.forgot-password-section').hasClass('visible')) {
@@ -206,7 +210,7 @@ $(document).ready(function() {
             patterns: {
                 youtube: {
                     index: 'youtube.com',
-                    id: function(url) {
+                    id: function (url) {
                         return url.split("v=")[1].split("&")[0];
                     },
                     src: 'https://www.youtube.com/embed/%id%?rel=0&autoplay=1'
@@ -216,7 +220,7 @@ $(document).ready(function() {
     });
 
 
-    $('#login-modal input').keypress(function(event) {
+    $('#login-modal input').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode === 13) {
             $(this).closest('form').find('button[type="button"]').trigger('click');
@@ -224,7 +228,7 @@ $(document).ready(function() {
     });
 
     //login.js
-    $('.login-button').click(function(e) {
+    $('.login-button').click(function (e) {
         var parsley = $(this).closest('form').parsley();
         e.preventDefault();
         parsley.validate();
@@ -235,12 +239,12 @@ $(document).ready(function() {
         $(this).attr('disabled', true).text('Logging in... Please wait...');
         var form = $(this).closest('form');
         form.prev().addClass('hidden').removeClass('alert-danger').removeClass('alert-success');
-        login(form.find('[name="email_id"]').val(), form.find('[name="password"]').val(), function(message) {
+        login(form.find('[name="email_id"]').val(), form.find('[name="password"]').val(), function (message) {
             //On Success
             form.prev().text(message)
                 .addClass('alert-success')
                 .removeClass('hidden');
-        }, function(errorResponse) {
+        }, function (errorResponse) {
             //On Failure
             $(self).removeAttr('disabled').text('LOGIN');
             form.prev().text(errorResponse.errors[0].message)
@@ -250,7 +254,7 @@ $(document).ready(function() {
     });
 
     //forgot-password
-    $('.request-reset-link').click(function(e) {
+    $('.request-reset-link').click(function (e) {
         var parsley = $(this).closest('form').parsley();
         e.preventDefault();
         parsley.validate();
@@ -264,7 +268,7 @@ $(document).ready(function() {
         var data = {
             email_id: form.find('[name="email_id"]').val()
         };
-        $.post(baseUrl + '/users/forgot-password', JSON.stringify(data), function(data) {
+        $.post(baseUrl + '/users/forgot-password', JSON.stringify(data), function (data) {
             $(self).removeAttr('disabled').text('REQUEST RESET LINK');
             if (data.type === 'Success') {
                 form.prev().text(data.message)
@@ -282,7 +286,7 @@ $(document).ready(function() {
     });
 
     //register.js
-    $('.register-btn-free').click(function(e) {
+    $('.register-btn-free').click(function (e) {
         var parsley = $(this).closest('form').parsley();
         e.preventDefault();
         parsley.validate();
@@ -300,7 +304,7 @@ $(document).ready(function() {
             source: "website"
         };
 
-        $.post(baseUrl + '/users', JSON.stringify(register_data), function(data) {
+        $.post(baseUrl + '/users', JSON.stringify(register_data), function (data) {
             $(self).removeAttr('disabled').text('GET STARTED-FREE');
             if (data.type === 'Success') {
                 form.prev().text(data.message)
@@ -308,19 +312,19 @@ $(document).ready(function() {
                     .removeClass('hidden');
                 ga('set', 'page', '/register.html');
                 ga('send', 'pageview');
-                login(register_data['email_id'], register_data['password'], function(message) {
+                login(register_data['email_id'], register_data['password'], function (message) {
                     //Onsuccess
                     form.prev().text(message)
                         .addClass('alert-success')
                         .removeClass('hidden');
-                }, function(message) {
+                }, function (message) {
                     //Onfailure
                     form.prev().text(message)
                         .addClass('alert-danger')
                         .removeClass('hidden');
                 }, true);
             } else {
-                mixpanel.track('SignupFailure', { 'user':register_data['email_id'] });
+                mixpanel.track('SignupFailure', { 'user': register_data['email_id'] });
                 form.prev().text(data.message)
                     .addClass('alert-danger')
                     .removeClass('hidden');
@@ -330,7 +334,7 @@ $(document).ready(function() {
     });
 
     //reset.js
-    $('.reset-button').click(function(e) {
+    $('.reset-button').click(function (e) {
         var parsley = $(this).closest('form').parsley();
         e.preventDefault();
         parsley.validate();
@@ -355,7 +359,7 @@ $(document).ready(function() {
             info.innerHTML = 'Passwords are <b>not</b> the same, please check.';
             $(self).removeAttr('disabled').text('RESET');
         } else {
-            $.post(baseUrl + '/users/reset-password', JSON.stringify(data), function(data) {
+            $.post(baseUrl + '/users/reset-password', JSON.stringify(data), function (data) {
                 $(self).removeAttr('disabled').text('GET STARTED-FREE');
                 if (data.type === 'Success') {
                     form.prev().text(data.message)

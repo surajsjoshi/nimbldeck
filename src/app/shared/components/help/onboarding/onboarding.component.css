@@ -1787,3 +1787,7 @@ fieldset[disabled] .checkbox input[type=checkbox],
 .action {
     cursor: pointer;
 }
+
+.hidden {
+    display: none;
+}

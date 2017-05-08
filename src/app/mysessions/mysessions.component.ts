@@ -9,6 +9,7 @@ import { SessionService } from '../services/session.service';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import { AppSharedService } from '../app-shared.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var jQuery: any;
 declare var ga: any;
@@ -23,30 +24,36 @@ declare var mixpanel: any;
 export class MysessionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public title = 'My Sessions';
-
+  private sub: any;
+  private isNewUser: any;
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
     private viewContainerRef: ViewContainerRef,
     private editService: EditService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private el: ElementRef,
-    private appSharedService: AppSharedService) {
+    private appSharedService: AppSharedService,
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.appSharedService.helpFinish$.subscribe((resp) => {
-      // Help finished
-      this.openModal();
+    this.sub = this.route.params.subscribe(params => {
+      console.log(params);
+       this.isNewUser = params['new'];
+        this.appSharedService.helpFinish$.subscribe((resp) => {
+          // Help finished
+          this.openModal();
+        });
+        mixpanel.time_event('ListSessions');
+        this.sessionService.init();
+        mixpanel.track('ListSessions', { 'user': this.conf.getUser().emailId });
+        ga('set', 'userId', this.conf.getUser().getUserId());
+        ga('send', 'pageview', 'sessions');
     });
-    mixpanel.time_event('ListSessions');
-    this.sessionService.init();
-    mixpanel.track('ListSessions', { 'user': this.conf.getUser().emailId });
-    ga('set', 'userId', this.conf.getUser().getUserId());
-    ga('send', 'pageview', 'sessions');
   }
 
   ngOnDestroy() {
-
+    this.sub.unsubscribe();
   }
 
   ngAfterViewInit() {

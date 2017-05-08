@@ -7,10 +7,17 @@ export const environment = {
   logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   basePath: '/',
   dashboardReloadInterval: 15000,
-  updateCardWarning: 'Updating the card will reset analytics if any. Are you sure, you want to update this card?',
+  updateCardWarning: 'This card has analytics. Updating the card will reset analytics. Are you sure, you want to update this card?',
   introVideos: {
-    create: 'https://www.youtube.com/watch?v=gvCXL7vUCCM',
-    share: 'https://www.youtube.com/watch?v=gvCXL7vUCCM',
-    analyse: 'https://www.youtube.com/watch?v=gvCXL7vUCCM'
+    create: [
+      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+    ],
+    share: [
+      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+    ],
+    analyse: [
+      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+    ]
   }
+
 };
