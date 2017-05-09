@@ -295,7 +295,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let option = this.cardForm.controls['mcqoption'].value;
 
       let check = jQuery('#isTosRead').is(":checked");
-
+     jQuery('body').append(check);
     
       let choices = {};
       if (option) {
