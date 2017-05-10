@@ -164,7 +164,7 @@
 						</div> -->
 
 						 <div class="row upload_container">
-                            <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''">
+                            <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''"  [ngClass]="{ 'fullWidth': filestaus == 'image'}">
                                 <div *ngIf="!fileUploaded" class="img-uploader">
                                     <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
                                 </div>
@@ -212,7 +212,7 @@
 						 <p class="text_instruction">Click on the check button(s) to select correct answer(s)</p>
 						<div *ngFor="let option of options;let i = index" class="row">
 							<div class="col s1">
-								<input type="checkbox" class="optionCheck" id="isTosRead{{i}}" checked={{option.checkStatus}}  required /> <label>&nbsp;</label>
+								<input type="checkbox" class="optionCheck" id="isTosRead{{i}}" checked={{option.checkStatus}} data-toggle="tooltip" title="Please tick this box to set it as correct answer"  /> <label>&nbsp;</label>
 							</div>
 							<div class="col s9 mcq-option">
 								<input type="text" value={{option.label}} name="option-{{i}}"
@@ -225,13 +225,17 @@
 							<div class="col s2">
 								<i (click)="removeFromOptions(i)" class="fa fa-trash"></i>
 							</div>
+
+
+							
+
 						</div>
 
 
 
 						<div class="row" *ngIf="options && options.length < 4 ">
 							<div class="col s1">
-								<input type="checkbox" id="isTosRead" class="optionCheck" formControlName="isTosRead" required /> <label>&nbsp;</label>
+								<input type="checkbox" id="isTosRead" class="optionCheck" formControlName="isTosRead" data-toggle="tooltip" title="Please tick this box to set it as correct answer"  /> <label>&nbsp;</label>
 							</div>
 							<div class="col s10 mcq-option">
 								<div class="row">
@@ -244,6 +248,9 @@
 								<i (click)="addToOptions()" class="fa fa-plus-circle"
 									*ngIf="options.length < 3"></i>
 							</div>
+						</div>
+						<div class="row">
+							<div id="error_check"></div>
 						</div>
 
 						<div class="row">

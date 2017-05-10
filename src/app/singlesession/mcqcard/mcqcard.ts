@@ -64,7 +64,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.options = this.updateQuestion.choices;
       this.cardForm = formBuilder.group({
         text_question: [this.updateQuestion.description, Validators.required],
-        mcqoption: ['', Validators.required],
+        mcqoption: [''],
         isTosRead: [''],
         image_url: [''],
         video_url: [''],
@@ -98,7 +98,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
         image_url: [''],
-        mcqoption: ['', Validators.required],
+        mcqoption: [''],
         isTosRead: [''],
         option_image_url: [''],
         video_url: [''],
@@ -196,6 +196,39 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submitMcqCard(event) {
     event.preventDefault();
+
+    let option_index = this.options.length ;
+    
+    let flag=false;
+
+    for(var i = 1; i <= option_index; i++){
+      let check = jQuery('#isTosRead'+i).is(":checked");
+        if(check===true){
+          flag=true;
+          break;
+        }
+        else{
+          flag=false;
+        }         
+    }
+
+    
+        if(flag===false){
+          let check_main = jQuery('#isTosRead').is(":checked");
+          if(check_main===true){
+             flag=true;
+          }
+        
+        }
+              
+
+    if(flag===false){
+    jQuery('#error_check').html('Please select atleast one correct answer').css('color','red');
+        //alert('atleast one checkbox should be checked'); 
+        return;
+    }
+
+
     let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
