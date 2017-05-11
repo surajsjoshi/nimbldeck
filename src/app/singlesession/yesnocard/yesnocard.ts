@@ -98,6 +98,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
     });
+     jQuery('[data-toggle="tooltip"]').tooltip(); 
   }
 
  uploadFile() {
