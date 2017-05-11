@@ -240,6 +240,7 @@ h2.title {
     color: #00bcd4;
 }
 .card {
+    margin: 0;
     background-color: #FFFFFF;
     padding: 10px 0;
     width: 100%;

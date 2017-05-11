@@ -1,6 +1,8 @@
 #welcome-user {
     top: 10%;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    min-height: 530px;
+    height: 530px;
 }
 
 .modal-title {
@@ -16,9 +18,13 @@
 }
 
 #welcome-user .modal-dialog {
-    left: 10%;
-    width: 80% !important;
+    left: 5%;
+    width: 90% !important;
     position: fixed;
+}
+
+.modal {
+    width: 90% !important;
 }
 
 #welcome-user .modal-content {
@@ -28,12 +34,10 @@
 .modal button.close {
     z-index: 10000;
     position: absolute;
-    right: -15px;
-    top: -12px;
+    right: 0;
+    top: 0;
     width: 35px;
     height: 35px;
     background: #fff;
     opacity: 1;
-    border: 3px solid #000;
-    border-radius: 20px;
 }

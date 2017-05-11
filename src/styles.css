@@ -54,8 +54,8 @@ Wizard CSS
 **/
 .wizard-card {
     overflow-y: auto;
-    max-height: 80vh;
     overflow-x: hidden;
+    max-height: 95vh;
 }
 .wizard-card .picture-container {
     position: relative;

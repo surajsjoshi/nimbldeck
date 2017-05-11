@@ -20,7 +20,7 @@ export class OnboardingComponent implements OnInit {
   public analyseVideo = environment.introVideos.analyse[0];
   public activeTab = 'create';
   public isWidgetInitialized: boolean = false;
-  constructor(private conf: ConfigurationService,) { }
+  constructor(private conf: ConfigurationService, ) { }
 
   ngOnInit() {
   }
@@ -57,9 +57,9 @@ export class OnboardingComponent implements OnInit {
 
         var $display_width = $(document).width();
 
-        if ($display_width < 600 && $total > 3) {
-          $width = 50;
-        }
+        // if ($display_width < 600 && $total > 3) {
+        //   $width = 50;
+        // }
 
         navigation.find('li').css('width', $width + '%');
         var $first_li = navigation.find('li:first-child a').html();
