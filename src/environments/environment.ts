@@ -15,13 +15,13 @@ export const environment = {
   updateCardWarning: 'This card has analytics. Updating the card will reset analytics. Are you sure, you want to update this card?',
   introVideos: {
     create: [
-      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+      '//www.youtube.com/watch?v=RcgxMnaOiz0'
     ],
     share: [
-      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+      '//www.youtube.com/watch?v=oJGcWAzLGS8'
     ],
     analyse: [
-      '//www.youtube.com/watch?v=gvCXL7vUCCM'
+      '//www.youtube.com/watch?v=Q9ll36ayt0c'
     ]
   }
 };
