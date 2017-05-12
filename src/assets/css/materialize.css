@@ -11735,6 +11735,7 @@ a:hover {
     color: #26a69a !important;
 }
 
+
 #nav-mobile .help-icon.contact-us-btn,
 #nav-mobile .help-icon.help-btn {
     position: relative;
@@ -11953,7 +11954,6 @@ a:hover {
 /*------ contact module----*/
 
 .modal-content {
-    //background: transparent none repeat scroll 0 0;
     border: medium none;
     box-shadow: none;
 }
