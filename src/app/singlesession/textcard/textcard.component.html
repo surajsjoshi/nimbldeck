@@ -61,7 +61,7 @@
                         </div>
 						<div class="clearfix"></div>
 						<div class="row">
-							<button type="submit" [disabled]="!textCardForm.valid"
+							<button type="submit" [disabled]="!textCardForm.valid || imgUploadingInProcess"
 								class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
 							</button>
 						</div>

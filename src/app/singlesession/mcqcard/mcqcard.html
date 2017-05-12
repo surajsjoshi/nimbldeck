@@ -117,7 +117,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<button type="submit" [disabled]="!cardForm.valid"
+							<button type="submit" [disabled]="!cardForm.valid || imgUploadingInProcess"
 								class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
 							</button>
 						</div>
