@@ -3,7 +3,6 @@ import { ConfigurationService } from '../../services/configuration.service';
 import { EditService } from '../../services/edit.service';
 import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
-import { Session } from '../../shared/models/session';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -33,7 +32,6 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   updateQuestion: Card;
   saveCardErrorText: string;
   sessionId: string;
-  session: Session;
   private subscription: Subscription;
 
     constructor(public editService: EditService,
@@ -46,7 +44,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
 
       this.uploadError = '';
       this.fileUploaded = false;
-      this.filestaus='';
+      this.filestaus = '';
       this.imgUploadingInProcess = false;
       this.videoUploadingInProcess = false;
       this.cardError = false;
@@ -59,6 +57,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
          this.updateQuestionFlag = true;
          this.cardForm = formBuilder.group({
           text_question: [this.updateQuestion.description, Validators.required],
+          choice: ['', Validators.required],
           image_url: [''],
           video_url: [''],
           youtube_url: [''],
@@ -71,21 +70,21 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
                 this.filestaus = 'image';
                 this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
 
-            } 
-            else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+                jQuery('.img-upload').addClass('fullWidth');
+            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
                  this.filestaus = 'video';
                 let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
                 this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
-
-
+                jQuery('.video-upload').addClass('fullWidth');
             }
       }
       ga('send', 'pageview', '/sessions/yesnocard/edit');
     } else {
       this.cardForm = formBuilder.group({
         text_question: ['', Validators.required],
+        choice: ['', Validators.required],
         image_url: [''],
         video_url: [''],
         youtube_url: [''],
@@ -99,6 +98,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
     });
+     jQuery('[data-toggle="tooltip"]').tooltip(); 
   }
 
  uploadFile() {
@@ -129,9 +129,9 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
          _this.cardForm.controls['image_url'].setValue(data.Location);
 
           this.filestaus = '';
-          jQuery('.video-upload, .or_text').css('display','none');
+          jQuery('.video-upload, .or_text').css('display', 'none');
           jQuery('.img-upload').addClass('fullWidth');
-        
+
       }
     });
   }
@@ -146,8 +146,8 @@ uploadVideo() {
     this.imgUploadingInProcess = false;
      this.filestaus = '';
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
-    if(this.cardForm.controls['video_url'].value!=''){
-      jQuery('.img-upload, .or_text').css('display','none');
+    if (this.cardForm.controls['video_url'].value !== '') {
+      jQuery('.img-upload, .or_text').css('display', 'none');
       jQuery('.video-upload').addClass('fullWidth');
     }
 
@@ -160,19 +160,15 @@ uploadVideo() {
     this.fileUploaded = false;
      this.filestaus = '';
 
-    jQuery('.video-upload, .or_text').css('display','block');
+    jQuery('.video-upload, .or_text').css('display', 'block');
     jQuery('.img-upload').removeClass('fullWidth');
-
 
   }
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
-    this.cardForm.controls['youtube_url'].setValue(null);
-    this.cardForm.controls['video_url'].setValue(null);
-    this.cardForm.controls['video_code'].setValue(null);
     this.fileUploaded = false;
-    this.filestaus='';
-    jQuery('.img-upload, .or_text').css('display','block');
+     this.filestaus = '';
+    jQuery('.img-upload, .or_text').css('display', 'block');
     jQuery('.video-upload').removeClass('fullWidth');
   }
 
@@ -187,10 +183,16 @@ uploadVideo() {
     if (!this.cardForm.valid) {
       return false;
     }
-  let params={};
-  if (jQuery('.video-upload').hasClass("fullWidth")){
 
-  
+if (!this.cardForm.controls['choice'].value) {
+  jQuery('#YesNoErrorMsg').css('display', 'block');
+  return false;
+  } else {
+  jQuery('#YesNoErrorMsg').css('display', 'none');
+}
+
+  let params;
+  if (this.cardForm.controls['youtube_url'].value !== '') {
   params = {
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
@@ -200,14 +202,16 @@ uploadVideo() {
       resource_code: this.cardForm.controls['video_code'].value
     };
 
-}
-else{
-  params = {
+}else {
+     params = {
+
       type: 'yes_no',
       description: this.cardForm.controls['text_question'].value,
       required: false,
       resource_url: this.cardForm.controls['image_url'].value,
       resource_type: 'image'
+
+
     };
 }
 
@@ -274,4 +278,10 @@ else{
 
   ngOnDestroy() {
   }
+
+
+    toggle_modal_layout(event) {
+            jQuery('.toHide').hide();
+            jQuery('#blk-' + event).show();
+    }
 }

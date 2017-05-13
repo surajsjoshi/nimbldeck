@@ -51,6 +51,7 @@ import { WelcomeUserComponent } from './shared/components/modals/welcome-user/we
 import { OnboardingComponent } from './shared/components/help/onboarding/onboarding.component';
 import { PlayerComponent } from './shared/components/player/player.component';
 import { AppSharedService } from './app-shared.service';
+import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { AppSharedService } from './app-shared.service';
     OnboardingComponent,
     PlayerComponent
   ],
+  
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -96,13 +98,17 @@ import { AppSharedService } from './app-shared.service';
     RatingModule.forRoot(),
     BsDropdownModule.forRoot(),
     ClipboardModule,
-    ModalModule
+    ModalModule,
+    ClipboardModule,
+    DragulaModule
   ],
+
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
     AnalyticsService, ApiService, QueriesService,
     ConfigurationService, CurrentUser, SessionService, CardService,
     EditService, AppSharedService],
   bootstrap: [AppComponent],
+
   entryComponents: [
     EditsessionComponent,
     DuplicatesessionComponent,

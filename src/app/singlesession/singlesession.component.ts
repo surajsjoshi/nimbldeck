@@ -16,7 +16,10 @@ import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {CarouselComponent} from '../carousel/carousel.component';
+
+import { DragulaService} from 'ng2-dragula/ng2-dragula';
+
+
 
 declare var ga: any;
 declare var jQuery: any;
@@ -47,11 +50,17 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private viewContainerRef: ViewContainerRef,
               private componentFactoryResolver: ComponentFactoryResolver,
-              private el: ElementRef) {
+              private el: ElementRef,
+              private dragulaService: DragulaService
+             ) {
+              
     this.nextPageToken = '';
     this.cardsFetched = false;
     this.sessionFetched = false;
     this.questionDeleteError = false;
+
+   
+   
    }
 
   ngOnInit() {
@@ -69,10 +78,26 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
         .subscribe(resp => this.mapCards(resp),
         (error => console.log(error)),
         () => this.cardsFetched = true);
+
     });
       mixpanel.track('ListCards', {'user': this.conf.getUser().getEmailId()});
 
+
+     
+
+
   }
+
+private onDrag(args){
+    let [e, el] = args;
+    //this.removeClass(e, 'ex-moved');
+  }
+
+  private onDrop(args) {
+    let [e, el] = args;
+   // this.addClass(e, 'ex-moved');
+}
+
 
   private mapSession(response) {
     this.session = response;
@@ -82,6 +107,83 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     let cards = Array.from(response.questions).map(card => new Card(card));
     this.response = new CardResponse(cards, response.next_page_token);
     this.cardService.cards = cards;
+    let dragSrcEl = null;
+
+function handleDragStart(e) {
+  // Target (this) element is the source node.
+  dragSrcEl = this;
+
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.outerHTML);
+
+  this.classList.add('dragElem');
+}
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault(); // Necessary. Allows us to drop.
+  }
+  this.classList.add('over');
+
+  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+  return false;
+}
+
+function handleDragEnter(e) {
+  // this / e.target is the current hover target.
+}
+
+function handleDragLeave(e) {
+  this.classList.remove('over');  // this / e.target is previous target element.
+}
+
+function handleDrop(e) {
+  // this/e.target is current target element.
+
+  if (e.stopPropagation) {
+    e.stopPropagation(); // Stops some browsers from redirecting.
+  }
+
+  // Don't do anything if dropping the same column we're dragging.
+  if (dragSrcEl !== this) {
+    // Set the source column's HTML to the HTML of the column we dropped on.
+    // alert(this.outerHTML);
+    // dragSrcEl.innerHTML = this.innerHTML;
+    // this.innerHTML = e.dataTransfer.getData('text/html');
+    this.parentNode.removeChild(dragSrcEl);
+    let dropHTML = e.dataTransfer.getData('text/html');
+    this.insertAdjacentHTML('beforebegin', dropHTML);
+    let dropElem = this.previousSibling;
+    this.addDnDHandlers(dropElem);
+
+  }
+  this.classList.remove('over');
+  return false;
+}
+
+function handleDragEnd(e) {
+  // this/e.target is the source node.
+  this.classList.remove('over');
+
+  /*[].forEach.call(cols, function (col) {
+    col.classList.remove('over');
+  });*/
+}
+
+function addDnDHandlers(elem) {
+  elem.addEventListener('dragstart', handleDragStart, false);
+  elem.addEventListener('dragenter', handleDragEnter, false);
+  elem.addEventListener('dragover', handleDragOver, false);
+  elem.addEventListener('dragleave', handleDragLeave, false);
+  elem.addEventListener('drop', handleDrop, false);
+  elem.addEventListener('dragend', handleDragEnd, false);
+
+}
+
+let cols = document.querySelectorAll('.sortable_columns  .column');
+[].forEach.call(cols, addDnDHandlers);
+
+
   }
 
 
@@ -181,6 +283,18 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     (<YesNoCardComponent>componentRef.instance).session = this.session;
     jQuery('#yesno-card-modal').openModal();
   }
+
+
+shorting(index){
+        
+        let i=1;
+
+        jQuery('.session_listing').each(function (index, value) { 
+          jQuery(this).find('.index').text(i);
+          i++;           
+        });
+}
+
 /*
   openCarouselModal(event) {
 
@@ -199,3 +313,5 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     this.editService.resetEdits();
    }
 }
+
+

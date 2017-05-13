@@ -67,21 +67,20 @@ export class PieChartComponent implements OnInit, OnDestroy {
         }
       });
 
+
         }
    }
-
- };
-
+  }
  constructor(private editService: EditService) {
     this.subscription = this.editService.updateSubscription()
               .subscribe(data => this.updateChart(data));
+
 }
 
  updateChart(data) {
    this.chart.chart.data.datasets[0].data = Array.from(this.answer.analytics).map(record => record['total']);
    this.chart.chart.update();
  }
-
 
   ngOnInit() {
 
@@ -90,13 +89,22 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.answer.analytics.forEach(data => {
            this.pieChartData.push(data.total);
            this.pieChartLabels.push(data.label);
+           let a = 1;
+           if (a !== 1) {
+           this.pieChartColor = [{ backgroundColor: ['#E9722B', '#276AAD'] }];
+          } else {
+            let wrong_answer = '#FF2101';
+            let right_answer = '#97CF58';
+          this.pieChartColor = [{ backgroundColor: [right_answer, wrong_answer] }];
+        }
+
+
+
       });
   }
 
     ngOnDestroy() {
     this.subscription.unsubscribe();
  }
-
-  // Pie
 }
 

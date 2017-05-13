@@ -15,6 +15,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
  barChartData = [];
  barChartType = 'bar';
  barChartLabels = [];
+ barChartColor=  [];
+
  subscription: Subscription;
  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -62,7 +64,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
 
  };
- 
 
 
 
@@ -102,6 +103,17 @@ export class BarChartComponent implements OnInit, OnDestroy {
              this.barChartLabels.push(splittedlabel);
           } else {
              this.barChartLabels.push(data.label);
+          }
+          let a = 1;
+
+          if ( a !== 1)  {
+          this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+          } else {
+            let wrong_answer = '#FF2101';
+            let right_answer = '#97CF58';
+            this.barChartColor = [{ backgroundColor: [wrong_answer,
+               wrong_answer, right_answer, wrong_answer],
+                borderColor: '#97BBCD', borderWidth: 0} ];
           }
       });
       this.barChartData.push(barData);

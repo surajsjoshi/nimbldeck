@@ -3,7 +3,6 @@ import { ConfigurationService } from '../../services/configuration.service';
 import { EditService } from '../../services/edit.service';
 import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
-import { Session } from '../../shared/models/session';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -37,7 +36,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   updateQuestion: Card;
   saveCardErrorText: string;
   sessionId: string;
-  session: Session;
   private subscription: Subscription;
 
 
@@ -66,31 +64,31 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.options = this.updateQuestion.choices;
       this.cardForm = formBuilder.group({
         text_question: [this.updateQuestion.description, Validators.required],
+        mcqoption: [''],
+        isTosRead: [''],
         image_url: [''],
         video_url: [''],
         youtube_url: [''],
         video_code: [''],
-        mcqoption: [''],
         option_image_url: ['']
       });
       if (this.updateQuestion.resource_type) {
             if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
-                this.filestaus='image';
+                this.filestaus = 'image';
                 this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
 
-                
-                jQuery('.img-upload').addClass('fullWidth');
+               
 
 
             } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
                 this.fileUploaded = true;
-                this.filestaus='video';
+                this.filestaus = 'video';
                 let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
                 this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
                 this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
 
-                jQuery('.video-upload').addClass('fullWidth');
+               
 
 
             }
@@ -101,6 +99,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         text_question: ['', Validators.required],
         image_url: [''],
         mcqoption: [''],
+        isTosRead: [''],
         option_image_url: [''],
         video_url: [''],
         youtube_url: [''],
@@ -114,6 +113,8 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
    this.subscription = this.route.params.subscribe(params => {
         this.sessionId = params['id'];
     });
+    jQuery('[data-toggle="tooltip"]').tooltip(); 
+    
   }
 
  uploadFile() {
@@ -140,7 +141,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.uploadError = 'Failed to upload file';
       } else {
         _this.fileUploaded = true;
-        this.filestaus='';
+        this.filestaus = '';
         _this.imgUploadingInProcess = false;
         _this.cardForm.controls['image_url'].setValue(data.Location);
 
@@ -159,41 +160,75 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
     let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
     this.fileUploaded = true;
-    this.filestaus='';
+    this.filestaus = '';
     this.imgUploadingInProcess = false;
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
 
-    if(this.cardForm.controls['video_url'].value!=''){
-      jQuery('.img-upload, .or_text').css('display','none');
+    if (this.cardForm.controls['video_url'].value !== '' ) {
+      jQuery('.img-upload, .or_text').css('display', 'none');
       jQuery('.video-upload').addClass('fullWidth');
-    }    
-    
+    }
+
     this.cardForm.controls['video_code'].setValue(resource_code);
 }
 
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
-    this.filestaus='';
-
-     jQuery('.video-upload, .or_text').css('display','block');
+    this.filestaus = '';
+    jQuery('.video-upload, .or_text').css('display','block');
     jQuery('.img-upload').removeClass('fullWidth');
   }
 
-  removeVideo() {
+ removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.cardForm.controls['youtube_url'].setValue(null);
     this.cardForm.controls['video_url'].setValue(null);
-    this.cardForm.controls['video_code'].setValue(null);
+    this.cardForm.controls['video-code'].setValue(null);
+
     this.fileUploaded = false;
     this.filestaus='';
     jQuery('.img-upload, .or_text').css('display','block');
     jQuery('.video-upload').removeClass('fullWidth');
+    
   }
 
 
   submitMcqCard(event) {
     event.preventDefault();
+
+    let option_index = this.options.length ;
+    
+    let flag=false;
+
+    for(var i = 1; i <= option_index; i++){
+      let check = jQuery('#isTosRead'+i).is(":checked");
+        if(check===true){
+          flag=true;
+          break;
+        }
+        else{
+          flag=false;
+        }         
+    }
+
+    
+        if(flag===false){
+          let check_main = jQuery('#isTosRead').is(":checked");
+          if(check_main===true){
+             flag=true;
+          }
+        
+        }
+              
+
+    if(flag===false){
+    jQuery('#error_check').html('Please select atleast one correct answer').css('color','red');
+        //alert('atleast one checkbox should be checked'); 
+        return;
+    }
+
+
     let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
     jQuery(btnSave).attr('disabled', 'disabled');
     btnSave.innerHTML = 'Saving...';
@@ -211,28 +246,25 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm.controls['mcqoption'].setValue(null);
     }
 
+    let params;
+    if (this.cardForm.controls['youtube_url'].value !== '') {
+      params = {
+          type: 'multiple_choice',
+          description: this.cardForm.controls['text_question'].value,
+          required: false,
+          resource_url:  this.cardForm.controls['youtube_url'].value,
+          resource_type: 'video',
+          resource_code: this.cardForm.controls['video_code'].value
+        };
 
-    let params={};
-    if (jQuery('.video-upload').hasClass("fullWidth")){  
-      params = {
-        type: 'multiple_choice',
-        description: this.cardForm.controls['text_question'].value,
-        required: false,
-        resource_url:  this.cardForm.controls['youtube_url'].value,
-        resource_type: 'video',
-        resource_code: this.cardForm.controls['video_code'].value,
-        choices: this.options
-      };
-      }
-    else{
-      params = {
-        type: 'multiple_choice',
-        description: this.cardForm.controls['text_question'].value,
-        required: false,
-        resource_url: this.cardForm.controls['image_url'].value,
-        resource_type: 'image',
-        choices: this.options
-      };
+    } else {
+         params = {
+          type: 'multiple_choice',
+          description: this.cardForm.controls['text_question'].value,
+          required: false,
+          resource_url: this.cardForm.controls['image_url'].value,
+          resource_type: 'image'
+        };
     }
 
     if (this.updateQuestionFlag === false) {
@@ -294,9 +326,23 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // let index = this.options.length < 5;
     if (this.options.length < 5) {
       let option = this.cardForm.controls['mcqoption'].value;
+
+      let check = jQuery('#isTosRead').is(":checked");
+    
+    
       let choices = {};
       if (option) {
-        choices['label'] = option;
+      choices['label'] = option;        
+
+        if(check==true)
+        {
+          choices['checkStatus'] = 'checked';
+
+        }
+        else{
+          choices['checkStatus'] = '';
+        }
+        
         // choices['resource_type'] = 'image';
         choices['name'] = 'choices';
         // if (optimg) {
@@ -304,10 +350,14 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         // } else {
         //   choices['resource_url'] = '';
         // }
-        this.options.push(choices);
+
+        this.options.push(choices);        
         this.cardForm.controls['mcqoption'].setValue(null);
         this.cardForm.controls['option_image_url'].setValue(null);
-      }
+
+     }
+      
+      jQuery('#isTosRead').attr('checked', false);
     }
   }
 
@@ -362,4 +412,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
   }
+
+    toggle_modal_layout(event) {
+            jQuery('.toHide').hide();
+            jQuery('#blk-' + event).show();
+    }
+
 }
