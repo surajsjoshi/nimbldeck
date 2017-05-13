@@ -7616,7 +7616,7 @@ nav ul a {
     font-size: 1rem;
     color: #fff;
     display: block;
-    padding: 0 15px;
+    padding: 0 5px;
     cursor: pointer;
 }
 
@@ -11741,6 +11741,10 @@ a:hover {
     top: 5px;
 }
 
+#nav-mobile .help-icon.help-btn {
+    max-width: 48px;
+}
+
 #nav-mobile li a:hover {
     color: #fff !important;
 }
@@ -11753,7 +11757,7 @@ a:hover {
 }
 
 #nav-mobile a.dropdown-button.username {
-    padding: 0 15px;
+    padding: 0 5px;
 }
 
 .card .card-image {
