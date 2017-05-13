@@ -3,6 +3,7 @@ import { ConfigurationService } from '../../services/configuration.service';
 import { EditService } from '../../services/edit.service';
 import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
+import { Session } from '../../shared/models/session';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -36,6 +37,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   updateQuestion: Card;
   saveCardErrorText: string;
   sessionId: string;
+  session: Session;
   private subscription: Subscription;
 
 
