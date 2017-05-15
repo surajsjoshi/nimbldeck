@@ -57,14 +57,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     ga('set', 'userId', this.conf.getUser().userId);
     if (this.editService.isEditing()) {
       this.updateQuestionFlag = true;
-      this.cardForm = formBuilder.group({
-        text_question: [this.updateQuestion.description, Validators.required],
-        choice: ['', Validators.required],
-        image_url: [''],
-        video_url: [''],
-        youtube_url: [''],
-        video_code: ['']
-      });
+      this.setValidator();
 
       if (this.updateQuestion.resource_type) {
         if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
@@ -280,7 +273,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         video_url: new FormControl(''),
         youtube_url: new FormControl(''),
         video_code: new FormControl(''),
-      }, this.customValidatorImageVideoExistence);
+      });
     } else {
       // Test type form validator
       this.cardForm = new FormGroup({
@@ -290,23 +283,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         video_url: new FormControl(''),
         youtube_url: new FormControl(''),
         video_code: new FormControl(''),
-      }, this.customValidatorImageVideoExistence);
+      });
     }
-  }
-
-  customValidatorImageVideoExistence(group: FormGroup): { [key: string]: any } {
-    let isImageOrVideoProvided = false;
-    if (group && group.controls) {
-      for (let control in group.controls) {
-        if (group.controls.hasOwnProperty(control) && group.controls[control].valid && group.controls[control].value) {
-          isImageOrVideoProvided = control === 'image_url' || control === 'video_url' || control === 'youtube_url';
-          if (isImageOrVideoProvided) {
-            break;
-          }
-        }
-      }
-    }
-    return isImageOrVideoProvided ? null : { 'required': true };
   }
 
   toggle_modal_layout(event) {

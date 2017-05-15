@@ -5,7 +5,7 @@ import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
 import { Session } from '../../shared/models/session';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -21,9 +21,7 @@ declare var jQuery: any;
   styles: ['./mcqcard.css'],
 })
 export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
-
-
-
+  isSurveyModeEnabled: boolean = true;
   options: any = new Array();
   optionUploadError: string;
   optionFileUploaded: boolean;
@@ -49,77 +47,51 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
-      this.uploadError = '';
-      this.fileUploaded = false;
-      this.filestaus='';
-      this.imgUploadingInProcess = false;
-      this.cardError = false;
-      this.updateQuestionFlag = false;
-      this.saveCardErrorText = '';
-      this.optionFileUploaded = false;
-      this.optionUploadError = '';
+    this.uploadError = '';
+    this.fileUploaded = false;
+    this.filestaus = '';
+    this.imgUploadingInProcess = false;
+    this.cardError = false;
+    this.updateQuestionFlag = false;
+    this.saveCardErrorText = '';
+    this.optionFileUploaded = false;
+    this.optionUploadError = '';
 
-      this.updateQuestion = this.editService.getCurrent();
-      ga('set', 'userId', this.conf.getUser().userId);
-      if (editService.isEditing()) {
+    this.updateQuestion = this.editService.getCurrent();
+    ga('set', 'userId', this.conf.getUser().userId);
+    if (editService.isEditing()) {
       this.updateQuestionFlag = true;
       this.options = this.updateQuestion.choices;
-      this.cardForm = formBuilder.group({
-        text_question: [this.updateQuestion.description, Validators.required],
-        mcqoption: [''],
-        isTosRead: [''],
-        image_url: [''],
-        video_url: [''],
-        youtube_url: [''],
-        video_code: [''],
-        option_image_url: ['']
-      });
+      this.setValidator();
       if (this.updateQuestion.resource_type) {
-            if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
-                this.fileUploaded = true;
-                this.filestaus = 'image';
-                this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
-
-               
-
-
-            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
-                this.fileUploaded = true;
-                this.filestaus = 'video';
-                let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
-                this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
-                this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
-
-               
-
-
-            }
+        if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
+          this.fileUploaded = true;
+          this.filestaus = 'image';
+          this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+        } else if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+          this.fileUploaded = true;
+          this.filestaus = 'video';
+          let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
+          this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+          this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+        }
       }
       ga('send', 'pageview', '/sessions/mcqcard/edit');
     } else {
-      this.cardForm = formBuilder.group({
-        text_question: ['', Validators.required],
-        image_url: [''],
-        mcqoption: [''],
-        isTosRead: [''],
-        option_image_url: [''],
-        video_url: [''],
-        youtube_url: [''],
-        video_code: ['']
-      });
+      this.setValidator();
       ga('send', 'pageview', '/sessions/mcqcard/add');
     }
   }
 
- ngOnInit() {
-   this.subscription = this.route.params.subscribe(params => {
-        this.sessionId = params['id'];
+  ngOnInit() {
+    this.subscription = this.route.params.subscribe(params => {
+      this.sessionId = params['id'];
     });
-    jQuery('[data-toggle="tooltip"]').tooltip(); 
-    
+    jQuery('[data-toggle="tooltip"]').tooltip();
+
   }
 
- uploadFile() {
+  uploadFile() {
     let _this = this;
     this.imgUploadingInProcess = true;
     let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
@@ -148,8 +120,8 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.cardForm.controls['image_url'].setValue(data.Location);
 
 
-          jQuery('.video-upload, .or_text').css('display','none');
-          jQuery('.img-upload').addClass('fullWidth');
+        jQuery('.video-upload, .or_text').css('display', 'none');
+        jQuery('.img-upload').addClass('fullWidth');
       }
     });
   }
@@ -166,68 +138,68 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.imgUploadingInProcess = false;
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
 
-    if (this.cardForm.controls['video_url'].value !== '' ) {
+    if (this.cardForm.controls['video_url'].value !== '') {
       jQuery('.img-upload, .or_text').css('display', 'none');
       jQuery('.video-upload').addClass('fullWidth');
     }
 
     this.cardForm.controls['video_code'].setValue(resource_code);
-}
+  }
 
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
     this.filestaus = '';
-    jQuery('.video-upload, .or_text').css('display','block');
+    jQuery('.video-upload, .or_text').css('display', 'block');
     jQuery('.img-upload').removeClass('fullWidth');
   }
 
- removeVideo() {
+  removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.cardForm.controls['youtube_url'].setValue(null);
     this.cardForm.controls['video_url'].setValue(null);
     this.cardForm.controls['video-code'].setValue(null);
 
     this.fileUploaded = false;
-    this.filestaus='';
-    jQuery('.img-upload, .or_text').css('display','block');
+    this.filestaus = '';
+    jQuery('.img-upload, .or_text').css('display', 'block');
     jQuery('.video-upload').removeClass('fullWidth');
-    
+
   }
 
 
   submitMcqCard(event) {
     event.preventDefault();
 
-    let option_index = this.options.length ;
-    
-    let flag=false;
+    let option_index = this.options.length;
 
-    for(var i = 1; i <= option_index; i++){
-      let check = jQuery('#isTosRead'+i).is(":checked");
-        if(check===true){
-          flag=true;
-          break;
-        }
-        else{
-          flag=false;
-        }         
+    let flag = false;
+
+    for (var i = 1; i <= option_index; i++) {
+      let check = jQuery('#isTosRead' + i).is(":checked");
+      if (check === true) {
+        flag = true;
+        break;
+      }
+      else {
+        flag = false;
+      }
     }
 
-    
-        if(flag===false){
-          let check_main = jQuery('#isTosRead').is(":checked");
-          if(check_main===true){
-             flag=true;
-          }
-        
-        }
-              
 
-    if(flag===false){
-    jQuery('#error_check').html('Please select atleast one correct answer').css('color','red');
-        //alert('atleast one checkbox should be checked'); 
-        return;
+    if (flag === false) {
+      let check_main = jQuery('#isTosRead').is(":checked");
+      if (check_main === true) {
+        flag = true;
+      }
+
+    }
+
+
+    if (flag === false) {
+      jQuery('#error_check').html('Please select atleast one correct answer').css('color', 'red');
+      //alert('atleast one checkbox should be checked'); 
+      return;
     }
 
 
@@ -251,22 +223,22 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let params;
     if (this.cardForm.controls['youtube_url'].value !== '') {
       params = {
-          type: 'multiple_choice',
-          description: this.cardForm.controls['text_question'].value,
-          required: false,
-          resource_url:  this.cardForm.controls['youtube_url'].value,
-          resource_type: 'video',
-          resource_code: this.cardForm.controls['video_code'].value
-        };
+        type: 'multiple_choice',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url: this.cardForm.controls['youtube_url'].value,
+        resource_type: 'video',
+        resource_code: this.cardForm.controls['video_code'].value
+      };
 
     } else {
-         params = {
-          type: 'multiple_choice',
-          description: this.cardForm.controls['text_question'].value,
-          required: false,
-          resource_url: this.cardForm.controls['image_url'].value,
-          resource_type: 'image'
-        };
+      params = {
+        type: 'multiple_choice',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url: this.cardForm.controls['image_url'].value,
+        resource_type: 'image'
+      };
     }
 
     if (this.updateQuestionFlag === false) {
@@ -281,7 +253,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         (resp => this.questionCreated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('CreateMCQCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('CreateMCQCard', { 'user': this.conf.getUser().emailId });
     } else {
       mixpanel.time_event('EditMCQCard');
       params['question_id'] = this.updateQuestion.question_id;
@@ -291,7 +263,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         (resp => this.questionUpdated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('EditMCQCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('EditMCQCard', { 'user': this.conf.getUser().emailId });
     }
 
   }
@@ -301,7 +273,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.saveCardErrorText = resp.errors[0].message;
       this.cardError = true;
       mixpanel.people.increment('CreateMCQCardFailed');
-      mixpanel.track('CreateMCQCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.track('CreateMCQCardFailed', { 'error': this.saveCardErrorText });
       return;
     }
     this.cardService.cards.push(new Card(resp.question));
@@ -315,7 +287,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
       mixpanel.people.increment('EditMCQCardFailed');
-      mixpanel.track('EditMCQCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.track('EditMCQCardFailed', { 'error': this.saveCardErrorText });
       return;
     }
     this.cardService.updateCardAfterEdit(new Card(resp.question));
@@ -330,21 +302,20 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let option = this.cardForm.controls['mcqoption'].value;
 
       let check = jQuery('#isTosRead').is(":checked");
-    
-    
+
+
       let choices = {};
       if (option) {
-      choices['label'] = option;        
+        choices['label'] = option;
 
-        if(check==true)
-        {
+        if (check == true) {
           choices['checkStatus'] = 'checked';
 
         }
-        else{
+        else {
           choices['checkStatus'] = '';
         }
-        
+
         // choices['resource_type'] = 'image';
         choices['name'] = 'choices';
         // if (optimg) {
@@ -353,12 +324,12 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         //   choices['resource_url'] = '';
         // }
 
-        this.options.push(choices);        
+        this.options.push(choices);
         this.cardForm.controls['mcqoption'].setValue(null);
         this.cardForm.controls['option_image_url'].setValue(null);
 
-     }
-      
+      }
+
       jQuery('#isTosRead').attr('checked', false);
     }
   }
@@ -385,7 +356,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log('Upload Option Image File');
     let files = this.el.nativeElement.getElementsByClassName('option-upload')[0];
     let file = files.files[0];
-    let objKey =  'public/' + this.conf.getUser().identityId + '/' + file.name;
+    let objKey = 'public/' + this.conf.getUser().identityId + '/' + file.name;
     let params = {
       Key: objKey,
       ContentType: file.type,
@@ -415,9 +386,40 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
   }
 
-    toggle_modal_layout(event) {
-            jQuery('.toHide').hide();
-            jQuery('#blk-' + event).show();
+  setValidator() {
+    if (this.isSurveyModeEnabled) {
+      // Survey type form validator
+      this.cardForm = new FormGroup({
+        text_question: new FormControl('', Validators.required),
+        image_url: new FormControl(''),
+        mcqoption: new FormControl(''),
+        isTosRead: new FormControl(''),
+        option_image_url: new FormControl(''),
+        video_url: new FormControl(''),
+        youtube_url: new FormControl(''),
+        video_code: new FormControl(''),
+      });
+    } else {
+      // Test type form validator
+      this.cardForm = new FormGroup({
+        text_question: new FormControl('', Validators.required),
+        image_url: new FormControl(''),
+        mcqoption: new FormControl('', Validators.required),
+        isTosRead: new FormControl(''),
+        option_image_url: new FormControl(''),
+        video_url: new FormControl(''),
+        youtube_url: new FormControl(''),
+        video_code: new FormControl(''),
+      });
     }
+  }
+
+  toggle_modal_layout(event) {
+    this.isSurveyModeEnabled = !this.isSurveyModeEnabled;
+    this.removeImage();
+    this.removeVideo();
+    this.setValidator();
+    jQuery('#blk-' + event).show();
+  }
 
 }
