@@ -8,16 +8,14 @@
                     <div class="error" *ngIf="cardError">
                         {{saveCardErrorText}}</div>
 
-
-
-
-
-
                     <div class="card_toggle_radio">
-                        <input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked" /><label for="toggler">Survey</label>
-                        <input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="toggler">Test</label>
+                        <input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked" /><label
+                            for="toggler">Survey</label>
+                        <input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label
+                            for="toggler">Test</label>
                     </div>
-                    <div id="blk-1" class="toHide" style="">
+                    <!-- Survey option -->
+                    <div id="blk-1" class="toHide" *ngIf="isSurveyModeEnabled">
                         <form [formGroup]="cardForm" (submit)="submitYesNoCard($event)">
                             <div class="row">
                                 <div class="input-field col s12">
@@ -27,50 +25,44 @@
                                 </div>
                             </div>
 
-                             <div class="row upload_container">
-                            <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''"  [ngClass]="{ 'fullWidth': filestaus == 'image'}">
-                                <div *ngIf="!fileUploaded" class="img-uploader">
-                                    <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
-                                </div>
-                                <input id="image-url" type="hidden" formControlName="image_url" />
+                            <div class="row upload_container">
+                                <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                    <div *ngIf="!fileUploaded" class="img-uploader">
+                                        <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span>                                        <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
+                                    </div>
+                                    <input id="image-url" type="hidden" formControlName="image_url" />
 
+                                    <div *ngIf="uploadError">{{uploadError}}</div>
+                                    <div *ngIf="imgUploadingInProcess">
+                                        <span class="loading-img">Image Uploading...</span>
+                                    </div>
+                                    <div *ngIf="fileUploaded">
+                                        <span (click)="removeImage()" class="fa fa-times right"></span>
+                                        <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
+                                    </div>
+                                </div>
+                                <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
+                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                    <div *ngIf="!fileUploaded" class="video-uploader">
+                                        <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
-                                <div *ngIf="uploadError">{{uploadError}}</div>
-                                <div *ngIf="imgUploadingInProcess">
-                                    <span class="loading-img">Image Uploading...</span>
+                                        <span class="upload-video-lbl">Embed youtube url</span>
+                                    </div>
+                                    <input id="video-url" type="hidden" formControlName="video_url" />
+                                    <input id="video-code" type="hidden" formControlName="video_code" />
+                                    <p id="test"></p>
+                                    <div *ngIf="uploadError">{{uploadError}}</div>
+                                    <div *ngIf="videoUploadingInProcess">
+                                        <span class="loading-img">Video Uploading...</span>
+                                    </div>
+
+                                    <div *ngIf="fileUploaded">
+                                        <span (click)="removeVideo()" class="fa fa-times right"></span>
+                                        <img [src]="cardForm.controls['video_url'].value" width="200" alt="" />
+                                    </div>
                                 </div>
-                                <div *ngIf="fileUploaded">
-                                    <span (click)="removeImage()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
-                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-                            <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''"  [ngClass]="{ 'fullWidth': filestaus == 'image'}">
-                                <div *ngIf="!fileUploaded" class="video-uploader">
-                                    <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()"  >
-
-                                    <span class="upload-video-lbl">Embed youtube url</span>
-                                </div>
-                                <input id="video-url" type="hidden" formControlName="video_url" />
-                                <input id="video-code" type="hidden" formControlName="video_code" />
-                                <p id="test"></p>
-                                <div *ngIf="uploadError">{{uploadError}}</div>
-                                <div *ngIf="videoUploadingInProcess">
-                                    <span class="loading-img">Video Uploading...</span>
-                                </div>
-                                <!-- <div *ngIf="fileUploaded">
-                                    <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                   <div id="kkk" >
-                                   </div>
-                                </div> -->
-
-                                <div *ngIf="fileUploaded">
-                                    <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['video_url'].value" width="200" alt="" />
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
 
                             <div class="row">
 
@@ -82,36 +74,16 @@
                                     <label for="optno">No</label>
                                 </p>
                             </div>
-                            <!-- <div class="row img-upload">
-                                <div *ngIf="!fileUploaded" class="img-uploader">
-                                    <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
-                                </div>
-                                <input id="image-url" type="hidden" formControlName="image_url" />
-                                <div *ngIf="uploadError">{{uploadError}}</div>
-                                <div *ngIf="imgUploadingInProcess">
-                                    <span class="loading-img">Image Uploading...</span>
-                                </div>
-                                <div *ngIf="fileUploaded">
-                                    <span (click)="removeImage()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
-                                </div>
-                            </div> -->
-
-
-                           
-
-
-
-
-
                             <div class="clearfix"></div>
                             <div class="row">
                                 <button type="submit" [disabled]="!cardForm.valid" class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE
-                                        </button>
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <div id="blk-2" class="toHide" style="display:none">
+
+                    <!-- Test option -->
+                    <div id="blk-2" class="toHide" *ngIf="!isSurveyModeEnabled">
                         <form [formGroup]="cardForm" (submit)="submitYesNoCard($event)">
                             <div class="row">
                                 <div class="input-field col s12">
@@ -121,60 +93,62 @@
                                 </div>
                             </div>
 
-                              <div class="row upload_container">
-                            <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
-                                <div *ngIf="!fileUploaded" class="img-uploader">
-                                    <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span> <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
-                                </div>
-                                <input id="image-url" type="hidden" formControlName="image_url" />
+                            <div class="row upload_container">
+                                <div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                    <div *ngIf="!fileUploaded" class="img-uploader">
+                                        <span class="fa fa-picture-o"> </span> <span class="upload-img-lbl">Upload Image</span>                                        <input type="file" class="file-upload" accept="image/*" (change)="uploadFile()" />
+                                    </div>
+                                    <input id="image-url" type="hidden" formControlName="image_url" />
 
 
-                                <div *ngIf="uploadError">{{uploadError}}</div>
-                                <div *ngIf="imgUploadingInProcess">
-                                    <span class="loading-img">Image Uploading...</span>
+                                    <div *ngIf="uploadError">{{uploadError}}</div>
+                                    <div *ngIf="imgUploadingInProcess">
+                                        <span class="loading-img">Image Uploading...</span>
+                                    </div>
+                                    <div *ngIf="fileUploaded">
+                                        <span (click)="removeImage()" class="fa fa-times right"></span>
+                                        <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
+                                    </div>
                                 </div>
-                                <div *ngIf="fileUploaded">
-                                    <span (click)="removeImage()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['image_url'].value" width="200" alt="" />
-                                </div>
-                            </div>
-                            <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-                            <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
-                                <div *ngIf="!fileUploaded" class="video-uploader">
-                                    <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()"  >
+                                <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
+                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                    <div *ngIf="!fileUploaded" class="video-uploader">
+                                        <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
-                                    <span class="upload-video-lbl">Embed youtube url</span>
-                                </div>
-                                <input id="video-url" type="hidden" formControlName="video_url" />
-                                <input id="video-code" type="hidden" formControlName="video_code" />
-                                <p id="test"></p>
-                                <div *ngIf="uploadError">{{uploadError}}</div>
-                                <div *ngIf="videoUploadingInProcess">
-                                    <span class="loading-img">Video Uploading...</span>
-                                </div>
-                                <!-- <div *ngIf="fileUploaded">
+                                        <span class="upload-video-lbl">Embed youtube url</span>
+                                    </div>
+                                    <input id="video-url" type="hidden" formControlName="video_url" />
+                                    <input id="video-code" type="hidden" formControlName="video_code" />
+                                    <p id="test"></p>
+                                    <div *ngIf="uploadError">{{uploadError}}</div>
+                                    <div *ngIf="videoUploadingInProcess">
+                                        <span class="loading-img">Video Uploading...</span>
+                                    </div>
+                                    <!-- <div *ngIf="fileUploaded">
                                     <span (click)="removeVideo()" class="fa fa-times right"></span>
                                    <div id="kkk" >
                                    </div>
                                 </div> -->
 
-                                <div *ngIf="fileUploaded">
-                                    <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                    <img [src]="cardForm.controls['video_url'].value" width="200" alt="" />
+                                    <div *ngIf="fileUploaded">
+                                        <span (click)="removeVideo()" class="fa fa-times right"></span>
+                                        <img [src]="cardForm.controls['video_url'].value" width="200" alt="" />
+                                    </div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="clearfix"></div>
-                        </div>
 
 
 
                             <div class="row">
                                 <p class="text_instruction">Click on the radio button to select correct answer</p>
                                 <p>
-                                    <input name="choice" type="radio" id="optyes" required formControlName="choice" value="0" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"  /> <label for="optyes">Yes</label>
+                                    <input name="choice" type="radio" id="optyes" required formControlName="choice" value="0" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
+                                    /> <label for="optyes">Yes</label>
                                 </p>
                                 <p>
-                                    <input name="choice" type="radio" id="optno" formControlName="choice" required value="1" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"  />
+                                    <input name="choice" type="radio" id="optno" formControlName="choice" required value="1" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
+                                    />
                                     <label for="optno">No</label>
                                 </p>
 
@@ -210,8 +184,8 @@
                                 </div>
                             </div> -->
 
-                           
-                            
+
+
                             <div class="clearfix"></div>
                             <div class="row">
                                 <button type="submit" [disabled]="!cardForm.valid" class="btn-submit waves-effect waves-light btn light-green darken-2">SAVE

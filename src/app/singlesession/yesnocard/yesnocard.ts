@@ -5,7 +5,7 @@ import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
 import { Session } from '../../shared/models/session';
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -20,8 +20,8 @@ declare var jQuery: any;
   templateUrl: './yesnocard.html',
   styles: ['./yesnocard.css'],
 })
-export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
-
+export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
+  isSurveyModeEnabled: boolean = true;
   uploadError: string;
   fileUploaded: boolean;
   filestaus: string;
@@ -36,7 +36,7 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
   session: Session;
   private subscription: Subscription;
 
-    constructor(public editService: EditService,
+  constructor(public editService: EditService,
     private conf: ConfigurationService,
     private sessionService: SessionService,
     private cardService: CardService,
@@ -44,66 +44,59 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
-      this.uploadError = '';
-      this.fileUploaded = false;
-      this.filestaus = '';
-      this.imgUploadingInProcess = false;
-      this.videoUploadingInProcess = false;
-      this.cardError = false;
-      this.updateQuestionFlag = false;
-      this.saveCardErrorText = '';
+    this.uploadError = '';
+    this.fileUploaded = false;
+    this.filestaus = '';
+    this.imgUploadingInProcess = false;
+    this.videoUploadingInProcess = false;
+    this.cardError = false;
+    this.updateQuestionFlag = false;
+    this.saveCardErrorText = '';
 
-      this.updateQuestion = this.editService.getCurrent();
-      ga('set', 'userId', this.conf.getUser().userId);
-      if (this.editService.isEditing()) {
-         this.updateQuestionFlag = true;
-         this.cardForm = formBuilder.group({
-          text_question: [this.updateQuestion.description, Validators.required],
-          choice: ['', Validators.required],
-          image_url: [''],
-          video_url: [''],
-          youtube_url: [''],
-          video_code: ['']
-      });
-
-      if (this.updateQuestion.resource_type) {
-            if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
-                this.fileUploaded = true;
-                this.filestaus = 'image';
-                this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
-
-                jQuery('.img-upload').addClass('fullWidth');
-            } else  if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
-                this.fileUploaded = true;
-                 this.filestaus = 'video';
-                let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
-                this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
-                this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
-                jQuery('.video-upload').addClass('fullWidth');
-            }
-      }
-      ga('send', 'pageview', '/sessions/yesnocard/edit');
-    } else {
+    this.updateQuestion = this.editService.getCurrent();
+    ga('set', 'userId', this.conf.getUser().userId);
+    if (this.editService.isEditing()) {
+      this.updateQuestionFlag = true;
       this.cardForm = formBuilder.group({
-        text_question: ['', Validators.required],
+        text_question: [this.updateQuestion.description, Validators.required],
         choice: ['', Validators.required],
         image_url: [''],
         video_url: [''],
         youtube_url: [''],
         video_code: ['']
       });
+
+      if (this.updateQuestion.resource_type) {
+        if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
+          this.fileUploaded = true;
+          this.filestaus = 'image';
+          this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
+
+          jQuery('.img-upload').addClass('fullWidth');
+        } else if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+          this.fileUploaded = true;
+          this.filestaus = 'video';
+          let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
+          this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+          this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
+          jQuery('.video-upload').addClass('fullWidth');
+        }
+      }
+      ga('send', 'pageview', '/sessions/yesnocard/edit');
+    } else {
+      this.setValidator();
       ga('send', 'pageview', '/sessions/yesnocard/add');
     }
   }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
-        this.sessionId = params['id'];
+      this.sessionId = params['id'];
     });
-     jQuery('[data-toggle="tooltip"]').tooltip(); 
+    jQuery('[data-toggle="tooltip"]').tooltip();
   }
 
- uploadFile() {
+  uploadFile() {
     let _this = this;
     this.imgUploadingInProcess = true;
     let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
@@ -128,25 +121,25 @@ export class YesNoCardComponent  implements OnInit, AfterViewInit, OnDestroy {
       } else {
         _this.fileUploaded = true;
         _this.imgUploadingInProcess = false;
-         _this.cardForm.controls['image_url'].setValue(data.Location);
+        _this.cardForm.controls['image_url'].setValue(data.Location);
 
-          this.filestaus = '';
-          jQuery('.video-upload, .or_text').css('display', 'none');
-          jQuery('.img-upload').addClass('fullWidth');
+        this.filestaus = '';
+        jQuery('.video-upload, .or_text').css('display', 'none');
+        jQuery('.img-upload').addClass('fullWidth');
 
       }
     });
   }
 
 
-uploadVideo() {
+  uploadVideo() {
 
     let files = jQuery('input.video-upload').val();
     let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
     let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
     this.fileUploaded = true;
     this.imgUploadingInProcess = false;
-     this.filestaus = '';
+    this.filestaus = '';
     this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
     if (this.cardForm.controls['video_url'].value !== '') {
       jQuery('.img-upload, .or_text').css('display', 'none');
@@ -154,13 +147,13 @@ uploadVideo() {
     }
 
     this.cardForm.controls['video_code'].setValue(resource_code);
-}
+  }
 
 
   removeImage() {
     this.cardForm.controls['image_url'].setValue(null);
     this.fileUploaded = false;
-     this.filestaus = '';
+    this.filestaus = '';
 
     jQuery('.video-upload, .or_text').css('display', 'block');
     jQuery('.img-upload').removeClass('fullWidth');
@@ -169,7 +162,7 @@ uploadVideo() {
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.fileUploaded = false;
-     this.filestaus = '';
+    this.filestaus = '';
     jQuery('.img-upload, .or_text').css('display', 'block');
     jQuery('.video-upload').removeClass('fullWidth');
   }
@@ -186,37 +179,35 @@ uploadVideo() {
       return false;
     }
 
-if (!this.cardForm.controls['choice'].value) {
-  jQuery('#YesNoErrorMsg').css('display', 'block');
-  return false;
-  } else {
-  jQuery('#YesNoErrorMsg').css('display', 'none');
-}
+    if (!this.isSurveyModeEnabled && !this.cardForm.controls['choice'].value) {
+      jQuery('#YesNoErrorMsg').css('display', 'block');
+      return false;
+    } else {
+      jQuery('#YesNoErrorMsg').css('display', 'none');
+    }
 
-  let params;
-  if (this.cardForm.controls['youtube_url'].value !== '') {
-  params = {
-      type: 'yes_no',
-      description: this.cardForm.controls['text_question'].value,
-      required: false,
-      resource_url:  this.cardForm.controls['youtube_url'].value,
-      resource_type: 'video',
-      resource_code: this.cardForm.controls['video_code'].value
-    };
+    let params: any = {};
 
-}else {
-     params = {
+    if (this.cardForm.controls['youtube_url'].value !== '') {
+      params = {
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url: this.cardForm.controls['youtube_url'].value,
+        resource_type: 'video',
+        resource_code: this.cardForm.controls['video_code'].value
+      };
 
-      type: 'yes_no',
-      description: this.cardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.cardForm.controls['image_url'].value,
-      resource_type: 'image'
-
-
-    };
-}
-
+    } else {
+      params = {
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
+        resource_url: this.cardForm.controls['image_url'].value,
+        resource_type: 'image'
+      };
+    }
+    params.question_scope = this.isSurveyModeEnabled ? 'survey' : 'test';
 
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateYesNoCard');
@@ -229,7 +220,7 @@ if (!this.cardForm.controls['choice'].value) {
         (resp => this._questionCreated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('CreateYesNoCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('CreateYesNoCard', { 'user': this.conf.getUser().emailId });
     } else {
       mixpanel.time_event('EditYesNoCard');
       params['question_id'] = this.updateQuestion.question_id;
@@ -239,7 +230,7 @@ if (!this.cardForm.controls['choice'].value) {
         (resp => this._questionUpdated(resp)),
         (error => this.cardError = true)
       );
-      mixpanel.track('EditYesNoCard', {'user': this.conf.getUser().emailId});
+      mixpanel.track('EditYesNoCard', { 'user': this.conf.getUser().emailId });
     }
 
   }
@@ -249,23 +240,22 @@ if (!this.cardForm.controls['choice'].value) {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
       mixpanel.people.increment('CreateYesNoCardFailed');
-      mixpanel.track('CreateYesNoCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.track('CreateYesNoCardFailed', { 'error': this.saveCardErrorText });
       return;
     }
-     this.cardService.cards.push(new Card(resp.question));
-     jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
-     mixpanel.people.increment('Cards');
-     mixpanel.people.increment('YesNoCards');
+    this.cardService.cards.push(new Card(resp.question));
+    jQuery(this.el.nativeElement).find('#yesno-card-modal').closeModal();
+    mixpanel.people.increment('Cards');
+    mixpanel.people.increment('YesNoCards');
 
   }
-
 
   _questionUpdated(resp) {
     if (resp.type === 'Failure') {
       this.cardError = true;
       this.saveCardErrorText = resp.errors[0].message;
       mixpanel.people.increment('EditYesNoCardFailed');
-      mixpanel.track('EditYesNoCardFailed', {'error' : this.saveCardErrorText});
+      mixpanel.track('EditYesNoCardFailed', { 'error': this.saveCardErrorText });
       return;
     }
     this.cardService.updateCardAfterEdit(new Card(resp.question));
@@ -281,9 +271,50 @@ if (!this.cardForm.controls['choice'].value) {
   ngOnDestroy() {
   }
 
-
-    toggle_modal_layout(event) {
-            jQuery('.toHide').hide();
-            jQuery('#blk-' + event).show();
+  setValidator() {
+    if (this.isSurveyModeEnabled) {
+      // Survey type form validator
+      this.cardForm = new FormGroup({
+        text_question: new FormControl('', Validators.required),
+        image_url: new FormControl(''),
+        video_url: new FormControl(''),
+        youtube_url: new FormControl(''),
+        video_code: new FormControl(''),
+      }, this.customValidatorImageVideoExistence);
+    } else {
+      // Test type form validator
+      this.cardForm = new FormGroup({
+        text_question: new FormControl('', Validators.required),
+        choice: new FormControl('', Validators.required),
+        image_url: new FormControl(''),
+        video_url: new FormControl(''),
+        youtube_url: new FormControl(''),
+        video_code: new FormControl(''),
+      }, this.customValidatorImageVideoExistence);
     }
+  }
+
+  customValidatorImageVideoExistence(group: FormGroup): { [key: string]: any } {
+    let isImageOrVideoProvided = false;
+    if (group && group.controls) {
+      for (let control in group.controls) {
+        if (group.controls.hasOwnProperty(control) && group.controls[control].valid && group.controls[control].value) {
+          isImageOrVideoProvided = control === 'image_url' || control === 'video_url' || control === 'youtube_url';
+          if (isImageOrVideoProvided) {
+            break;
+          }
+        }
+      }
+    }
+    return isImageOrVideoProvided ? null : { 'required': true };
+  }
+
+  toggle_modal_layout(event) {
+    this.isSurveyModeEnabled = !this.isSurveyModeEnabled;
+    // Reset to initial state
+    this.removeImage();
+    this.removeVideo();
+    this.setValidator();
+    jQuery('#blk-' + event).show();
+  }
 }
