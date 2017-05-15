@@ -25,6 +25,5 @@ export class ShortAnswerService {
           (error => console.log(error)),
           (() => this.isfetched = true)
       );
- 
  }
 }

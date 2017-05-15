@@ -41,7 +41,6 @@ export class CardService {
 
   deleteQuestion(questionData) {
     questionData.user_id = this.conf.getUser().userId;
-    console.log(questionData);
     let url = `/questions/${questionData['question_id']}`;
     let data = JSON.stringify(questionData);
     return this.api.post(url, data)
@@ -55,6 +54,17 @@ export class CardService {
         break;
       }
     }
+  }
+
+  move(questionId: string, sessionId: string, moveTo: number): Observable<string> {
+    let body = {
+          user_id: this.conf.getUser().userId,
+          session_id: sessionId,
+          move_to: moveTo + 1
+    };
+    let url = `/questions/${questionId}/move`;
+    return this.api.post(url, body)
+            .map(res => res.json());
   }
 
   confirmationRequiredForUpdate(session: Session, card: Card): boolean {
