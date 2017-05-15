@@ -18,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
-import { SingleSessionService } from './singlesession.service';
 
 
 declare var ga: any;
@@ -51,8 +50,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private el: ElementRef,
-    private dragulaService: DragulaService,
-    private singleSessionService: SingleSessionService
+    private dragulaService: DragulaService
   ) {
 
     this.nextPageToken = '';
@@ -95,7 +93,6 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
   private onDrag(args) {
     let [e, el] = args;
-    //this.removeClass(e, 'ex-moved');
   }
 
   private onDrop(args) {
@@ -104,17 +101,15 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     let moveToIndex = -1;
     if (sibling) {
       moveToIndex = Array.prototype.indexOf.call(target.children, sibling) - 1;
-    }
-    else {
+    } else {
       moveToIndex = target.children.length - 1;
     }
 
     // Send service call to save this change
-    this.singleSessionService.setQuestionId(el.dataset.qid, moveToIndex, this.sessionId).then((resp) => {
-      console.log(resp);
-    }).catch((err) => {
-      console.log('err', err);
-    })
+    this.cardService.move(el.dataset.qid, this.sessionId, moveToIndex)
+    .subscribe(resp => this.updateCards(resp),
+        (error => console.log(error)),
+        () => this.cardsFetched = true);
   }
 
 
@@ -203,6 +198,10 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     [].forEach.call(cols, addDnDHandlers);
 
 
+  }
+
+  private updateCards(response: any) {
+     this.cardService.updateCardAfterEdit(new Card(response.question));
   }
 
 
