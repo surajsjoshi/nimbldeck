@@ -52,6 +52,7 @@ import { OnboardingComponent } from './shared/components/help/onboarding/onboard
 import { PlayerComponent } from './shared/components/player/player.component';
 import { AppSharedService } from './app-shared.service';
 import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
+import { SingleSessionService } from './singlesession/singlesession.service';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,7 @@ import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
     AnalyticsService, ApiService, QueriesService,
     ConfigurationService, CurrentUser, SessionService, CardService,
-    EditService, AppSharedService],
+    EditService, AppSharedService, SingleSessionService],
   bootstrap: [AppComponent],
 
   entryComponents: [

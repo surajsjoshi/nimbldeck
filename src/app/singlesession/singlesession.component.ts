@@ -17,8 +17,8 @@ import { YesNoCardComponent } from './yesnocard/yesnocard';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { DragulaService} from 'ng2-dragula/ng2-dragula';
-
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
+import { SingleSessionService } from './singlesession.service';
 
 
 declare var ga: any;
@@ -44,27 +44,28 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
 
   constructor(public cardService: CardService,
-              private conf: ConfigurationService,
-              private sessionService: SessionService,
-              public editService: EditService,
-              private route: ActivatedRoute,
-              private viewContainerRef: ViewContainerRef,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              private el: ElementRef,
-              private dragulaService: DragulaService
-             ) {
-              
+    private conf: ConfigurationService,
+    private sessionService: SessionService,
+    public editService: EditService,
+    private route: ActivatedRoute,
+    private viewContainerRef: ViewContainerRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private el: ElementRef,
+    private dragulaService: DragulaService,
+    private singleSessionService: SingleSessionService
+  ) {
+
     this.nextPageToken = '';
     this.cardsFetched = false;
     this.sessionFetched = false;
     this.questionDeleteError = false;
 
-   
-   
-   }
+
+
+  }
 
   ngOnInit() {
-      this.subscription = this.route.params.subscribe(params => {
+    this.subscription = this.route.params.subscribe(params => {
       this.sessionId = params['id'];
       mixpanel.time_event('ListCards');
       ga('set', 'userId', this.conf.getUser().getUserId());
@@ -72,7 +73,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
       this.sessionService.getSession(this.sessionId)
         .subscribe(sess => this.mapSession(sess),
-            (error => console.log(error)),
+        (error => console.log(error)),
         () => this.sessionFetched = true);
       this.cardService.getSessionQuestions(this.sessionId, this.nextPageToken)
         .subscribe(resp => this.mapCards(resp),
@@ -80,114 +81,132 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
         () => this.cardsFetched = true);
 
     });
-      mixpanel.track('ListCards', {'user': this.conf.getUser().getEmailId()});
+    mixpanel.track('ListCards', { 'user': this.conf.getUser().getEmailId() });
 
-
-     
-
-
+    this.subscribeDropEvent();
   }
 
-private onDrag(args){
+  subscribeDropEvent() {
+    this.dragulaService.drop.subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      this.onDrop(value.slice(1));
+    });
+  }
+
+  private onDrag(args) {
     let [e, el] = args;
     //this.removeClass(e, 'ex-moved');
   }
 
   private onDrop(args) {
-    let [e, el] = args;
-   // this.addClass(e, 'ex-moved');
-}
+    let [el, target, source, sibling] = args;
+    // Get new index of question
+    let moveToIndex = -1;
+    if (sibling) {
+      moveToIndex = Array.prototype.indexOf.call(target.children, sibling) - 1;
+    }
+    else {
+      moveToIndex = target.children.length - 1;
+    }
+
+    // Send service call to save this change
+    this.singleSessionService.setQuestionId(el.dataset.qid, moveToIndex, this.sessionId).then((resp) => {
+      console.log(resp);
+    }).catch((err) => {
+      console.log('err', err);
+    })
+  }
 
 
   private mapSession(response) {
     this.session = response;
   }
 
-   private mapCards(response) {
+  private mapCards(response) {
     let cards = Array.from(response.questions).map(card => new Card(card));
     this.response = new CardResponse(cards, response.next_page_token);
     this.cardService.cards = cards;
     let dragSrcEl = null;
 
-function handleDragStart(e) {
-  // Target (this) element is the source node.
-  dragSrcEl = this;
+    function handleDragStart(e) {
+      // Target (this) element is the source node.
+      dragSrcEl = this;
 
-  e.dataTransfer.effectAllowed = 'move';
-  e.dataTransfer.setData('text/html', this.outerHTML);
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.outerHTML);
 
-  this.classList.add('dragElem');
-}
-function handleDragOver(e) {
-  if (e.preventDefault) {
-    e.preventDefault(); // Necessary. Allows us to drop.
+      this.classList.add('dragElem');
+    }
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault(); // Necessary. Allows us to drop.
+      }
+      this.classList.add('over');
+
+      e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      // this / e.target is the current hover target.
+    }
+
+    function handleDragLeave(e) {
+      this.classList.remove('over');  // this / e.target is previous target element.
+    }
+
+    function handleDrop(e) {
+      // this/e.target is current target element.
+
+      if (e.stopPropagation) {
+        e.stopPropagation(); // Stops some browsers from redirecting.
+      }
+
+      // Don't do anything if dropping the same column we're dragging.
+      if (dragSrcEl !== this) {
+        // Set the source column's HTML to the HTML of the column we dropped on.
+        // alert(this.outerHTML);
+        // dragSrcEl.innerHTML = this.innerHTML;
+        // this.innerHTML = e.dataTransfer.getData('text/html');
+        this.parentNode.removeChild(dragSrcEl);
+        let dropHTML = e.dataTransfer.getData('text/html');
+        this.insertAdjacentHTML('beforebegin', dropHTML);
+        let dropElem = this.previousSibling;
+        this.addDnDHandlers(dropElem);
+
+      }
+      this.classList.remove('over');
+      return false;
+    }
+
+    function handleDragEnd(e) {
+      // this/e.target is the source node.
+      this.classList.remove('over');
+
+      /*[].forEach.call(cols, function (col) {
+        col.classList.remove('over');
+      });*/
+    }
+
+    function addDnDHandlers(elem) {
+      elem.addEventListener('dragstart', handleDragStart, false);
+      elem.addEventListener('dragenter', handleDragEnter, false);
+      elem.addEventListener('dragover', handleDragOver, false);
+      elem.addEventListener('dragleave', handleDragLeave, false);
+      elem.addEventListener('drop', handleDrop, false);
+      elem.addEventListener('dragend', handleDragEnd, false);
+
+    }
+
+    let cols = document.querySelectorAll('.sortable_columns  .column');
+    [].forEach.call(cols, addDnDHandlers);
+
+
   }
-  this.classList.add('over');
-
-  e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-
-  return false;
-}
-
-function handleDragEnter(e) {
-  // this / e.target is the current hover target.
-}
-
-function handleDragLeave(e) {
-  this.classList.remove('over');  // this / e.target is previous target element.
-}
-
-function handleDrop(e) {
-  // this/e.target is current target element.
-
-  if (e.stopPropagation) {
-    e.stopPropagation(); // Stops some browsers from redirecting.
-  }
-
-  // Don't do anything if dropping the same column we're dragging.
-  if (dragSrcEl !== this) {
-    // Set the source column's HTML to the HTML of the column we dropped on.
-    // alert(this.outerHTML);
-    // dragSrcEl.innerHTML = this.innerHTML;
-    // this.innerHTML = e.dataTransfer.getData('text/html');
-    this.parentNode.removeChild(dragSrcEl);
-    let dropHTML = e.dataTransfer.getData('text/html');
-    this.insertAdjacentHTML('beforebegin', dropHTML);
-    let dropElem = this.previousSibling;
-    this.addDnDHandlers(dropElem);
-
-  }
-  this.classList.remove('over');
-  return false;
-}
-
-function handleDragEnd(e) {
-  // this/e.target is the source node.
-  this.classList.remove('over');
-
-  /*[].forEach.call(cols, function (col) {
-    col.classList.remove('over');
-  });*/
-}
-
-function addDnDHandlers(elem) {
-  elem.addEventListener('dragstart', handleDragStart, false);
-  elem.addEventListener('dragenter', handleDragEnter, false);
-  elem.addEventListener('dragover', handleDragOver, false);
-  elem.addEventListener('dragleave', handleDragLeave, false);
-  elem.addEventListener('drop', handleDrop, false);
-  elem.addEventListener('dragend', handleDragEnd, false);
-
-}
-
-let cols = document.querySelectorAll('.sortable_columns  .column');
-[].forEach.call(cols, addDnDHandlers);
 
 
-  }
-
-
- editQuestion(evt, question) {
+  editQuestion(evt, question) {
     evt.preventDefault();
     this.editService.setCurrentEdit('question', question);
     if (question.question_type === 'yes_no') {
@@ -203,12 +222,12 @@ let cols = document.querySelectorAll('.sortable_columns  .column');
     }
   }
 
-    deleteQuestion(event, questionId) {
-       event.preventDefault();
-       let params = {
-          question_id: questionId,
-          session_id: this.sessionId
-        };
+  deleteQuestion(event, questionId) {
+    event.preventDefault();
+    let params = {
+      question_id: questionId,
+      session_id: this.sessionId
+    };
     if (confirm('Are you sure, you want to delete this question?')) {
       let observable = this.cardService.deleteQuestion(params);
       observable.subscribe(
@@ -240,13 +259,13 @@ let cols = document.querySelectorAll('.sortable_columns  .column');
     jQuery(modal).openModal();
   }
 
- showTextCard() {
-  let componentFactory = this.componentFactoryResolver.resolveComponentFactory(TextcardComponent);
-  this.viewContainerRef.clear();
-  let componentRef = this.viewContainerRef.createComponent(componentFactory);
-  (<TextcardComponent>componentRef.instance).editService = this.editService;
-  jQuery('#text-card-modal').openModal();
-}
+  showTextCard() {
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(TextcardComponent);
+    this.viewContainerRef.clear();
+    let componentRef = this.viewContainerRef.createComponent(componentFactory);
+    (<TextcardComponent>componentRef.instance).editService = this.editService;
+    jQuery('#text-card-modal').openModal();
+  }
 
   showRatingCard() {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(RatingCardComponent);
@@ -285,33 +304,33 @@ let cols = document.querySelectorAll('.sortable_columns  .column');
   }
 
 
-shorting(index){
-        
-        let i=1;
+  shorting(index) {
 
-        jQuery('.session_listing').each(function (index, value) { 
-          jQuery(this).find('.index').text(i);
-          i++;           
-        });
-}
+    let i = 1;
 
-/*
-  openCarouselModal(event) {
+    jQuery('.session_listing').each(function (index, value) {
+      jQuery(this).find('.index').text(i);
+      i++;
+    });
+  }
 
-    let num = jQuery(event.target).attr('id');
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
-    this.viewContainerRef.clear();
-    let componentRef = this.viewContainerRef.createComponent(componentFactory);
-    (<CarouselComponent>componentRef.instance).currentCard = Number(num);
-    jQuery('#myModal').openModal();
-
-  } */
+  /*
+    openCarouselModal(event) {
+  
+      let num = jQuery(event.target).attr('id');
+      let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
+      this.viewContainerRef.clear();
+      let componentRef = this.viewContainerRef.createComponent(componentFactory);
+      (<CarouselComponent>componentRef.instance).currentCard = Number(num);
+      jQuery('#myModal').openModal();
+  
+    } */
 
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.editService.resetEdits();
-   }
+  }
 }
 
 
