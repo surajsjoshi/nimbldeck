@@ -37,6 +37,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
   public rightFeedback;
   public wrongFeedback;
   private subscription: Subscription;
+  public question;
 
   constructor(public editService: EditService,
     private conf: ConfigurationService,
@@ -59,8 +60,9 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     ga('set', 'userId', this.conf.getUser().userId);
     if (this.editService.isEditing()) {
       this.updateQuestionFlag = true;
+      this.isSurveyModeEnabled = this.updateQuestion.question_scope === 'survey';
       this.setValidator();
-
+      this.initQuestionData();
       if (this.updateQuestion.resource_type) {
         if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
           this.fileUploaded = true;
@@ -89,6 +91,17 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sessionId = params['id'];
     });
     jQuery('[data-toggle="tooltip"]').tooltip();
+  }
+
+  initQuestionData() {
+    let question = this.updateQuestion;
+    this.cardForm.controls['text_question'].setValue(question.description);
+    if (!this.isSurveyModeEnabled) {
+      this.cardForm.controls['rightFeedback'].setValue(question.correct_description);
+      this.cardForm.controls['wrongFeedback'].setValue(question.incorrect_description);
+      this.cardForm.controls['choice'].setValue(question.correct_answers[0]);
+    }
+    console.log(this.isSurveyModeEnabled);
   }
 
   uploadFile() {

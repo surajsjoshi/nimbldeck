@@ -107,9 +107,9 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
     // Send service call to save this change
     this.cardService.move(el.dataset.qid, this.sessionId, moveToIndex)
-    .subscribe(resp => this.updateCards(resp),
-        (error => console.log(error)),
-        () => this.cardsFetched = true);
+      .subscribe(resp => this.updateCards(resp),
+      (error => console.log(error)),
+      () => this.cardsFetched = true);
   }
 
 
@@ -201,7 +201,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   private updateCards(response: any) {
-     this.cardService.updateCardAfterEdit(new Card(response.question));
+    this.cardService.updateCardAfterEdit(new Card(response.question));
   }
 
 
@@ -209,7 +209,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     evt.preventDefault();
     this.editService.setCurrentEdit('question', question);
     if (question.question_type === 'yes_no') {
-      this.showYesNoCard();
+      this.showYesNoCard(question);
     } else if (question.question_type === 'multiple_choice') {
       this.showMcqCard();
     } else if (question.question_type === 'short_text') {
@@ -293,12 +293,13 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     jQuery('#mcq-card-modal').openModal();
   }
 
-  showYesNoCard() {
+  showYesNoCard(question) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(YesNoCardComponent);
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<YesNoCardComponent>componentRef.instance).editService = this.editService;
     (<YesNoCardComponent>componentRef.instance).session = this.session;
+    // (<YesNoCardComponent>componentRef.instance).question = question;
     jQuery('#yesno-card-modal').openModal();
   }
 

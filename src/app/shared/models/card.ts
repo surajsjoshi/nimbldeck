@@ -16,8 +16,10 @@ export class Card {
   resource_type: string;
   resource_code: string;
   scope: string;
-
-
+  question_scope: string;
+  correct_description: string;
+  incorrect_description: string;
+  correct_answers;
 
   constructor(card: Object) {;
     for (let key in card) {
