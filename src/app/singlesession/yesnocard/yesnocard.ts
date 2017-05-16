@@ -69,14 +69,14 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.filestaus = 'image';
           this.cardForm.controls['image_url'].setValue(this.updateQuestion.resource_url);
 
-          jQuery('.img-upload').addClass('fullWidth');
-        } else if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_url) {
+          //jQuery('.img-upload').addClass('fullWidth');
+        } else if (this.updateQuestion.resource_type === 'video' && this.updateQuestion.resource_code) {
           this.fileUploaded = true;
           this.filestaus = 'video';
           let video_thumbnail_url = 'https://img.youtube.com/vi/' + this.updateQuestion.resource_code + '/0.jpg';
           this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
           this.cardForm.controls['video_code'].setValue(this.updateQuestion.resource_code);
-          jQuery('.video-upload').addClass('fullWidth');
+          //jQuery('.video-upload').addClass('fullWidth');
         }
       }
       ga('send', 'pageview', '/sessions/yesnocard/edit');
@@ -101,7 +101,6 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.cardForm.controls['wrongFeedback'].setValue(question.incorrect_description);
       this.cardForm.controls['choice'].setValue(question.correct_answers[0]);
     }
-    console.log(this.isSurveyModeEnabled);
   }
 
   uploadFile() {
@@ -131,7 +130,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         _this.imgUploadingInProcess = false;
         _this.cardForm.controls['image_url'].setValue(data.Location);
 
-        this.filestaus = '';
+        this.filestaus = 'image';
         jQuery('.video-upload, .or_text').css('display', 'none');
         jQuery('.img-upload').addClass('fullWidth');
 

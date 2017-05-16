@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                                 <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' ||  filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'video'}">
                                     <div *ngIf="!fileUploaded" class="video-uploader">
                                         <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
@@ -111,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+                                <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'video'}">
                                     <div *ngIf="!fileUploaded" class="video-uploader">
                                         <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
