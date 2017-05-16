@@ -290,37 +290,69 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setValidator() {
-    if (this.isSurveyModeEnabled) {
-      // Survey type form validator
-      this.cardForm = new FormGroup({
-        text_question: new FormControl('', Validators.required),
-        image_url: new FormControl(''),
-        video_url: new FormControl(''),
-        youtube_url: new FormControl(''),
-        video_code: new FormControl(''),
-        rightFeedback: new FormControl(''),
-        wrongFeedback: new FormControl('')
-      });
+    if (this.cardForm) {
+      let question = this.cardForm.controls['text_question'].value;
+      let imageUrl = this.cardForm.controls['image_url'].value;
+      let videoUrl = this.cardForm.controls['video_url'].value;
+      let youtubeUrl = this.cardForm.controls['youtube_url'].value;
+      let videoCode = this.cardForm.controls['video_code'].value;
+      let rightFeedback = this.cardForm.controls['rightFeedback'].value;
+      let wrongFeedback = this.cardForm.controls['wrongFeedback'].value;
+      if (this.isSurveyModeEnabled) {
+        // Survey type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl(question, Validators.required),
+          image_url: new FormControl(imageUrl),
+          video_url: new FormControl(videoUrl),
+          youtube_url: new FormControl(youtubeUrl),
+          video_code: new FormControl(videoCode),
+          rightFeedback: new FormControl(rightFeedback),
+          wrongFeedback: new FormControl(wrongFeedback)
+        });
+      } else {
+        // Test type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl(question, Validators.required),
+          choice: new FormControl('', Validators.required),
+          image_url: new FormControl(imageUrl),
+          video_url: new FormControl(videoUrl),
+          youtube_url: new FormControl(youtubeUrl),
+          video_code: new FormControl(videoCode),
+          rightFeedback: new FormControl(rightFeedback),
+          wrongFeedback: new FormControl(wrongFeedback)
+        });
+      }
     } else {
-      // Test type form validator
-      this.cardForm = new FormGroup({
-        text_question: new FormControl('', Validators.required),
-        choice: new FormControl('', Validators.required),
-        image_url: new FormControl(''),
-        video_url: new FormControl(''),
-        youtube_url: new FormControl(''),
-        video_code: new FormControl(''),
-        rightFeedback: new FormControl(''),
-        wrongFeedback: new FormControl('')
-      });
+      if (this.isSurveyModeEnabled) {
+        // Survey type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl('', Validators.required),
+          image_url: new FormControl(''),
+          video_url: new FormControl(''),
+          youtube_url: new FormControl(''),
+          video_code: new FormControl(''),
+          rightFeedback: new FormControl(''),
+          wrongFeedback: new FormControl('')
+        });
+      } else {
+        // Test type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl('', Validators.required),
+          choice: new FormControl('', Validators.required),
+          image_url: new FormControl(''),
+          video_url: new FormControl(''),
+          youtube_url: new FormControl(''),
+          video_code: new FormControl(''),
+          rightFeedback: new FormControl(''),
+          wrongFeedback: new FormControl('')
+        });
+      }
     }
   }
 
   toggle_modal_layout(event) {
     this.isSurveyModeEnabled = !this.isSurveyModeEnabled;
     // Reset to initial state
-    this.removeImage();
-    this.removeVideo();
     this.setValidator();
     jQuery('#blk-' + event).show();
   }
