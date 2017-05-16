@@ -410,8 +410,23 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         video_url: new FormControl(''),
         youtube_url: new FormControl(''),
         video_code: new FormControl(''),
-      });
+      }, this.customValidatorAtleast1CheckboxChecked);
     }
+  }
+
+  customValidatorAtleast1CheckboxChecked(group: FormGroup): { [key: string]: any } {
+    let isAtleastOneCheckboxChecked = false;
+    if (group && group.controls) {
+      for (let control in group.controls) {
+        // if (group.controls.hasOwnProperty(control) && group.controls[control].valid && group.controls[control].value) {
+        //   isImageOrVideoProvided = control === 'image_url' || control === 'video_url' || control === 'youtube_url';
+        //   if (isImageOrVideoProvided) {
+        //     break;
+        //   }
+        // }
+      }
+    }
+    return isAtleastOneCheckboxChecked ? null : { 'required': true };
   }
 
   toggle_modal_layout(event) {

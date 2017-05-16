@@ -34,6 +34,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
   saveCardErrorText: string;
   sessionId: string;
   session: Session;
+  public rightFeedback;
+  public wrongFeedback;
   private subscription: Subscription;
 
   constructor(public editService: EditService,
@@ -200,6 +202,16 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         resource_type: 'image'
       };
     }
+
+    if (!this.isSurveyModeEnabled) {
+      // For test mode push correct option and
+      // right/wrong optional text
+      debugger;
+      params.incorrect_description = this.cardForm.controls['wrongFeedback'].value;
+      params.correct_description = this.cardForm.controls['rightFeedback'].value;
+      params.correct_answers = [];
+      params.correct_answers.push(this.cardForm.controls['choice'].value);
+    }
     params.question_scope = this.isSurveyModeEnabled ? 'survey' : 'test';
 
     if (this.updateQuestionFlag === false) {
@@ -273,6 +285,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         video_url: new FormControl(''),
         youtube_url: new FormControl(''),
         video_code: new FormControl(''),
+        rightFeedback: new FormControl(''),
+        wrongFeedback: new FormControl('')
       });
     } else {
       // Test type form validator
@@ -283,6 +297,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         video_url: new FormControl(''),
         youtube_url: new FormControl(''),
         video_code: new FormControl(''),
+        rightFeedback: new FormControl(''),
+        wrongFeedback: new FormControl('')
       });
     }
   }
