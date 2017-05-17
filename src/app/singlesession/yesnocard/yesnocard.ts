@@ -218,7 +218,6 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isSurveyModeEnabled) {
       // For test mode push correct option and
       // right/wrong optional text
-      debugger;
       params.incorrect_description = this.cardForm.controls['wrongFeedback'].value;
       params.correct_description = this.cardForm.controls['rightFeedback'].value;
       params.correct_answers = [];
