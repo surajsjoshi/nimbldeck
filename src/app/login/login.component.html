@@ -2,23 +2,25 @@
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
 			<img src="assets/img/nimbldeck-logo.jpg" width="150px" class="user-avatar" />
-			<h1>Nimbldeck Login</h1>
-			<form role="form" (submit)="login($event)">
+			<h4 i18n> Login</h4>
+			<form  [formGroup]="loginForm"  role="form" (submit)="login($event)">
 				<div class="form-content">
 					<div class="form-group">
-						<input type="text" ng-model="name"
-							class="form-control input-underline input-lg" id=""
-							placeholder="Email">
+						<input type="text" 
+							class="form-control input-underline input-lg" 
+							formControlName="emailId" placeholder="Email Id">
 					</div>
 
 					<div class="form-group">
 						<input type="password"
-							class="form-control input-underline input-lg" id=""
+							class="form-control input-underline input-lg"
+							formControlName="password"
 							placeholder="Password">
 					</div>
 				</div>
-				<a class="btn rounded-btn" routerLink="/app"> Log in
-				</a> &nbsp; <a type="submit" class="btn rounded-btn"
+				<button type="submit" [disabled]="!loginForm.valid || inProcess"
+								class="waves-effect waves-light btn">{{loginText}}</button>
+				 &nbsp; <a type="submit" class="btn rounded-btn"
 					routerLink="/signup">Register</a>
 			</form>
 		</div>

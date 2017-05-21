@@ -1,0 +1,114 @@
+.session-box.card {
+  .card-image {
+    background-color: #cbe8ba;
+    position: relative;
+
+    img {
+      height: 250px;
+    }
+
+    i.menu-icon {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 1.2em;
+      cursor: pointer;
+      padding: 5px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .overlay {
+      text-align: center;
+      position: absolute;
+      height: 100%;
+      top: 0;
+      padding-top: 25px;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+
+      i {
+        color: #fff;
+        margin: 0 10px;
+        font-size: 1.6em;
+        cursor: pointer;
+      }
+
+      .urltextbox-play {
+        display: none;
+      }
+
+      .texturl {
+        color: #000;
+        margin: 10px 15px;
+        padding: 0px 5px;
+        margin-top: 60px;
+        width: 80%;
+        background-color: #fff;
+      }
+      .copy-success {
+        color: #fff;
+      }
+    }
+  }
+
+  span.completed {
+    font-weight: bold;
+    color: brown;
+    line-height: 36px;
+  }
+
+  span.completed .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+span.completed:hover .tooltiptext {
+    visibility: visible;
+}
+
+  .card-content {
+    h5 {
+      font-size: 1.2em !important;
+      color: #38313b;
+      line-height: 1.4em;
+    }
+
+    p {
+      color: #9b989d;
+      min-height: 22px;
+    }
+  }
+
+  .card-action {
+    a > i.play, i.stop {
+      font-size: 2.4em;
+      color: #A8D68C;
+
+      &.fa-stop-circle-o {
+        color: #FF8484;
+      }
+    }
+
+    .start-stop-session {
+      cursor: pointer;
+    }
+
+    .last-seen {
+      float: right;
+      color: #9b989d !important;
+      font-size: 0.9em;
+      text-transform: lowercase !important;
+      margin-top: 10px;
+    }
+  }
+}

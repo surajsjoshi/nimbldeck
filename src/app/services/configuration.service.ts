@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CognitoIdentityCredentials } from 'aws-sdk';
 import { Cookie } from 'ng2-cookies/ng2-cookies';
-import { environment } from '../../environments/environment';
+//import { environment } from '../../environments/environment';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
+import {Router} from '@angular/router';
+
 declare var AWS: any;
 declare var ga: any;
 declare var mixpanel: any;
@@ -11,7 +13,7 @@ declare var mixpanel: any;
 @Injectable()
 export class ConfigurationService {
 
-  constructor(private user: CurrentUser) {
+  constructor(private user: CurrentUser, private router: Router) {
    let data = Cookie.get('nd_current_user');
    if (typeof data !== 'undefined' && data !== null) {
       this.login(JSON.parse(data));
@@ -55,11 +57,13 @@ export class ConfigurationService {
    }
   }
   home(): any {
-      window.location.href = environment.basePath;
+      //window.location.href = environment.basePath;
+      this.router.navigateByUrl('/login')
   }
 
   logout() {
       Cookie.delete('nd_current_user');
-      window.location.href = environment.basePath;
+      //window.location.href = environment.basePath;
+      this.router.navigateByUrl('/login')
   }
 }

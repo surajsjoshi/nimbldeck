@@ -26,6 +26,7 @@ import { ConfigurationService } from './services/configuration.service';
 import { EditService } from './services/edit.service';
 import { SessionService } from './services/session.service';
 import { ShortAnswerService } from './services/shortanswer.service';
+import { AuthService } from './services/auth.service';
 import { SessionboxComponent } from './sessionbox/sessionbox.component';
 import { CurrentUser } from './shared/models/currentuser';
 import { EditsessionComponent } from './editsession/editsession.component';
@@ -107,9 +108,9 @@ import { SignupComponent } from './signup/signup.component';
   ],
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-    AnalyticsService, ApiService, QueriesService,
-    ConfigurationService, CurrentUser, SessionService, CardService,
-    EditService, AppSharedService],
+              AnalyticsService, ApiService, QueriesService,
+              ConfigurationService, CurrentUser, SessionService, CardService,
+              EditService, AppSharedService, AuthService],
   bootstrap: [AppComponent],
 
   entryComponents: [
