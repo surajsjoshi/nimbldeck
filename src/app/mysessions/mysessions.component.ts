@@ -39,7 +39,6 @@ export class MysessionsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      console.log(params);
        this.isNewUser = params['new'];
         this.appSharedService.helpFinish$.subscribe((resp) => {
           // Help finished

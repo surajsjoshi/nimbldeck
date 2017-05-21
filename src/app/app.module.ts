@@ -52,6 +52,8 @@ import { OnboardingComponent } from './shared/components/help/onboarding/onboard
 import { PlayerComponent } from './shared/components/player/player.component';
 import { AppSharedService } from './app-shared.service';
 import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
     CarouselComponent,
     WelcomeUserComponent,
     OnboardingComponent,
-    PlayerComponent
+    PlayerComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
