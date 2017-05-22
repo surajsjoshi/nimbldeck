@@ -298,6 +298,16 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let videoCode = this.cardForm.controls['video_code'].value;
       let rightFeedback = this.cardForm.controls['rightFeedback'].value;
       let wrongFeedback = this.cardForm.controls['wrongFeedback'].value;
+
+      if (imageUrl) {
+        this.fileUploaded = true;
+        this.filestaus = 'image';
+      }
+
+      if (videoUrl) {
+        this.fileUploaded = true;
+        this.filestaus = 'video';
+      }
       if (this.isSurveyModeEnabled) {
         // Survey type form validator
         this.cardForm = new FormGroup({
