@@ -19,8 +19,8 @@
                         <form [formGroup]="cardForm" (submit)="submitYesNoCard($event)">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="yes-no-question" class="materialize-textarea" formControlName="text_question"></textarea>
-                                    <label for="yes-no-question">Question</label>
+                                    <textarea id="yes-no-question" class="materialize-textarea active" formControlName="text_question"></textarea>
+                                    <label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="yes-no-question">Question</label>
                                     <div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
                                 </div>
                             </div>
@@ -87,8 +87,8 @@
                         <form [formGroup]="cardForm" (submit)="submitYesNoCard($event)">
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="yes-no-question">Question</label>
                                     <textarea id="yes-no-question" class="materialize-textarea" formControlName="text_question"></textarea>
-                                    <label for="yes-no-question">Question</label>
                                     <div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
                                 </div>
                             </div>

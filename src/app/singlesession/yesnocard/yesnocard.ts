@@ -308,27 +308,31 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       if (this.isSurveyModeEnabled) {
         // Survey type form validator
-        this.cardForm = new FormGroup({
-          text_question: new FormControl(question, Validators.required),
-          image_url: new FormControl(imageUrl),
-          video_url: new FormControl(videoUrl),
-          youtube_url: new FormControl(youtubeUrl),
-          video_code: new FormControl(videoCode),
-          rightFeedback: new FormControl(rightFeedback),
-          wrongFeedback: new FormControl(wrongFeedback)
-        });
+        setTimeout(() => {
+          this.cardForm = new FormGroup({
+            text_question: new FormControl(question, Validators.required),
+            image_url: new FormControl(imageUrl),
+            video_url: new FormControl(videoUrl),
+            youtube_url: new FormControl(youtubeUrl),
+            video_code: new FormControl(videoCode),
+            rightFeedback: new FormControl(rightFeedback),
+            wrongFeedback: new FormControl(wrongFeedback)
+          });
+        })
       } else {
         // Test type form validator
-        this.cardForm = new FormGroup({
-          text_question: new FormControl(question, Validators.required),
-          choice: new FormControl('', Validators.required),
-          image_url: new FormControl(imageUrl),
-          video_url: new FormControl(videoUrl),
-          youtube_url: new FormControl(youtubeUrl),
-          video_code: new FormControl(videoCode),
-          rightFeedback: new FormControl(rightFeedback),
-          wrongFeedback: new FormControl(wrongFeedback)
-        });
+        setTimeout(() => {
+          this.cardForm = new FormGroup({
+            text_question: new FormControl(question, Validators.required),
+            choice: new FormControl('', Validators.required),
+            image_url: new FormControl(imageUrl),
+            video_url: new FormControl(videoUrl),
+            youtube_url: new FormControl(youtubeUrl),
+            video_code: new FormControl(videoCode),
+            rightFeedback: new FormControl(rightFeedback),
+            wrongFeedback: new FormControl(wrongFeedback)
+          });
+        })
       }
     } else {
       if (this.isSurveyModeEnabled) {
