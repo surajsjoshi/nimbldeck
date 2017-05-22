@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
         if (!user.sessionexpired){
             return Observable.of(true);
         } else {
-            this.router.navigateByUrl('app/:login');
+            this.router.navigateByUrl('login');
         }
         return Observable.of(false);
     }

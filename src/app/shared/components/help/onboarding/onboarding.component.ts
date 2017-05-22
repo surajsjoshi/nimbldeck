@@ -20,7 +20,7 @@ export class OnboardingComponent implements OnInit {
   public analyseVideo = environment.introVideos.analyse[0];
   public activeTab = 'create';
   public isWidgetInitialized: boolean = false;
-  constructor(private conf: ConfigurationService, ) { }
+  constructor(private conf: ConfigurationService ) { }
 
   ngOnInit() {
   }
