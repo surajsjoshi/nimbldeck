@@ -293,7 +293,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     jQuery('#mcq-card-modal').openModal();
   }
 
-  showYesNoCard(question) {
+  showYesNoCard() {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(YesNoCardComponent);
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
