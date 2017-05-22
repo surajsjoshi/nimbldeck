@@ -21,7 +21,7 @@ export class Card {
   incorrect_description: string;
   correct_answers;
 
-  constructor(card: Object) {;
+  constructor(card: Object) {
     for (let key in card) {
         if (key === 'updated_at' || key === 'created_at') {
            this[key] = moment.utc(card[key]).local().toDate();

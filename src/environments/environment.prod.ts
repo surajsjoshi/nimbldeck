@@ -6,6 +6,7 @@ export const environment = {
   mixpanelKey: '62c161f2af5e10dbe1fe7b0b83272303',
   logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   basePath: '/',
+  identityPool: 'us-east-1:709d954c-b58c-4d42-94a0-d1f7e494d226',
   dashboardReloadInterval: 15000,
   updateCardWarning: 'This card has analytics. Updating the card will reset analytics. Are you sure, you want to update this card?',
   introVideos: {

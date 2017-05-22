@@ -1,5 +1,4 @@
 import { environment } from '../../environments/environment';
-import { CurrentUser } from '../shared/models/currentuser';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
@@ -9,7 +8,7 @@ export class ApiService {
 
   private headers: Headers;
 
-  constructor(private http: Http, private user: CurrentUser) {
+  constructor(private http: Http) {
     this.headers = new Headers();
     this.headers.append('X-API-KEY', environment.apiKey);
   }

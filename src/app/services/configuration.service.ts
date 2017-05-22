@@ -13,57 +13,35 @@ declare var mixpanel: any;
 @Injectable()
 export class ConfigurationService {
 
-  constructor(private user: CurrentUser, private router: Router) {
-   let data = Cookie.get('nd_current_user');
-   if (typeof data !== 'undefined' && data !== null) {
-      this.login(JSON.parse(data));
-   } else {
-      this.home();
-   }
+    private user: CurrentUser;
+
+ constructor(private router: Router) {
+     this.user = null;
  }
 
   getUser(): CurrentUser {
-      return this.user;
+      return this.loadUser();
   }
 
-  login(user): any {
-   ga('set', 'userId', user.userId); // Set the user ID using signed-in user_id.
-   mixpanel.identify(user.userId);
-   mixpanel.people.set({
-      '$email': user.emailId,
-      '$last_login': new Date()
-   });
-   if (user.sessionexpired) {
-       this.home();
-   } else {
-   let self = this;
-   let credentials = new CognitoIdentityCredentials({
-            IdentityPoolId: 'us-east-1:709d954c-b58c-4d42-94a0-d1f7e494d226',
-            IdentityId: user.identityId,
-            Logins: {
-                    'cognito-identity.amazonaws.com': user.token
-                },
-            RoleSessionName: 'web' // optional name, defaults to web-identity,
-        });
-      AWS.config.update({
-        region: 'us-east-1',
-        credentials: credentials
-      });
-        AWS.config.credentials.get(function (err) {
-    if (err) {
-       self.home();
+  private loadUser(): CurrentUser {
+    
+    let cookie = window.localStorage.getItem('nd_current_user');
+    if (cookie !== null){
+        let user = JSON.parse(cookie);
+        if(!user.sessionexpired) {
+            this.user = new CurrentUser(user);
+        } else {
+            this.user = null;
+        }
+    } else {
+            this.user = null;
     }
-  });
-   }
-  }
-  home(): any {
-      //window.location.href = environment.basePath;
-      this.router.navigateByUrl('/login')
+    
+    return this.user;
   }
 
-  logout() {
-      Cookie.delete('nd_current_user');
-      //window.location.href = environment.basePath;
-      this.router.navigateByUrl('/login')
+  private home(){
+      this.router.navigateByUrl('login');
   }
+
 }

@@ -1,4 +1,4 @@
-<nav>
+<nav *ngIf="!sessionExpired()">
   <div class="row">
     <div class="col offset-m1 s5 m5">
       <a [routerLink]="['/app']">

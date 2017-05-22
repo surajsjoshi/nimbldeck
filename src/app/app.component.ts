@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { environment } from '../environments/environment';
 import { AppSharedService } from './app-shared.service';
+import { ConfigurationService } from "./services/configuration.service";
 declare var jQuery: any;
 
 @Component({
@@ -13,12 +14,23 @@ export class AppComponent {
   nimblDeckLogo = environment.logoPath;
   url = 'https://nimbldeck.com';
   public isGetStartedActive = true;
-  constructor(private el: ElementRef, private appSharedService: AppSharedService) { }
+  constructor(private el: ElementRef,
+     private conf: ConfigurationService,
+     private appSharedService: AppSharedService) { }
 
   ngOnInit() {
     this.appSharedService.askQuery$.subscribe((resp) => {
       this.openModal();
     })
+  }
+
+  sessionExpired():boolean {
+    let expired = true;
+    let user = this.conf.getUser();
+    if(user != null && !user.sessionexpired){
+      expired = false;
+    }
+    return expired;
   }
 
   openModal(evt?) {

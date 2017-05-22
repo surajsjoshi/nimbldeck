@@ -12,10 +12,9 @@ export class AuthService {
 
   }
 
-  login(emailId: string, password: string): Observable<string>  {
+  login(loginData): Observable<string>  {
       let url = '/users/authenticate';
-      let data = {'email_id' : emailId, 'password': password}
-      return this.api.post(url, data).map(res => res.json());
+      return this.api.post(url, loginData).map(res => res.json());
   }
 
   signup(emailId: string, password: string, userName: string): Observable<string>  {

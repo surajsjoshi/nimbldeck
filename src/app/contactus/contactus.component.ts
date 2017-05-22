@@ -9,7 +9,7 @@ import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
   selector: 'contactus',
   templateUrl: './contactus.component.html',
   styleUrls: ['./contactus.component.css'],
-  providers: [ConfigurationService, CurrentUser]
+  providers: [ConfigurationService]
 })
 export class ContactusComponent {
 
@@ -21,6 +21,8 @@ export class ContactusComponent {
   constructor(private conf: ConfigurationService,
     private el: ElementRef,
     private formBuilder: FormBuilder) {
+
+
 
     this.contactForm = formBuilder.group({
       message: new FormControl('message', Validators.required)

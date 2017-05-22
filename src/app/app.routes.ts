@@ -5,19 +5,20 @@ import { MysessionsComponent } from './mysessions/mysessions.component';
 import { SinglesessionComponent } from './singlesession/singlesession.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from "./shared/guards/auth.guard";
 
 const routes: Routes = [
   {
-    path: 'app/:new', component: MysessionsComponent
+    path: 'app/:new', component: MysessionsComponent,  canActivate: [AuthGuard] 
   },
   {
-    path: 'app', component: MysessionsComponent
+    path: 'app', component: MysessionsComponent, canActivate: [AuthGuard] 
   },
   {
-    path: 'app/dashboard/:id',component: DashboardComponent
+    path: 'app/dashboard/:id',component: DashboardComponent, canActivate: [AuthGuard] 
   },
   {
-    path: 'app/sessions/:id',component: SinglesessionComponent
+    path: 'app/sessions/:id',component: SinglesessionComponent, canActivate: [AuthGuard] 
   },
   {
       path: 'login', component: LoginComponent

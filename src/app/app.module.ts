@@ -55,6 +55,7 @@ import { AppSharedService } from './app-shared.service';
 import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -109,8 +110,8 @@ import { SignupComponent } from './signup/signup.component';
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
               AnalyticsService, ApiService, QueriesService,
-              ConfigurationService, CurrentUser, SessionService, CardService,
-              EditService, AppSharedService, AuthService],
+              ConfigurationService, SessionService, CardService,
+              EditService, AppSharedService, AuthService, AuthGuard],
   bootstrap: [AppComponent],
 
   entryComponents: [
