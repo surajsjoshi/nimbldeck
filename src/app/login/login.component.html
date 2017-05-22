@@ -3,7 +3,7 @@
 		<div class="col-lg-4 col-lg-offset-4">
 			<img src="assets/img/nimbldeck-logo.jpg" width="150px" class="user-avatar" />
 			<h1>Nimbldeck Login</h1>
-			<form role="form">
+			<form role="form" (submit)="login($event)">
 				<div class="form-content">
 					<div class="form-group">
 						<input type="text" ng-model="name"
@@ -17,7 +17,7 @@
 							placeholder="Password">
 					</div>
 				</div>
-				<a class="btn rounded-btn" routerLink="/dashboard/home"> Log in
+				<a class="btn rounded-btn" routerLink="/app"> Log in
 				</a> &nbsp; <a type="submit" class="btn rounded-btn"
 					routerLink="/signup">Register</a>
 			</form>
