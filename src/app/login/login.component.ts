@@ -21,9 +21,9 @@ export class LoginComponent {
   loginText: string;
   loginForm: FormGroup;
   inProcess: boolean;
-  loginError: boolean;
   credentials: CognitoIdentityCredentials;
-  
+  loginError: boolean;
+  errorMessage: string;  
 
   constructor(private authService: AuthService,
     private router: Router,
@@ -33,7 +33,7 @@ export class LoginComponent {
       this.loginError = false;
       this.loginText = 'LOG IN';
       this.inProcess = false;
-
+      this.errorMessage = '';
       this.loginForm = this.formBuilder.group({
         emailId: new FormControl('', Validators.required),
         password: new FormControl('' , Validators.required)
@@ -55,6 +55,7 @@ export class LoginComponent {
   login(event){
     event.preventDefault();
     this.inProcess = true;
+    this.loginError = false;
     this.loginText = 'Logging in ...'
     let params = {
       'email_id': this.loginForm.controls['emailId'].value,
@@ -66,10 +67,14 @@ export class LoginComponent {
   }
 
   private onLogin(response){
+    this.loginText = 'LOG IN';
     if (response.type === 'Failure') {
       this.loginError = true;
       mixpanel.people.increment('CreateSessionFailed');
       mixpanel.track('CreateSessionFailed', { 'error': response.errors[0].message });
+      this.loginError = true;
+      this.errorMessage = response.errors[0].message;
+      this.inProcess = false;
       return;
     }
     let user = response.user;

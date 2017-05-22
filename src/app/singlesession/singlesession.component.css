@@ -60,7 +60,7 @@
 }
 
 .rating {
-    background: url('assets/img/rating.png');
+    background: url('/assets/img/rating.png');
     height: 24px;
     width: 24px;
     background-repeat: no-repeat;
@@ -69,7 +69,7 @@
 }
 
 .multiple_choice {
-    background: url('assets/img/mcq.png');
+    background: url('/assets/img/mcq.png');
     height: 24px;
     width: 24px;
     background-repeat: no-repeat;
@@ -78,7 +78,7 @@
 }
 
 .yes_no {
-    background: url('assets/img/yesno.png');
+    background: url('/assets/img/yesno.png');
     height: 24px;
     width: 24px;
     background-repeat: no-repeat;
@@ -87,7 +87,7 @@
 }
 
 .long_text {
-    background: url('assets/img/text.png');
+    background: url('/assets/img/text.png');
     height: 24px;
     width: 24px;
     background-repeat: no-repeat;
@@ -96,7 +96,7 @@
 }
 
 .short_text {
-    background: url('assets/img/shortans.png');
+    background: url('/assets/img/shortans.png');
     height: 24px;
     width: 24px;
     background-repeat: no-repeat;

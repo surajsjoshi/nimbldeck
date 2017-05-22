@@ -21,13 +21,13 @@ const routes: Routes = [
     path: 'app/sessions/:id',component: SinglesessionComponent, canActivate: [AuthGuard] 
   },
   {
-      path: 'login', component: LoginComponent
+    path: 'login', component: LoginComponent
   },
   {
-      path: 'signup', component: SignupComponent
+     path: 'signup', component: SignupComponent
   },
   {
-      path: '', redirectTo: 'login', pathMatch: 'full'
+     path: '', redirectTo: 'login', pathMatch: 'full'
   }
 ];
 

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CognitoIdentityCredentials } from 'aws-sdk';
-import { Cookie } from 'ng2-cookies/ng2-cookies';
-//import { environment } from '../../environments/environment';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import {Router} from '@angular/router';
@@ -41,7 +39,7 @@ export class ConfigurationService {
   }
 
   private home(){
-      this.router.navigateByUrl('login');
+    this.router.navigateByUrl('login');
   }
 
 }

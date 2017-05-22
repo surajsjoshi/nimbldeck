@@ -28,10 +28,11 @@
         "../node_modules/mediaelement/build/renderers/dailymotion.min.js",
         "../node_modules/mediaelement/build/renderers/twitch.min.js"
       ],
+
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+	        "dev": "environments/environment.ts",
+		  "prod": "environments/environment.prod.ts"
       }
     }
   ],
