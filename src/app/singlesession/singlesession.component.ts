@@ -209,7 +209,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     evt.preventDefault();
     this.editService.setCurrentEdit('question', question);
     if (question.question_type === 'yes_no') {
-      this.showYesNoCard(question);
+      this.showYesNoCard();
     } else if (question.question_type === 'multiple_choice') {
       this.showMcqCard();
     } else if (question.question_type === 'short_text') {
@@ -293,13 +293,12 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     jQuery('#mcq-card-modal').openModal();
   }
 
-  showYesNoCard(question) {
+  showYesNoCard() {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(YesNoCardComponent);
     this.viewContainerRef.clear();
     let componentRef = this.viewContainerRef.createComponent(componentFactory);
     (<YesNoCardComponent>componentRef.instance).editService = this.editService;
     (<YesNoCardComponent>componentRef.instance).session = this.session;
-    // (<YesNoCardComponent>componentRef.instance).question = question;
     jQuery('#yesno-card-modal').openModal();
   }
 
