@@ -3,32 +3,30 @@
 		<div class="col-lg-4 col-lg-offset-4">
 			<img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" />
 			<h4 i18n>Sign Up</h4>
-			<form role="form">
+			<div class="signupError" *ngIf="signupError">{{errorMessage}}</div>
+			<form role="form" [formGroup]="signUpForm" (submit)="signup($event)">
 				<div class="form-content">
 					<div class="form-group">
 						<input type="text" class="form-control input-underline input-lg"
-							id="" placeholder="Full Name">
+							id="" formControlName="username" placeholder="Full Name">
 					</div>
 
 					<div class="form-group">
-						<input type="text" class="form-control input-underline input-lg"
-							id="" placeholder="Email">
+						<input type="email" class="form-control input-underline input-lg"
+							id="" formControlName="emailId" placeholder="Email">
 					</div>
 
 					<div class="form-group">
 						<input type="password"
 							class="form-control input-underline input-lg" id=""
+							formControlName="password" 
 							placeholder="Password">
 					</div>
-					<div class="form-group">
-						<input type="password"
-							class="form-control input-underline input-lg" id=""
-							placeholder="Repeat Password">
-					</div>
 				</div>
-				<a type="submit" class="btn rounded-btn"
-					routerLink="/dashboard/home"> Register </a>&nbsp; <a type="submit"
-					class="btn rounded-btn" routerLink="/"> Log in </a>
+				<button type="submit" [disabled]="!signUpForm.valid || inProcess"
+								class="waves-effect waves-light btn">{{signupText}}</button>
+								&nbsp; <a type="submit"
+					class="btn rounded-btn" routerLink="/login"> Log in </a>
 			</form>
 		</div>
 	</div>
