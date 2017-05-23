@@ -296,6 +296,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let videoCode = this.cardForm.controls['video_code'].value;
       let rightFeedback = this.cardForm.controls['rightFeedback'].value;
       let wrongFeedback = this.cardForm.controls['wrongFeedback'].value;
+      let correct = this.cardForm.controls['choice'].value;
+  
 
       if (imageUrl) {
         this.fileUploaded = true;
@@ -316,7 +318,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
             youtube_url: new FormControl(youtubeUrl),
             video_code: new FormControl(videoCode),
             rightFeedback: new FormControl(rightFeedback),
-            wrongFeedback: new FormControl(wrongFeedback)
+            wrongFeedback: new FormControl(wrongFeedback),
+            choice: new FormControl(correct)
           });
         })
       } else {
@@ -324,13 +327,13 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.cardForm = new FormGroup({
             text_question: new FormControl(question, Validators.required),
-            choice: new FormControl('', Validators.required),
+            choice: new FormControl(correct, Validators.required),
             image_url: new FormControl(imageUrl),
             video_url: new FormControl(videoUrl),
             youtube_url: new FormControl(youtubeUrl),
             video_code: new FormControl(videoCode),
             rightFeedback: new FormControl(rightFeedback),
-            wrongFeedback: new FormControl(wrongFeedback)
+            wrongFeedback: new FormControl(wrongFeedback),
           });
         })
       }
