@@ -26,10 +26,15 @@ export class ConfigurationService {
     let cookie = window.localStorage.getItem('nd_current_user');
     if (cookie !== null){
         let user = JSON.parse(cookie);
-        if(!user.sessionexpired) {
-            this.user = new CurrentUser(user);
+        this.user = new CurrentUser(user);
+        if(this.user.credentials){
+            if(this.user.credentials.expired){
+                user.sessionexpired = true;
+            } else {
+                user.sessionexpired = false;
+            }
         } else {
-            this.user = null;
+            user.sessionexpired = true;
         }
     } else {
             this.user = null;

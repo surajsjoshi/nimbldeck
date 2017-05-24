@@ -28,7 +28,7 @@
         <a class="start-stop-session"  (click)="startStopSession()" ga-on="click" ga-event-category="Sessions" ga-event-action="start-stop" *ngIf="!isComplete && !session.isSample">
             <i class="fa fa-{{playStatus}}-circle-o {{playStatus}}" title="{{toolTip}}"></i>
         </a> <span class="completed" *ngIf="isComplete && !session.isSample">Complete</span>
-        <span class="completed" *ngIf="session.isSample">&nbsp;</span> <a [routerLink]="['/sessions', session.session_id]" class="last-seen"><i class="fa fa-clock-o"></i>
+        <span class="completed" *ngIf="session.isSample">&nbsp;</span> <a [routerLink]="['/app/sessions', session.session_id]" class="last-seen"><i class="fa fa-clock-o"></i>
 			{{session.updated_at}}</a>
     
     </div>

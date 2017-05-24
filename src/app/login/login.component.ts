@@ -27,6 +27,9 @@ export class LoginComponent {
     private conf: ConfigurationService,
     private formBuilder: FormBuilder) {
 
+      if(conf.getUser() != null && !conf.getUser().sessionexpired){
+         this.router.navigateByUrl('app');
+      }
       this.loginError = false;
       this.loginText = 'LOG IN';
       this.inProcess = false;
@@ -69,7 +72,7 @@ export class LoginComponent {
           '$email': response.user.emailId, // only special properties need the $
           '$last_login': new Date() // properties can be dates...
     });
-    this.router.navigateByUrl('sessions');
+    this.router.navigateByUrl('app');
   }
 
 }

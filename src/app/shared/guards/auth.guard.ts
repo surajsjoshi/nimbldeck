@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):  Observable<boolean>  {
         let user = this.conf.getUser();
-        if (!user.sessionexpired){
+        if (user != null && !user.sessionexpired){
             return Observable.of(true);
         } else {
             this.router.navigateByUrl('login');
