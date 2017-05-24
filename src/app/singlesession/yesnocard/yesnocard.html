@@ -21,7 +21,7 @@
                                 <div class="input-field col s12">
                                     <textarea id="yes-no-question" class="materialize-textarea active" formControlName="text_question"></textarea>
                                     <label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="yes-no-question">Question</label>
-                                    <div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
+                                    <div [hidden]="showQuestionTextError()" class="alert alert-danger">Question is Required</div>
                                 </div>
                             </div>
 
@@ -89,7 +89,7 @@
                                 <div class="input-field col s12">
                                     <label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="yes-no-question">Question</label>
                                     <textarea id="yes-no-question" class="materialize-textarea" formControlName="text_question"></textarea>
-                                    <div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
+                                    <div [hidden]="showQuestionTextError()" class="alert alert-danger">Question is Required</div>
                                 </div>
                             </div>
 
@@ -143,11 +143,11 @@
                             <div class="row">
                                 <p class="text_instruction">Click on the radio button to select correct answer</p>
                                 <p>
-                                    <input name="choice" type="radio" id="optyes" required formControlName="choice" value="yes" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
+                                    <input name="choice" type="radio" id="optyes" [formControl]="cardForm.controls['choice']" value="yes" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
                                     /> <label for="optyes">Yes</label>
                                 </p>
                                 <p>
-                                    <input name="choice" type="radio" id="optno" formControlName="choice" required value="no" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
+                                    <input name="choice" type="radio" id="optno" [formControl]="cardForm.controls['choice']" value="no" data-toggle="tooltip" title="Please select one of these options to set it as correct answer"
                                     />
                                     <label for="optno">No</label>
                                 </p>

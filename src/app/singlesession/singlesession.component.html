@@ -38,9 +38,9 @@
             </div>
         </div>
         <div class="container question-container " [dragula]='"third-bag"' [dragulaModel]="cardService.cards"> 
-            <ul id="{{i+1}}" class="session_listing move{{i+1}}" (keyup)="shorting(i)" *ngFor="let question of cardService.cards | orderby : 'position' ; let i = index" [attr.data-index]="i"  [attr.data-qid]="question.question_id">
+            <ul id="{{i+1}}" class="session_listing move{{i+1}}" *ngFor="let question of cardService.cards | orderby : 'position' ; let i = index" [attr.data-index]="i"  [attr.data-qid]="question.question_id">
                 <li>
-                    <div class="row">
+                    <div class="row" title="Drag and drop to change the order of cards">
                         <div class="col s2 m1">
                             <div class="samll-area cart-background">
                                 <p class="index">{{i+1}}</p>
