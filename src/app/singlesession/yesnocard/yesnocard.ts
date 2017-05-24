@@ -279,6 +279,10 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  showQuestionTextError(): boolean {
+    return this.cardForm.controls['text_question'].valid || this.cardForm.controls['text_question'].pristine;
+  }
+
   ngAfterViewInit() {
     Materialize.updateTextFields();
   }
@@ -296,7 +300,10 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let videoCode = this.cardForm.controls['video_code'].value;
       let rightFeedback = this.cardForm.controls['rightFeedback'].value;
       let wrongFeedback = this.cardForm.controls['wrongFeedback'].value;
-      let correct = this.cardForm.controls['choice'].value;
+      let correct = '';
+      if(this.cardForm.controls['choice']){
+        correct = this.cardForm.controls['choice'].value;
+      }
   
 
       if (imageUrl) {
