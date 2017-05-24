@@ -92,7 +92,7 @@ export class SignupComponent {
           '$email': response.user.emailId, // only special properties need the $
           '$last_login': new Date() // properties can be dates...
     });
-    this.router.navigateByUrl('app');
+    this.router.navigateByUrl('home/new');
   }
 
 }

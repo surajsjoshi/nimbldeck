@@ -136,7 +136,9 @@ export class DashboardComponent implements OnInit , OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
    clearTimeout(this.timer);
-    mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
+   if(this.conf.getUser() != null){
+      mixpanel.track('ViewDashboard', {'user': this.conf.getUser().emailId});
+   }
  }
 
   pageChanged(pageNo) {

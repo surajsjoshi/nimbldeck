@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
-import { Component , ElementRef} from '@angular/core';
+import { Router , ActivatedRoute } from '@angular/router';
+import { Component , ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ConfigurationService } from "../services/configuration.service";
@@ -15,20 +15,25 @@ declare var mixpanel: any;
    styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent { 
+export class LoginComponent  implements OnInit { 
   loginText: string;
   loginForm: FormGroup;
   inProcess: boolean;
   loginError: boolean;
-  errorMessage: string;  
+  errorMessage: string;
+  returnUrl: string;
 
   constructor(private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
     private conf: ConfigurationService,
     private formBuilder: FormBuilder) {
+  }
 
-      if(conf.getUser() != null && !conf.getUser().sessionexpired){
-         this.router.navigateByUrl('app');
+  ngOnInit() {
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
+      if(this.conf.getUser() != null && !this.conf.getUser().sessionexpired){
+         this.router.navigateByUrl(this.returnUrl);
       }
       this.loginError = false;
       this.loginText = 'LOG IN';
@@ -38,7 +43,8 @@ export class LoginComponent {
         emailId: new FormControl('', Validators.required),
         password: new FormControl('' , Validators.required)
     });
-    }
+
+  }
 
   login(event){
     event.preventDefault();
@@ -70,9 +76,11 @@ export class LoginComponent {
     mixpanel.identify(response.user.userId);
     mixpanel.people.set({
           '$email': response.user.emailId, // only special properties need the $
-          '$last_login': new Date() // properties can be dates...
+          '$last_login': new Date(), // properties can be dates...
+          'username': response.user.userName
     });
-    this.router.navigateByUrl('app');
+    mixpanel.track('Login', { 'user': this.conf.getUser().getEmailId()});
+    this.router.navigateByUrl(this.returnUrl);
   }
 
 }
