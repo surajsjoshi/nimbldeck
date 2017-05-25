@@ -25,7 +25,9 @@ function login(email, password, onSuccessCallback, onFailureCallback, fromSignUp
         if (data.type === 'Success') {
             var creds = AWS.config.credentials;
             creds.params.Logins = {};
-            Cookies.set('nd_current_user', data.user);
+            //Cookies.set('nd_current_user', data.user);
+            data.user.credentials = creds;
+            window.localStorage.setItem('nd_current_user', JSON.stringify(data.user));
             creds.params.Logins = { 'nimbldeckapp.saswatkumarsethy.com': data.user.token };
             creds.expired = true;
             mixpanel.identify(data.user.userId);
@@ -42,7 +44,7 @@ function login(email, password, onSuccessCallback, onFailureCallback, fromSignUp
             ga('set', 'page', '/login.html');
             ga('send', 'pageview');
             if (fromSignUp) {
-                location.href = "/app/new";
+                location.href = "/app/home/new";
             } else {
                 location.href = "/app";
             }
