@@ -143,17 +143,19 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let files = jQuery('input.video-upload').val();
     let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
-    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
-    this.fileUploaded = true;
-    this.imgUploadingInProcess = false;
-    this.filestaus = '';
-    this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
-    if (this.cardForm.controls['video_url'].value !== '') {
-      jQuery('.img-upload, .or_text').css('display', 'none');
-      jQuery('.video-upload').addClass('fullWidth');
-    }
+    if(resource_code){
+        let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
+        this.fileUploaded = true;
+        this.imgUploadingInProcess = false;
+        this.filestaus = '';
+        this.cardForm.controls['video_url'].setValue(video_thumbnail_url);
+        if (this.cardForm.controls['video_url'].value !== '') {
+          jQuery('.img-upload, .or_text').css('display', 'none');
+          jQuery('.video-upload').addClass('fullWidth');
+        }
 
-    this.cardForm.controls['video_code'].setValue(resource_code);
+        this.cardForm.controls['video_code'].setValue(resource_code);
+    }
   }
 
 
@@ -195,12 +197,12 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let params: any = {};
 
-    if (this.cardForm.controls['youtube_url'].value !== '') {
+    if (this.cardForm.controls['video_url'].value !== '') {
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
         required: false,
-        resource_url: this.cardForm.controls['youtube_url'].value,
+        resource_url: this.cardForm.controls['video_url'].value,
         resource_type: 'video',
         resource_code: this.cardForm.controls['video_code'].value
       };
@@ -214,7 +216,6 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         resource_type: 'image'
       };
     }
-
     if (!this.isSurveyModeEnabled) {
       // For test mode push correct option and
       // right/wrong optional text
@@ -303,6 +304,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let correct = '';
       if(this.cardForm.controls['choice']){
         correct = this.cardForm.controls['choice'].value;
+      } else {
+        this.cardForm.addControl('choice', new FormControl('', Validators.required));
       }
   
 
