@@ -197,7 +197,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let params: any = {};
 
-    if (this.cardForm.controls['video_url'].value !== '') {
+    if (this.cardForm.controls['video_code'].value !== 'none') {
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
@@ -207,13 +207,19 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         resource_code: this.cardForm.controls['video_code'].value
       };
 
-    } else {
+    } else if(this.cardForm.controls['image_url'].value != '') {
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
         required: false,
         resource_url: this.cardForm.controls['image_url'].value,
         resource_type: 'image'
+      };
+    } else {
+      params = {
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
       };
     }
     if (!this.isSurveyModeEnabled) {
