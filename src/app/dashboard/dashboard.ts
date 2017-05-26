@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {CarouselComponent} from '../carousel/carousel.component';
 import { EditService } from '../services/edit.service';
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import * as moment from 'moment';
 
 declare var jQuery: any;
@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private editService: EditService,
    private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
+   private toastr: ToastsManager,
    private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
@@ -159,8 +160,12 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   sessionExport(event) {
     this.sessionService.exportSession(this.session.session_id).subscribe(
-      (resp => console.log(resp)),
+      (resp => this.exportSuccess(resp)),
         (error => console.log(error)));
+  }
+
+  exportSuccess(response: any){
+       this.toastr.success('You will soon receive the export at your registered emailid', 'Success!');
   }
 
 openModal(event) {

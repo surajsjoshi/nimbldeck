@@ -56,6 +56,8 @@ import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,9 @@ import { AuthGuard } from './shared/guards/auth.guard';
     ClipboardModule,
     ModalModule,
     ClipboardModule,
-    DragulaModule
+    DragulaModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot()
   ],
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
