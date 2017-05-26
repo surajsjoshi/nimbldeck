@@ -1,6 +1,7 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewContainerRef } from '@angular/core';
 import { environment } from '../environments/environment';
 import { AppSharedService } from './app-shared.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 declare var jQuery: any;
 
 @Component({
@@ -13,7 +14,13 @@ export class AppComponent {
   nimblDeckLogo = environment.logoPath;
   url = 'https://nimbldeck.com';
   public isGetStartedActive = true;
-  constructor(private el: ElementRef, private appSharedService: AppSharedService) { }
+  
+  constructor(private el: ElementRef, 
+  private appSharedService: AppSharedService,
+  private toastr: ToastsManager,
+  private containerRef: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(containerRef);
+   }
 
   ngOnInit() {
     this.appSharedService.askQuery$.subscribe((resp) => {
