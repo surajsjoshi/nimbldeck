@@ -74,7 +74,7 @@ export class TabsComponent implements AfterContentInit , OnInit , OnDestroy {
   }
 
   exportSuccess(response: any){
-       this.toastr.success('You will soon receive the export at your registered emailid', 'Success!');
+       this.toastr.success('You will soon receive the export at your registered emailId');
   }
 
 }

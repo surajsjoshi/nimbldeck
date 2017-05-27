@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   apiKey: 'aYecjavQzV6i679wrL42Tq0FYzKFJTYbi9ko4Yi0',
-  apiUrl: 'https://7ewecdfppd.execute-api.us-east-1.amazonaws.com/v1_0',
+  apiUrl: 'https://api.nimbldeck.com/v1.0',
   googleAnalyticsKey: 'UA-70280304-1',
   mixpanelKey: 'beb7564b5b6cbc7f88f6f2d8fea20ae1',
   basePath: '/homepage/index.html',
