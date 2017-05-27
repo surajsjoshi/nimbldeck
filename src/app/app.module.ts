@@ -123,8 +123,8 @@ export class CustomOption extends ToastOptions {
   ],
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-    AnalyticsService, ApiService, QueriesService,
-    ConfigurationService, CurrentUser, SessionService, CardService,
+    AnalyticsService, ApiService, QueriesService,AuthGuard,
+    AuthService, ConfigurationService, SessionService, CardService,
     EditService, AppSharedService, {provide: ToastOptions, useClass: CustomOption}],
 
   bootstrap: [AppComponent],

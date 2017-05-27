@@ -27,6 +27,7 @@ export class ConfigurationService {
     if (cookie !== null){
         let user = JSON.parse(cookie);
         this.user = new CurrentUser(user);
+        this.user.emailId = user.emailId;
         if(this.user.credentials){
             if(this.user.credentials.expired){
                 user.sessionexpired = true;
