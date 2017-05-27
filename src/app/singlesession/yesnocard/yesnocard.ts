@@ -104,7 +104,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadFile() {
-    let _this = this;
+    let self = this;
     this.imgUploadingInProcess = true;
     let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
     let file = files.files[0];
@@ -120,13 +120,12 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.conf.getUploader().upload(params, function (err, data) {
       if (err) {
         console.log(err);
-        _this.uploadError = 'Failed to upload file';
+        self.uploadError = 'Failed to upload file';
       } else {
-        _this.fileUploaded = true;
-        _this.imgUploadingInProcess = false;
-        _this.cardForm.controls['image_url'].setValue(data.Location);
-
-        this.filestaus = 'image';
+        self.fileUploaded = true;
+        self.imgUploadingInProcess = false;
+        self.cardForm.controls['image_url'].setValue(data.Location);
+        self.filestaus = 'image';
         jQuery('.video-upload, .or_text').css('display', 'none');
         jQuery('.img-upload').addClass('fullWidth');
 
