@@ -19,6 +19,7 @@ export class CurrentUser {
       this.token = user.token;
       this.identityId = user.identityId;
       this.sessionexpired = false;
+      this.credentials = user.credentials;
   }
 
   getInitialLetter() {

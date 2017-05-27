@@ -5,6 +5,7 @@ import { Observable , Operator} from 'rxjs/Rx';
 import { CognitoIdentityCredentials } from 'aws-sdk';
 import { environment } from '../../environments/environment';
 import 'rxjs/Rx';
+declare var AWS: any;
 
 @Injectable()
 export class AuthService {
@@ -26,6 +27,11 @@ export class AuthService {
           if (err) {
             console.log(err);
         }});
+
+    AWS.config.update({
+          region: 'us-east-1',
+        credentials: this.credentials
+    });
 
   }
 

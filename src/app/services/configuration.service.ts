@@ -24,18 +24,23 @@ export class ConfigurationService {
   private loadUser(): CurrentUser {
     
     let cookie = window.localStorage.getItem('nd_current_user');
+   
     if (cookie !== null){
         let user = JSON.parse(cookie);
         this.user = new CurrentUser(user);
         this.user.emailId = user.emailId;
         if(this.user.credentials){
             if(this.user.credentials.expired){
-                user.sessionexpired = true;
+                this.user.sessionexpired = true;
             } else {
                 user.sessionexpired = false;
+                 AWS.config.update({
+                    region: 'us-east-1',
+                    credentials: this.user.credentials
+                });
             }
         } else {
-            user.sessionexpired = true;
+            this.user.sessionexpired = true;
         }
     } else {
             this.user = null;
