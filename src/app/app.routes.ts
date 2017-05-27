@@ -5,6 +5,7 @@ import { MysessionsComponent } from './mysessions/mysessions.component';
 import { SinglesessionComponent } from './singlesession/singlesession.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ForgotComponent }  from './forgotpassword/forgot.component'
 import { AuthGuard } from "./shared/guards/auth.guard";
 
 const routes: Routes = [
@@ -24,6 +25,9 @@ const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
+     path: 'forgot-password', component: ForgotComponent
+  },
+    {
      path: 'signup', component: SignupComponent
   },
   {

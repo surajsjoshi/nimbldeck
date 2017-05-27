@@ -38,4 +38,11 @@ export class AuthService {
     return this.api.post('/users', singupData).map(res => res.json());
   }
 
+  forgotPassword(emailId: string): Observable<string>  {
+    let forgotData = {
+      email_id: emailId
+    }
+    return this.api.post('/users/forgot-password', forgotData).map(res => res.json());
+  }
+
 }

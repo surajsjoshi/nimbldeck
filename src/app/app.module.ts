@@ -58,7 +58,7 @@ import { SignupComponent } from './signup/signup.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
-
+import { ForgotComponent }  from './forgotpassword/forgot.component';
 import {ToastOptions} from 'ng2-toastr';
 
 export class CustomOption extends ToastOptions {
@@ -101,7 +101,8 @@ export class CustomOption extends ToastOptions {
     OnboardingComponent,
     PlayerComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ForgotComponent
   ],
   imports: [
     BrowserModule,
