@@ -8,6 +8,8 @@ export const environment = {
   apiKey: 'aYecjavQzV6i679wrL42Tq0FYzKFJTYbi9ko4Yi0',
   apiUrl: 'https://api.nimbldeck.com/v1.0',
   googleAnalyticsKey: 'UA-70280304-1',
+  awsRegion: 'us-east-1',
+  imageUploadBucket: 'nimbldeckapp-userfiles-mobilehub-964664152',
   mixpanelKey: 'beb7564b5b6cbc7f88f6f2d8fea20ae1',
   basePath: '/homepage/index.html',
   identityPool: 'us-east-1:709d954c-b58c-4d42-94a0-d1f7e494d226',

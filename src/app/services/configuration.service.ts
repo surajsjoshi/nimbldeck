@@ -3,22 +3,49 @@ import { CognitoIdentityCredentials } from 'aws-sdk';
 import { CurrentUser } from '../shared/models/currentuser';
 import { Session } from '../shared/models/session';
 import {Router} from '@angular/router';
+import { environment } from '../../environments/environment';
+import  * as  AWS  from 'aws-sdk';
 
-declare var AWS: any;
 declare var ga: any;
 declare var mixpanel: any;
 
 @Injectable()
 export class ConfigurationService {
 
-    private user: CurrentUser;
+ private user: CurrentUser;
+ private uploader: AWS.S3;
 
  constructor(private router: Router) {
      this.user = null;
+     this.uploader = null;
  }
 
   getUser(): CurrentUser {
       return this.loadUser();
+  }
+
+  getUploader(): AWS.S3 {
+     if(this.uploader === null){
+        let user = this.getUser();
+        let credentials  = new CognitoIdentityCredentials({
+            IdentityPoolId: environment.identityPool,
+            IdentityId: user.identityId,
+            LoginId: user.emailId,
+            RoleSessionName: 'web' },
+            { region: environment.awsRegion});
+        let self = this;
+        credentials.get(function (err) {
+          if (err) {
+            console.log(err);
+            self.router.navigateByUrl('login');
+        }});
+         AWS.config.update({
+          region: environment.awsRegion,
+          credentials: credentials});
+
+        this.uploader = new AWS.S3({credentials: credentials, region: environment.awsRegion});
+     }
+     return this.uploader;
   }
 
   private loadUser(): CurrentUser {
@@ -34,10 +61,6 @@ export class ConfigurationService {
                 this.user.sessionexpired = true;
             } else {
                 user.sessionexpired = false;
-                 AWS.config.update({
-                    region: 'us-east-1',
-                    credentials: this.user.credentials
-                });
             }
         } else {
             this.user.sessionexpired = true;

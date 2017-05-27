@@ -20,19 +20,13 @@ export class AuthService {
             IdentityPoolId: environment.identityPool,
             RoleSessionName: 'web'
       },{ 
-        region: 'us-east-1'
+        region: environment.awsRegion
       });
 
       this.credentials.get(function (err) {
           if (err) {
             console.log(err);
         }});
-
-    AWS.config.update({
-          region: 'us-east-1',
-        credentials: this.credentials
-    });
-
   }
 
   login(loginData): Observable<string>  {
