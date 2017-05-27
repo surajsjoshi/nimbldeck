@@ -1,0 +1,9 @@
+{
+  "general":{
+      "more": "LOAD MORE"
+  },
+  "sessions": {
+    "title": "My Sessions",
+    "sample": "Sample Sessions"
+  }
+}

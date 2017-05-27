@@ -3,6 +3,9 @@ import { environment } from '../environments/environment';
 import { AppSharedService } from './app-shared.service';
 import { ConfigurationService } from "./services/configuration.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
+
 declare var jQuery: any;
 
 @Component({
@@ -20,8 +23,14 @@ export class AppComponent {
   private appSharedService: AppSharedService,
   private conf: ConfigurationService, 
   private toastr: ToastsManager,
+  private translate: TranslateService,
   private containerRef: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(containerRef);
+     translate.addLangs(["en"]);
+     translate.setDefaultLang('en');
+     let browserLang = translate.getBrowserLang();
+     console.log(browserLang);
+     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
    }
 
   ngOnInit() {

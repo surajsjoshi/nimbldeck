@@ -28,11 +28,11 @@
 				</div>
 				<div class="clearfix"></div>
 				<div class="col-xs-12 center-align">
-					<div class="btn waves-effect" *ngIf="sessionService.nextPageToken && sessionService.nextPageToken !== ''" (click)="sessionService.defaultSessions()">Load More</div>
+					<div class="btn waves-effect" *ngIf="sessionService.nextPageToken && sessionService.nextPageToken !== ''" (click)="sessionService.defaultSessions()">{{ 'general.more' | translate  }}</div>
 				</div>
 			</div>
 		</div>
-		<h5 class="center-align">Sample Sessions</h5>
+		<h5 class="center-align">{{ 'sessions.title' | translate }}</h5>
 		<hr>
 		<div class="row">
 			<div class="col s12">
@@ -42,7 +42,7 @@
 					</div>
 					<div class="clearfix"></div>
 					<div class="col-xs-12 center-align">
-						<div class="btn waves-effect" *ngIf="sessionService.samplesNextPageToken && sessionService.samplesNextPageToken !== ''" (click)="sessionService.sampleSessions()">Load More</div>
+						<div class="btn waves-effect" *ngIf="sessionService.samplesNextPageToken && sessionService.samplesNextPageToken !== ''" (click)="sessionService.sampleSessions()">{{ 'general.more' | translate  }}</div>
 					</div>
 				</div>
 			</div>

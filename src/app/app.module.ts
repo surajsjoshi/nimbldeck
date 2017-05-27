@@ -52,14 +52,23 @@ import { WelcomeUserComponent } from './shared/components/modals/welcome-user/we
 import { OnboardingComponent } from './shared/components/help/onboarding/onboarding.component';
 import { PlayerComponent } from './shared/components/player/player.component';
 import { AppSharedService } from './app-shared.service';
-import {DragulaService, DragulaModule} from 'ng2-dragula/ng2-dragula';
+import { DragulaService, DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthGuard } from './shared/guards/auth.guard';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule} from 'ng2-toastr/ng2-toastr';
 import { ForgotComponent }  from './forgotpassword/forgot.component';
-import {ToastOptions} from 'ng2-toastr';
+import { ToastOptions } from 'ng2-toastr';
+import {TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Http } from '@angular/http';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: Http) {
+    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
+ 
 
 export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
@@ -120,7 +129,12 @@ export class CustomOption extends ToastOptions {
     ClipboardModule,
     DragulaModule,
     BrowserAnimationsModule,
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [Http]}})
   ],
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
