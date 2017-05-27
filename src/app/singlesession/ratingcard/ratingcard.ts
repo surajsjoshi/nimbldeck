@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { Session } from '../../shared/models/session';
 import { environment } from '../../../environments/environment';
 
-declare var AWS: any;
 declare var Materialize: any;
 declare var ga: any;
 declare var mixpanel: any;
@@ -89,9 +88,7 @@ export class RatingCardComponent  implements OnInit, AfterViewInit, OnDestroy {
     let params = {
       type: 'rating',
       description: this.cardForm.controls['text_question'].value,
-      required: false,
-      resource_url: this.cardForm.controls['image_url'].value,
-      resource_type: 'image'
+      required: false
 
     };
     if (this.updateQuestionFlag === false) {

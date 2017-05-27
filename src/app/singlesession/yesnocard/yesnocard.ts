@@ -109,7 +109,6 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let files = this.el.nativeElement.getElementsByClassName('file-upload')[0];
     let file = files.files[0];
     let objKey = 'public/' + this.conf.getUser().identityId + '/' + file.name;
-    let bucketName = 'nimbldeckapp-userfiles-mobilehub-964664152'; // Enter your bucket name
 
     let params = {
       Key: objKey,
