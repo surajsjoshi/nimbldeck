@@ -31,6 +31,9 @@ export class ConfigurationService {
             IdentityPoolId: environment.identityPool,
             IdentityId: user.identityId,
             LoginId: user.emailId,
+            Logins: {
+                'cognito-identity.amazonaws.com': user.token
+            },
             RoleSessionName: 'web' },
             { region: environment.awsRegion});
         let self = this;
