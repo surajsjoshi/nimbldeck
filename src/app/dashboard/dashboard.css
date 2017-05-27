@@ -1,14 +1,3 @@
-
-$primary-color: #333;
-$txt-white-color: #fff;
-$textred-color: rgb(255, 138, 132);
-$textgrey:rgba(96, 96, 96, 1);
-
-$boxbg-color: rgb(247, 246, 246);
-$bg-white-color: #fff;
-$bg-nav-color: #323a45;
-
-
 html{
     background: $bg-white-color;
 }

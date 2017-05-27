@@ -59,6 +59,16 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
+import {ToastOptions} from 'ng2-toastr';
+
+export class CustomOption extends ToastOptions {
+  animate = 'flyRight'; // you can override any options available
+  newestOnTop = false;
+  positionClass: 'toast-top-center';
+}
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,9 +123,10 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
   ],
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
-              AnalyticsService, ApiService, QueriesService,
-              ConfigurationService, SessionService, CardService,
-              EditService, AppSharedService, AuthService, AuthGuard],
+    AnalyticsService, ApiService, QueriesService,
+    ConfigurationService, CurrentUser, SessionService, CardService,
+    EditService, AppSharedService, {provide: ToastOptions, useClass: CustomOption}],
+
   bootstrap: [AppComponent],
 
   entryComponents: [

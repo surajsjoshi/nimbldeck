@@ -20,8 +20,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
  subscription: Subscription;
  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
- pieChartColor: any[] = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
-
  barChartOptions = {
    scaleShowVerticalLines: false,
    responsive: true,
@@ -104,10 +102,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
           } else {
              this.barChartLabels.push(data.label);
           }
-          let a = 1;
 
-          if ( a !== 1)  {
-          this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+          if (this.answer.question_scope === 'survey')  {
+              this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
           } else {
             let wrong_answer = '#FF2101';
             let right_answer = '#97CF58';

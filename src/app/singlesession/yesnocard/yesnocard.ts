@@ -170,6 +170,7 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
+    this.cardForm.controls['video_code'].setValue(null);
     this.fileUploaded = false;
     this.filestaus = '';
     jQuery('.img-upload, .or_text').css('display', 'block');
@@ -196,8 +197,8 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let params: any = {};
-
-    if (this.cardForm.controls['video_url'].value !== '') {
+    if (typeof this.cardForm.controls['video_code'].value != 'undefined' && this.cardForm.controls['video_code'].value) {
+      console.log('video');
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
@@ -207,13 +208,19 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
         resource_code: this.cardForm.controls['video_code'].value
       };
 
-    } else {
+    } else if(typeof this.cardForm.controls['image_url'].value != 'undefined' && this.cardForm.controls['image_url'].value) {
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
         required: false,
         resource_url: this.cardForm.controls['image_url'].value,
         resource_type: 'image'
+      };
+    } else {
+      params = {
+        type: 'yes_no',
+        description: this.cardForm.controls['text_question'].value,
+        required: false,
       };
     }
     if (!this.isSurveyModeEnabled) {
