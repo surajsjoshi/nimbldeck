@@ -26,11 +26,10 @@ export class AppComponent {
   private translate: TranslateService,
   private containerRef: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(containerRef);
-     translate.addLangs(["en"]);
+     translate.addLangs(["en", "hi"]);
      translate.setDefaultLang('en');
      let browserLang = translate.getBrowserLang();
-     console.log(browserLang);
-     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+     translate.use(browserLang.match(/en|hi/) ? browserLang : 'en');
    }
 
   ngOnInit() {

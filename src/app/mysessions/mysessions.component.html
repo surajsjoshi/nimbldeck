@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col s12">
 			<h5 *ngIf="sessionService.userSessions.length == 0">
-				No sessions added. <a data-tooltip="Add new session" (click)="openModal($event)" href="#create-session-modal" class="add-new-session">Add</a>				your first session.
+				{{'sessions.nosession' |translate}} <a data-tooltip="Add new session" (click)="openModal($event)" href="#create-session-modal" class="add-new-session">{{'general.add'| translate}}</a>{{ 'sessions.first' | translate}}
 			</h5>
 			<div class="row session_list">
 				<div class="col s12 m6 l4" *ngFor="let session of sessionService.userSessions">
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 		</div>
-		<h5 class="center-align">{{ 'sessions.title' | translate }}</h5>
+		<h5 class="center-align">{{ 'sessions.sample' | translate }}</h5>
 		<hr>
 		<div class="row">
 			<div class="col s12">

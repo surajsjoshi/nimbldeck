@@ -1,9 +1,12 @@
 {
   "general":{
-      "more": "LOAD MORE"
+      "more": "LOAD MORE",
+      "add": "Add"
   },
   "sessions": {
     "title": "My Sessions",
-    "sample": "Sample Sessions"
+    "sample": "Sample Sessions",
+    "nosession": "No sessions added.",
+    "first": "your first session"
   }
 }
