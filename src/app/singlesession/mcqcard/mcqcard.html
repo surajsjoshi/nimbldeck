@@ -9,9 +9,10 @@
 
 
 					<div class="card_toggle_radio">
-						<input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked" /><label
+						<input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" [checked]="isSurveyModeEnabled" /><label
 							for="rdb1">Survey</label>
-						<input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="rdb2">Test</label>
+						<input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" [checked]="!isSurveyModeEnabled" /><label
+							for="rdb2">Test</label>
 					</div>
 					<!-- Survey option -->
 					<div id="blk-1" class="toHide" *ngIf="isSurveyModeEnabled">
@@ -194,12 +195,12 @@
 
 							<div class="row">
 								<div class="feed_container">
-									<textarea name="right_feed" id="right_feed" class="materialize-textarea "></textarea>
+									<textarea formControlName="right_feed" name="right_feed" id="right_feed" class="materialize-textarea "></textarea>
 									<!-- <input name="right_feed" type="text" id="right_feed"  /> -->
 									<label for="right_feed">Right Feedback (optional)</label>
 								</div>
 								<div class="feed_container">
-									<textarea name="wrong_feed" id="wrong_feed" class="materialize-textarea "></textarea>
+									<textarea formControlName="wrong_feed" name="wrong_feed" id="wrong_feed" class="materialize-textarea "></textarea>
 									<!-- input name="wrong_feed" type="text" id="wrong_feed" /> -->
 									<label for="wrong_feed">Wrong Feedback (optional)</label>
 								</div>

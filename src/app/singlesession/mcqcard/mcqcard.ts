@@ -62,7 +62,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (editService.isEditing()) {
       this.updateQuestionFlag = true;
       this.options = this.updateQuestion.choices;
+      this.isSurveyModeEnabled = this.updateQuestion.question_scope === 'survey';
       this.setValidator();
+      this.initQuestionData();
       if (this.updateQuestion.resource_type) {
         if (this.updateQuestion.resource_type === 'image' && this.updateQuestion.resource_url) {
           this.fileUploaded = true;
@@ -89,6 +91,16 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     jQuery('[data-toggle="tooltip"]').tooltip();
 
+  }
+
+  initQuestionData() {
+    let question = this.updateQuestion;
+    this.cardForm.controls['text_question'].setValue(question.description);
+    this.cardForm.controls['mcqoption'].setValue(this.options);
+    if (!this.isSurveyModeEnabled) {
+      this.cardForm.controls['right_feed'].setValue(question.correct_description);
+      this.cardForm.controls['wrong_feed'].setValue(question.incorrect_description);
+    }
   }
 
   uploadFile() {
@@ -173,33 +185,36 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let option_index = this.options.length;
 
-    let flag = false;
+    // If it is test mode, check that atleast one checkbox is checked
+    if (!this.isSurveyModeEnabled) {
+      let flag = false;
 
-    for (var i = 1; i <= option_index; i++) {
-      let check = jQuery('#isTosRead' + i).is(":checked");
-      if (check === true) {
-        flag = true;
-        break;
-      }
-      else {
-        flag = false;
-      }
-    }
-
-
-    if (flag === false) {
-      let check_main = jQuery('#isTosRead').is(":checked");
-      if (check_main === true) {
-        flag = true;
+      for (var i = 1; i <= option_index; i++) {
+        let check = jQuery('#isTosRead' + i).is(":checked");
+        if (check === true) {
+          flag = true;
+          break;
+        }
+        else {
+          flag = false;
+        }
       }
 
-    }
+
+      if (flag === false) {
+        let check_main = jQuery('#isTosRead').is(":checked");
+        if (check_main === true) {
+          flag = true;
+        }
+
+      }
 
 
-    if (flag === false) {
-      jQuery('#error_check').html('Please select atleast one correct answer').css('color', 'red');
-      //alert('atleast one checkbox should be checked'); 
-      return;
+      if (flag === false) {
+        jQuery('#error_check').html('Please select atleast one correct answer').css('color', 'red');
+        //alert('atleast one checkbox should be checked'); 
+        return;
+      }
     }
 
 
