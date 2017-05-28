@@ -9,17 +9,18 @@
 
 
 					<div class="card_toggle_radio">
-						<input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" checked="checked" /><label
+						<input id="rdb1" type="radio" (click)="toggle_modal_layout(1)" name="toggler" value="1" [checked]="isSurveyModeEnabled" /><label
 							for="rdb1">Survey</label>
-						<input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" /><label for="rdb1">Test</label>
+						<input id="rdb2" type="radio" (click)="toggle_modal_layout(2)" name="toggler" value="2" [checked]="!isSurveyModeEnabled" /><label
+							for="rdb2">Test</label>
 					</div>
-					 <!-- Survey option -->
+					<!-- Survey option -->
 					<div id="blk-1" class="toHide" *ngIf="isSurveyModeEnabled">
 						<form [formGroup]="cardForm" (submit)="submitMcqCard($event)">
 							<div class="row">
 								<div class="input-field col s12">
 									<textarea id="mcq-question" class="materialize-textarea" formControlName="text_question"></textarea>
-									<label for="mcq-question">Question</label>
+									<label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="mcq-question">Question</label>
 									<div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
 								</div>
 							</div>
@@ -44,7 +45,7 @@
 									</div>
 								</div>
 								<div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-								<div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
+								<div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'video'}">
 									<div *ngIf="!fileUploaded" class="video-uploader">
 										<input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
@@ -57,11 +58,6 @@
 									<div *ngIf="videoUploadingInProcess">
 										<span class="loading-img">Video Uploading...</span>
 									</div>
-									<!-- <div *ngIf="fileUploaded">
-                                    <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                   <div id="kkk" >
-                                   </div>
-                                </div> -->
 
 									<div *ngIf="fileUploaded">
 										<span (click)="removeVideo()" class="fa fa-times right"></span>
@@ -70,26 +66,6 @@
 								</div>
 								<div class="clearfix"></div>
 							</div>
-
-
-
-							<!-- <div class="row img-upload">
-							<div *ngIf="!fileUploaded" class="img-uploader">
-								<span class="fa fa-picture-o"> </span> <span
-									class="upload-img-lbl">Upload Image</span> <input type="file"
-									class="file-upload" accept="image/*" (change)="uploadFile()" />
-							</div>
-							<input id="image-url" type="hidden" formControlName="image_url" />
-							<div *ngIf="uploadError">{{uploadError}}</div>
-							<div *ngIf="imgUploadingInProcess">
-								<span>Image Uploading...</span>
-							</div>
-							<div *ngIf="fileUploaded">
-								<span (click)="removeImage()" class="fa fa-times right"></span>
-								<img [src]="cardForm.controls['image_url'].value" width="200"
-									alt="" />
-							</div>
-						</div> -->
 							<div class="clearfix"></div>
 							<div *ngFor="let option of options;let i = index" class="row">
 
@@ -98,8 +74,7 @@
 								</div>
 								<div class="col s9 mcq-option">
 									<input type="text" value={{option.label}} name="option-{{i}}" id="option-{{i}}" (blur)="onOptionKeyUp($event,i)" />									<img *ngIf="option.resource_url" src={{option.resource_url}} width="60" />
-									<i *ngIf="optionUploadError" class="fa fa-exclamation-triangle"
-										title="Error Uploading Image"></i>
+									<i *ngIf="optionUploadError" class="fa fa-exclamation-triangle" title="Error Uploading Image"></i>
 								</div>
 								<div class="col s2">
 									<i (click)="removeFromOptions(i)" class="fa fa-trash"></i>
@@ -125,34 +100,16 @@
 							</div>
 						</form>
 					</div>
-					 <!-- Test option -->
+					<!-- Test option -->
 					<div id="blk-2" class="toHide" *ngIf="!isSurveyModeEnabled">
 						<form [formGroup]="cardForm" (submit)="submitMcqCard($event)">
 							<div class="row">
 								<div class="input-field col s12">
 									<textarea id="mcq-question" class="materialize-textarea" formControlName="text_question"></textarea>
-									<label for="mcq-question">Question</label>
+									<label [ngClass]="{'active': cardForm.get('text_question').value !== ''}" for="mcq-question">Question</label>
 									<div [hidden]="cardForm.get('text_question').valid || cardForm.get('text_question').pristine" class="alert alert-danger">Question is Required</div>
 								</div>
 							</div>
-
-							<!-- <div class="row img-upload">
-							<div *ngIf="!fileUploaded" class="img-uploader">
-								<span class="fa fa-picture-o"> </span> <span
-									class="upload-img-lbl">Upload Image</span> <input type="file"
-									class="file-upload" accept="image/*" (change)="uploadFile()" />
-							</div>
-							<input id="image-url" type="hidden" formControlName="image_url" />
-							<div *ngIf="uploadError">{{uploadError}}</div>
-							<div *ngIf="imgUploadingInProcess">
-								<span>Image Uploading...</span>
-							</div>
-							<div *ngIf="fileUploaded">
-								<span (click)="removeImage()" class="fa fa-times right"></span>
-								<img [src]="cardForm.controls['image_url'].value" width="200"
-									alt="" />
-							</div>
-						</div> -->
 
 							<div class="row upload_container">
 								<div class="col s12 m5 fl img-upload" *ngIf="filestaus=='image' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'image'}">
@@ -173,7 +130,7 @@
 									</div>
 								</div>
 								<div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
-								<div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''">
+								<div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'video'}">
 									<div *ngIf="!fileUploaded" class="video-uploader">
 										<input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()">
 
@@ -186,11 +143,6 @@
 									<div *ngIf="videoUploadingInProcess">
 										<span class="loading-img">Video Uploading...</span>
 									</div>
-									<!-- <div *ngIf="fileUploaded">
-                                    <span (click)="removeVideo()" class="fa fa-times right"></span>
-                                   <div id="kkk" >
-                                   </div>
-                                </div> -->
 
 									<div *ngIf="fileUploaded">
 										<span (click)="removeVideo()" class="fa fa-times right"></span>
@@ -209,8 +161,7 @@
 								</div>
 								<div class="col s9 mcq-option">
 									<input type="text" value={{option.label}} name="option-{{i}}" id="option-{{i}}" (blur)="onOptionKeyUp($event,i)" />									<img *ngIf="option.resource_url" src={{option.resource_url}} width="60" />
-									<i *ngIf="optionUploadError" class="fa fa-exclamation-triangle"
-										title="Error Uploading Image"></i>
+									<i *ngIf="optionUploadError" class="fa fa-exclamation-triangle" title="Error Uploading Image"></i>
 								</div>
 								<div class="col s2">
 									<i (click)="removeFromOptions(i)" class="fa fa-trash"></i>
@@ -244,12 +195,12 @@
 
 							<div class="row">
 								<div class="feed_container">
-									<textarea name="right_feed" id="right_feed" class="materialize-textarea "></textarea>
+									<textarea formControlName="right_feed" name="right_feed" id="right_feed" class="materialize-textarea "></textarea>
 									<!-- <input name="right_feed" type="text" id="right_feed"  /> -->
 									<label for="right_feed">Right Feedback (optional)</label>
 								</div>
 								<div class="feed_container">
-									<textarea name="wrong_feed" id="wrong_feed" class="materialize-textarea "></textarea>
+									<textarea formControlName="wrong_feed" name="wrong_feed" id="wrong_feed" class="materialize-textarea "></textarea>
 									<!-- input name="wrong_feed" type="text" id="wrong_feed" /> -->
 									<label for="wrong_feed">Wrong Feedback (optional)</label>
 								</div>
