@@ -241,6 +241,16 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       };
     }
 
+    if (!this.isSurveyModeEnabled) {
+      // For test mode push correct option and
+      // right/wrong optional text
+      params.incorrect_description = this.cardForm.controls['wrong_feed'].value;
+      params.correct_description = this.cardForm.controls['right_feed'].value;
+      params.correct_answers = [];
+      // params.correct_answers.push(this.cardForm.controls['choice'].value);
+    }
+    params.question_scope = this.isSurveyModeEnabled ? 'survey' : 'test';
+
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateMCQCard');
       params['position'] = 1;
@@ -387,52 +397,91 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setValidator() {
-    if (this.isSurveyModeEnabled) {
-      // Survey type form validator
-      this.cardForm = new FormGroup({
-        text_question: new FormControl('', Validators.required),
-        image_url: new FormControl(''),
-        mcqoption: new FormControl(''),
-        isTosRead: new FormControl(''),
-        option_image_url: new FormControl(''),
-        video_url: new FormControl(''),
-        youtube_url: new FormControl(''),
-        video_code: new FormControl(''),
-      });
-    } else {
-      // Test type form validator
-      this.cardForm = new FormGroup({
-        text_question: new FormControl('', Validators.required),
-        image_url: new FormControl(''),
-        mcqoption: new FormControl('', Validators.required),
-        isTosRead: new FormControl(''),
-        option_image_url: new FormControl(''),
-        video_url: new FormControl(''),
-        youtube_url: new FormControl(''),
-        video_code: new FormControl(''),
-      }, this.customValidatorAtleast1CheckboxChecked);
-    }
-  }
+    if (this.cardForm) {
+      let question = this.cardForm.controls['text_question'].value;
+      let imageUrl = this.cardForm.controls['image_url'].value;
+      let videoUrl = this.cardForm.controls['video_url'].value;
+      let youtubeUrl = this.cardForm.controls['youtube_url'].value;
+      let videoCode = this.cardForm.controls['video_code'].value;
+      let rightFeedback = this.cardForm.controls['right_feed'].value;
+      let wrongFeedback = this.cardForm.controls['wrong_feed'].value;
+      let mcqoption = this.cardForm.controls['mcqoption'].value;
+      if (imageUrl) {
+        this.fileUploaded = true;
+        this.filestaus = 'image';
+      }
 
-  customValidatorAtleast1CheckboxChecked(group: FormGroup): { [key: string]: any } {
-    let isAtleastOneCheckboxChecked = false;
-    if (group && group.controls) {
-      for (let control in group.controls) {
-        // if (group.controls.hasOwnProperty(control) && group.controls[control].valid && group.controls[control].value) {
-        //   isImageOrVideoProvided = control === 'image_url' || control === 'video_url' || control === 'youtube_url';
-        //   if (isImageOrVideoProvided) {
-        //     break;
-        //   }
-        // }
+      if (videoUrl) {
+        this.fileUploaded = true;
+        this.filestaus = 'video';
+      }
+      if (this.isSurveyModeEnabled) {
+        // Survey type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl(question, Validators.required),
+          image_url: new FormControl(imageUrl),
+          mcqoption: new FormControl(mcqoption),
+          isTosRead: new FormControl(''),
+          video_url: new FormControl(videoUrl),
+          youtube_url: new FormControl(youtubeUrl),
+          video_code: new FormControl(videoCode),
+          right_feed: new FormControl(rightFeedback),
+          wrong_feed: new FormControl(wrongFeedback),
+          option_image_url: new FormControl('')
+        });
+      } else {
+        // Test type form validator
+        setTimeout(() => {
+          this.cardForm = new FormGroup({
+            text_question: new FormControl(question, Validators.required),
+            image_url: new FormControl(imageUrl),
+            mcqoption: new FormControl(mcqoption, Validators.required),
+            isTosRead: new FormControl(),
+            video_url: new FormControl(videoUrl),
+            youtube_url: new FormControl(youtubeUrl),
+            video_code: new FormControl(videoCode),
+            right_feed: new FormControl(rightFeedback),
+            wrong_feed: new FormControl(wrongFeedback),
+            option_image_url: new FormControl('')
+          });
+        })
+      }
+    } else {
+      if (this.isSurveyModeEnabled) {
+        // Survey type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl('', Validators.required),
+          image_url: new FormControl(''),
+          mcqoption: new FormControl(''),
+          isTosRead: new FormControl(''),
+          video_url: new FormControl(''),
+          youtube_url: new FormControl(''),
+          video_code: new FormControl(''),
+          right_feed: new FormControl(''),
+          wrong_feed: new FormControl(''),
+          option_image_url: new FormControl('')
+        });
+      } else {
+        // Test type form validator
+        this.cardForm = new FormGroup({
+          text_question: new FormControl('', Validators.required),
+          image_url: new FormControl(''),
+          mcqoption: new FormControl('', Validators.required),
+          isTosRead: new FormControl(''),
+          video_url: new FormControl(''),
+          youtube_url: new FormControl(''),
+          video_code: new FormControl(''),
+          right_feed: new FormControl(''),
+          wrong_feed: new FormControl(''),
+          option_image_url: new FormControl('')
+        });
       }
     }
-    return isAtleastOneCheckboxChecked ? null : { 'required': true };
   }
 
   toggle_modal_layout(event) {
     this.isSurveyModeEnabled = !this.isSurveyModeEnabled;
-    this.removeImage();
-    this.removeVideo();
+    // Reset to initial state
     this.setValidator();
     jQuery('#blk-' + event).show();
   }
