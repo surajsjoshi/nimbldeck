@@ -96,10 +96,17 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   initQuestionData() {
     let question = this.updateQuestion;
     this.cardForm.controls['text_question'].setValue(question.description);
-    this.cardForm.controls['mcqoption'].setValue(this.options);
     if (!this.isSurveyModeEnabled) {
       this.cardForm.controls['right_feed'].setValue(question.correct_description);
       this.cardForm.controls['wrong_feed'].setValue(question.incorrect_description);
+      for (let opt of question.correct_answers) {
+        // Map this in options
+        for (let option of this.options) {
+          if (opt === option.label) {
+            option.checkStatus = 'checked';
+          }
+        }
+      }
     }
   }
 
@@ -232,7 +239,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       choices['label'] = option;
       choices['name'] = 'choices';
       this.options.push(choices);
-      this.cardForm.controls['mcqoption'].setValue(null);
+      // this.cardForm.controls['mcqoption'].setValue(null);
     }
 
     let params;
@@ -256,13 +263,21 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       };
     }
 
+    params.choices = this.options;
+    if (!this.isSurveyModeEnabled) {
+      params.correct_answers = [];
+      for (let option of this.options) {
+        if (option.checkStatus === 'checked') {
+          params.correct_answers.push(option.label);
+        }
+      }
+    }
+
     if (!this.isSurveyModeEnabled) {
       // For test mode push correct option and
       // right/wrong optional text
       params.incorrect_description = this.cardForm.controls['wrong_feed'].value;
       params.correct_description = this.cardForm.controls['right_feed'].value;
-      params.correct_answers = [];
-      // params.correct_answers.push(this.cardForm.controls['choice'].value);
     }
     params.question_scope = this.isSurveyModeEnabled ? 'survey' : 'test';
 
@@ -327,7 +342,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let option = this.cardForm.controls['mcqoption'].value;
 
       let check = jQuery('#isTosRead').is(":checked");
-
+      debugger
 
       let choices = {};
       if (option) {
@@ -357,6 +372,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       jQuery('#isTosRead').attr('checked', false);
     }
+  }
+
+  onChange(opt) {
+    opt.checkStatus = 'checked';
   }
 
   removeFromOptions(i) {
@@ -450,7 +469,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
           this.cardForm = new FormGroup({
             text_question: new FormControl(question, Validators.required),
             image_url: new FormControl(imageUrl),
-            mcqoption: new FormControl(mcqoption, Validators.required),
+            mcqoption: new FormControl(mcqoption),
             isTosRead: new FormControl(),
             video_url: new FormControl(videoUrl),
             youtube_url: new FormControl(youtubeUrl),
