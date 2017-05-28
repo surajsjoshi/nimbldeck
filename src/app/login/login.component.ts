@@ -77,8 +77,10 @@ export class LoginComponent  implements OnInit {
       this.loginError = true;
       mixpanel.track('LoginFailed', { 'error': response.errors[0].message });
       this.loginError = true;
-      this.errorMessage = response.errors[0].message;
       this.inProcess = false;
+      this.translate.get('errors', {value: response.errors[0].code}).subscribe((res: string) => {
+        this.errorMessage = res[response.errors[0].code];
+     });
       return;
     }
     let user = response.user;

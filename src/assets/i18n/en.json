@@ -4,13 +4,28 @@
       "add": "Add",
       "forgot": "Forgot password",
       "register": "REGISTER",
-      "logout": "Logout"
+      "logout": "Logout",
+      "privacy": "Privacy Policy",
+      "privacyMessage": "By registering, you agree to nimblDeck's Privacy policy and give permission to receive communication from nimblDeck"
   },
+
+  "errors": {
+      "106": "User not registered",
+      "104": "Incorrect password"
+  },
+
     "login": {
       "login": "LOG IN",
       "loginHeader": "Login",
-      "message": "Logging in ..."
+      "message": "Logging in ...",
+      "email" : "Email",
+      "password" : "Password"
   }, 
+  "signup":{
+     "signup": "Sign Up",
+     "name" : "Full Name",
+     "inprocess": "Signing up ..."
+  },
   "sessions": {
     "title": "My Sessions",
     "sample": "Sample Sessions",

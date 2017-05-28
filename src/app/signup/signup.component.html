@@ -2,37 +2,36 @@
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
 			<img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" />
-			<h4 i18n>Sign Up</h4>
+			<h4 i18n>{{'signup.signup'| translate}}</h4>
 			<div class="signupError" *ngIf="signupError">{{errorMessage}}</div>
 			<form role="form" [formGroup]="signUpForm" (submit)="signup($event)">
 				<div class="form-content">
 					<div class="form-group">
 						<input type="text" class="form-control input-underline input-lg"
-							id="" formControlName="username" placeholder="Full Name">
+							id="" formControlName="username" placeholder="{{'signup.name' | translate}}">
 					</div>
 
 					<div class="form-group">
 						<input type="email" class="form-control input-underline input-lg"
-							id="" formControlName="emailId" placeholder="Email">
+							id="" formControlName="emailId" placeholder="{{'login.email' | translate}}">
 					</div>
 
 					<div class="form-group">
 						<input type="password"
 							class="form-control input-underline input-lg" id=""
 							formControlName="password" 
-							placeholder="Password">
+							placeholder="{{'login.password' | translate }}">
 					</div>
 				</div>
 				<button type="submit" [disabled]="!signUpForm.valid || inProcess"
 								class="waves-effect waves-light btn">{{signupText}}</button>
 								&nbsp; <a type="submit"
-					class="btn rounded-btn" routerLink="/login"> Log in </a>
+					class="btn rounded-btn" routerLink="/login">{{'login.login' | translate}}</a>
 			</form>
  <div class="footer-subtext">
-                        <h5>
-                            By registering, you agree to nimblDeck's Privacy policy and give permission to receive communication from nimblDeck
+                        <h5>{{ 'general.privacyMessage' | translate}}
                         </h5>
-                       <a href="/privacy.html">Privacy Policy</a>
+                       <a href="/privacy.html">{{'general.privacy'| translate}}</a>
                     </div>
 		</div>
 	</div>

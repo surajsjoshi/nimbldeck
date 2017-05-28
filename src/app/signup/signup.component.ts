@@ -3,6 +3,7 @@ import { Component , ElementRef} from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CurrentUser } from "../shared/models/currentuser";
+import {TranslateService} from '@ngx-translate/core';
 /**
 *  This class represents the lazy loaded SignupComponent.
 */
@@ -24,6 +25,7 @@ export class SignupComponent {
 
     constructor(private authService: AuthService,
     private router: Router,
+    private translate: TranslateService,
     private formBuilder: FormBuilder) {
 
       this.signupError = false;
@@ -36,30 +38,42 @@ export class SignupComponent {
         username: new FormControl('' , Validators.required),
     });
 
+    this.translate.get('general.register').subscribe((res: string) => {
+        this.signupText = res;
+    });
+
     }
 
     signup(event){
       event.preventDefault();
       this.inProcess = true;
       this.signupError = false;
-      this.signupText = 'Signing up ...'
       let params = {
         'email_id': this.signUpForm.controls['emailId'].value,
         'password': this.signUpForm.controls['password'].value,
         'username': this.signUpForm.controls['username'].value,
         'source': 'web'
       };
+
+      this.translate.get('signup.inprocess').subscribe((res: string) => {
+        this.signupText = res;
+    });
+
       this.authService.signup(params)
         .subscribe(resp => this.onSigup(resp), error => console.log(error));
     }
 
     private onSigup(response){
-      this.signupText = 'REGISTER';
+      this.translate.get('general.register').subscribe((res: string) => {
+        this.signupText = res;
+     });
       if (response.type === 'Failure') {
         this.signupError = true;
         mixpanel.track('SignupFailed', { 'error': response.errors[0].message });
-        this.errorMessage = response.errors[0].message;
         this.inProcess = false;
+        this.translate.get('errors', {value: response.errors[0].code}).subscribe((res: string) => {
+          this.errorMessage = res[response.errors[0].code];
+       });
         return;
       }
 
@@ -75,12 +89,16 @@ export class SignupComponent {
 
 
   private onLogin(response){
-    this.signupText = 'LOG IN';
+    this.translate.get('login.login').subscribe((res: string) => {
+        this.signupText = res;
+    });
     if (response.type === 'Failure') {
       this.signupError = true;
       mixpanel.track('LoginFailed', { 'error': response.errors[0].message });
-      this.errorMessage = response.errors[0].message;
       this.inProcess = false;
+      this.translate.get('errors', {value: response.errors[0].code}).subscribe((res: string) => {
+          this.errorMessage = res[response.errors[0].code];
+     });
       return;
     }
     let user = response.user;

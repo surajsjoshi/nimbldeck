@@ -29,7 +29,7 @@ export class AppComponent {
      translate.addLangs(["en", "hi"]);
      translate.setDefaultLang('en');
      let browserLang = translate.getBrowserLang();
-     moment.lang(browserLang);
+     moment.locale(browserLang);
      translate.use(browserLang.match(/en|hi/) ? browserLang : 'en');
    }
 

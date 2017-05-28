@@ -9,14 +9,14 @@
 					<div class="form-group">
 						<input type="text" 
 							class="form-control input-underline input-lg" 
-							formControlName="emailId" placeholder="Email Id">
+							formControlName="emailId" placeholder="{{'login.email'| translate}}">
 					</div>
 
 					<div class="form-group">
 						<input type="password"
 							class="form-control input-underline input-lg"
 							formControlName="password"
-							placeholder="Password">
+							placeholder="{{'login.password' | translate}}">
 					</div>
 				</div>
 				<button type="submit" [disabled]="!loginForm.valid || inProcess"
