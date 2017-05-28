@@ -87,7 +87,6 @@
 								<div class="col s10 mcq-option">
 									<div class="row">
 										<input id="mcqoption" type="text" formControlName="mcqoption" placeholder="Edit option"> <label for="mcqoption"></label>
-										<!-- <i (click)="addToOptions()" class="fa fa-plus-circle"></i> -->
 									</div>
 								</div>
 								<div class="col s1 plus-icon">
@@ -156,7 +155,7 @@
 							<p class="text_instruction">Click on the check button(s) to select correct answer(s)</p>
 							<div *ngFor="let option of options;let i = index" class="row">
 								<div class="col s1">
-									<input type="checkbox" class="optionCheck" id="isTosRead{{i}}" checked={{option.checkStatus}} data-toggle="tooltip" title="Please tick this box to set it as correct answer"
+									<input type="checkbox" (change)="onChange(option)" class="optionCheck" id="isTosRead{{i}}" checked={{option.checkStatus}} data-toggle="tooltip" title="Please tick this box to set it as correct answer"
 									/> <label>&nbsp;</label>
 								</div>
 								<div class="col s9 mcq-option">
