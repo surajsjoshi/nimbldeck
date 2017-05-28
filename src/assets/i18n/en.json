@@ -1,12 +1,29 @@
 {
   "general":{
       "more": "LOAD MORE",
-      "add": "Add"
+      "add": "Add",
+      "forgot": "Forgot password",
+      "register": "REGISTER",
+      "logout": "Logout"
   },
+    "login": {
+      "login": "LOG IN",
+      "loginHeader": "Login",
+      "message": "Logging in ..."
+  }, 
   "sessions": {
     "title": "My Sessions",
     "sample": "Sample Sessions",
     "nosession": "No sessions added.",
-    "first": "your first session"
+    "first": "your first session",
+    "share": "Share code with your trainees",
+    "copy": "Link Copied!",
+    "edit": "Edit Session",
+    "dashboard": "View Dashboard",
+    "duplicate": "Duplicate Session",
+    "delete": "Delete Session",
+    "completed": "Completed",
+    "start": "Start session",
+    "pause": "Pause Session"
   }
 }

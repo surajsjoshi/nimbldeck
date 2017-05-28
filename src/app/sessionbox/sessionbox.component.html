@@ -2,19 +2,19 @@
     <div class="card-image">
         <img src="{{session.image_url}}" alt="{{session.title}}" height="250" class="responsive-img" />
         <div class="overlay {{hideClass}}">
-            <a class="duplicate-session" href="#duplicate-session-modal" (click)="duplicateSession($event)" ga-on="click" ga-event-category="Sessions" ga-event-action="duplicate"> <i class="fa fa-clone tooltipped" data-position="bottom" data-delay="50" title="Duplicate Session"></i>
-            </a> <i (click)="editSession($event)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" title="Edit Session"></i>
-            <a [routerLink]="['/dashboard', session.session_id]"><i *ngIf="showDashBoardLink()" class="fa fa-bar-chart tooltipped" data-position="bottom" data-delay="50" title="View Dashboard" ga-on="click" ga-event-category="Sessions" ga-event-action="dashboard"></i></a>
+            <a class="duplicate-session" href="#duplicate-session-modal" (click)="duplicateSession($event)" ga-on="click" ga-event-category="Sessions" ga-event-action="duplicate"> <i class="fa fa-clone tooltipped" data-position="bottom" data-delay="50" title="{{'sessions.duplicate' |translate}}"></i>
+            </a> <i (click)="editSession($event)" *ngIf="!session.isSample && !isComplete" class="fa fa-pencil-square-o tooltipped" data-position="bottom" data-delay="50" title="{{'sessions.edit' |translate}}"></i>
+            <a [routerLink]="['/dashboard', session.session_id]"><i *ngIf="showDashBoardLink()" class="fa fa-bar-chart tooltipped" data-position="bottom" data-delay="50" title="{{'sessions.dashboard' |translate}}" ga-on="click" ga-event-category="Sessions" ga-event-action="dashboard"></i></a>
 
 
-            <i *ngIf="!session.isSample" (click)="deleteSession()" class="fa fa-trash tooltipped" data-position="bottom" data-delay="50" title="Delete Session" ga-on="click" ga-event-category="Sessions" ga-event-action="delete"></i>
+            <i *ngIf="!session.isSample" (click)="deleteSession()" class="fa fa-trash tooltipped" data-position="bottom" data-delay="50" title="{{'sessions.delete' | translate}}" ga-on="click" ga-event-category="Sessions" ga-event-action="delete"></i>
             <div class="urltextbox-{{playStatus}}" *ngIf="session.status !== 'Created' && !isComplete && !session.isSample">
                 <input id="sessiontexturl" name="copysessionurl" class="texturl" value="{{session.share_token}}" #inputTarget />
                 <button type="button" [ngxClipboard]="inputTarget" data-clipboard-target="#sessiontexturl" data-clipboard-action="copy" class="copy-btn waves-effect waves-light btn light-green darken-2">COPY
 				</button>
-            <p class="copy-success">Share code with your trainees</p>
+            <p class="copy-success">{{'sessions.share' | translate}}</p>
             </div>
-            <div *ngIf="textCopied" class="copy-success">Link Copied!</div>
+            <div *ngIf="textCopied" class="copy-success">{{'sessions.copy' | translate}}</div>
         </div>
         <i class="fa fa-bars menu-icon" (click)="clicked($event)"></i>
     </div>
@@ -27,7 +27,7 @@
     <div class="card-action">
         <a class="start-stop-session"  (click)="startStopSession()" ga-on="click" ga-event-category="Sessions" ga-event-action="start-stop" *ngIf="!isComplete && !session.isSample">
             <i class="fa fa-{{playStatus}}-circle-o {{playStatus}}" title="{{toolTip}}"></i>
-        </a> <span class="completed" *ngIf="isComplete && !session.isSample">Complete</span>
+        </a> <span class="completed" *ngIf="isComplete && !session.isSample">{{'sessions.completed' | translate}}</span>
         <span class="completed" *ngIf="session.isSample">&nbsp;</span> <a [routerLink]="['/sessions', session.session_id]" class="last-seen"><i class="fa fa-clock-o"></i>
 			{{session.updated_at}}</a>
     

@@ -4,6 +4,7 @@ import { SessionService } from '../services/session.service';
 import { Session } from '../shared/models/session';
 import { Component, EventEmitter, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import * as moment from 'moment';
+import {TranslateService} from '@ngx-translate/core';
 
 declare var Clipboard:any;
 declare var mixpanel: any;
@@ -30,6 +31,7 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
 
   constructor(public sessionService: SessionService,
     private conf: ConfigurationService,
+    private translate: TranslateService,
     private editService: EditService,
     private el: ElementRef) {
     this.hideClass = 'hide';
@@ -45,11 +47,15 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     image.src = this.session.image_url;
     if (this.session.status === 'Running') {
       this.playStatus = 'stop';
-      this.toolTip = 'Pause Session';
+      this.translate.get('sessions.pause').subscribe((res: string) => {
+        this.toolTip = res;
+    });
     } else if (this.session.status === 'Completed') {
       this.isComplete = true;
     } else {
-      this.toolTip = 'Start Session';
+      this.translate.get('sessions.start').subscribe((res: string) => {
+        this.toolTip = res;
+    });
     }
   }
 

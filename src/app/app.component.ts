@@ -4,7 +4,7 @@ import { AppSharedService } from './app-shared.service';
 import { ConfigurationService } from "./services/configuration.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {TranslateService} from '@ngx-translate/core';
-
+import * as moment from 'moment';
 
 declare var jQuery: any;
 
@@ -29,6 +29,7 @@ export class AppComponent {
      translate.addLangs(["en", "hi"]);
      translate.setDefaultLang('en');
      let browserLang = translate.getBrowserLang();
+     moment.lang(browserLang);
      translate.use(browserLang.match(/en|hi/) ? browserLang : 'en');
    }
 

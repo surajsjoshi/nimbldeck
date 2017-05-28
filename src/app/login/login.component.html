@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
 			<img src="assets/img/nimbldeck-logo.jpg" width="150px" class="user-avatar" />
-			<h4 i18n> Login</h4>
+			<h4>{{'login.loginHeader' | translate}}</h4>
 			<div class="error" *ngIf="loginError">{{errorMessage}}</div>
 			<form  [formGroup]="loginForm"  role="form" (submit)="login($event)">
 				<div class="form-content">
@@ -22,8 +22,8 @@
 				<button type="submit" [disabled]="!loginForm.valid || inProcess"
 								class="waves-effect waves-light btn">{{loginText}}</button>
 				 &nbsp; <a type="submit" class="btn rounded-btn"
-					routerLink="/signup">Register</a><br/>
-                                  <a routerLink="/forgot-password" class="back-to-login">Forgot password</a>
+					routerLink="/signup">{{'general.register' | translate}}</a><br/>
+                                  <a routerLink="/forgot-password" class="back-to-login">{{'general.forgot' | translate}}</a>
 			</form>
 		</div>
 	</div>

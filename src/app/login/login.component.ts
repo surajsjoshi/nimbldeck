@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ConfigurationService } from "../services/configuration.service";
 import { CurrentUser } from "../shared/models/currentuser";
+import {TranslateService} from '@ngx-translate/core';
 /**
 *  This class represents the lazy loaded LoginComponent.
 */
@@ -27,6 +28,7 @@ export class LoginComponent  implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private conf: ConfigurationService,
+    private translate: TranslateService,
     private formBuilder: FormBuilder) {
   }
 
@@ -44,13 +46,21 @@ export class LoginComponent  implements OnInit {
         password: new FormControl('' , Validators.required)
     });
 
+    this.translate.get('login.login').subscribe((res: string) => {
+        this.loginText = res;
+    });
+
   }
 
   login(event){
     event.preventDefault();
     this.inProcess = true;
     this.loginError = false;
-    this.loginText = 'Logging in ...'
+
+    this.translate.get('login.message').subscribe((res: string) => {
+        this.loginText = res;
+    });
+
     let params = {
       'email_id': this.loginForm.controls['emailId'].value,
       'password':  this.loginForm.controls['password'].value
@@ -60,7 +70,9 @@ export class LoginComponent  implements OnInit {
   }
 
   private onLogin(response){
-    this.loginText = 'LOG IN';
+    this.translate.get('login.login').subscribe((res: string) => {
+        this.loginText = res;
+    });
     if (response.type === 'Failure') {
       this.loginError = true;
       mixpanel.track('LoginFailed', { 'error': response.errors[0].message });
