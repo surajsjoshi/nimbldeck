@@ -176,8 +176,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   removeVideo() {
     this.cardForm.controls['video_url'].setValue(null);
     this.cardForm.controls['youtube_url'].setValue(null);
-    this.cardForm.controls['video_url'].setValue(null);
-    this.cardForm.controls['video-code'].setValue(null);
+    this.cardForm.controls['video_code'].setValue(null);
 
     this.fileUploaded = false;
     this.filestaus = '';
@@ -196,7 +195,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isSurveyModeEnabled) {
       let flag = false;
 
-      for (var i = 1; i <= option_index; i++) {
+      for (var i = 0; i < option_index; i++) {
         let check = jQuery('#isTosRead' + i).is(":checked");
         if (check === true) {
           flag = true;
@@ -243,7 +242,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let params;
-    if (this.cardForm.controls['youtube_url'].value !== '') {
+    if (this.cardForm.controls['youtube_url'].value !== '' || this.cardForm.controls['video_code'].value !== '' || this.cardForm.controls['video_url'].value !== '') {
       params = {
         type: 'multiple_choice',
         description: this.cardForm.controls['text_question'].value,
@@ -375,7 +374,11 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChange(opt) {
-    opt.checkStatus = 'checked';
+    if (opt.checkStatus === 'checked') {
+      opt.checkStatus = '';
+    } else {
+      opt.checkStatus = 'checked';
+    }
   }
 
   removeFromOptions(i) {
@@ -500,7 +503,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cardForm = new FormGroup({
           text_question: new FormControl('', Validators.required),
           image_url: new FormControl(''),
-          mcqoption: new FormControl('', Validators.required),
+          mcqoption: new FormControl(''),
           isTosRead: new FormControl(''),
           video_url: new FormControl(''),
           youtube_url: new FormControl(''),
