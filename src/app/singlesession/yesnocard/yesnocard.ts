@@ -193,7 +193,6 @@ export class YesNoCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let params: any = {};
     if (typeof this.cardForm.controls['video_code'].value != 'undefined' && this.cardForm.controls['video_code'].value) {
-      console.log('video');
       params = {
         type: 'yes_no',
         description: this.cardForm.controls['text_question'].value,
