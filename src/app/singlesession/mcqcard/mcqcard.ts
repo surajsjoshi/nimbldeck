@@ -8,6 +8,7 @@ import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angula
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -119,17 +120,10 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     let params = {
       Key: objKey,
       ContentType: file.type,
-      Body: file
+      Body: file,
+      Bucket: environment.imageUploadBucket
     };
-    let bucketName = 'nimbldeckapp-userfiles-mobilehub-964664152'; // Enter your bucket name
-    let bucket = new AWS.S3({
-      params: {
-        Bucket: bucketName
-      }
-    });
-
-
-    bucket.upload(params, function (err, data) {
+    this.conf.getUploader().upload(params, function (err, data) {
       if (err) {
         _this.uploadError = 'Failed to upload file';
       } else {

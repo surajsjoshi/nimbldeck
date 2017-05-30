@@ -58,17 +58,12 @@ export class CreatesessionComponent {
     let file = files.files[0];
     let objKey = 'public/' + this.conf.getUser().identityId + '/' + file.name;
     let params = {
-      Key: objKey,
-      ContentType: file.type,
-      Body: file
+       Key: objKey,
+       ContentType: file.type,
+       Body: file,
+       Bucket: environment.imageUploadBucket
     };
-    let bucketName = 'nimbldeckapp-userfiles-mobilehub-964664152';
-    let bucket = new AWS.S3({
-      params: {
-        Bucket: bucketName
-      }
-    });
-    bucket.upload(params, function (err, data) {
+    this.conf.getUploader().upload(params, function (err, data) {
       if (err) {
         self.uploadError = 'Failed to upload file';
       } else {
