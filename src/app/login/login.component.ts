@@ -1,10 +1,9 @@
-import { Router , ActivatedRoute } from '@angular/router';
-import { Component , ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ConfigurationService } from "../services/configuration.service";
+import { Router , ActivatedRoute } from '@angular/router';
 import { CurrentUser } from "../shared/models/currentuser";
-import {TranslateService} from '@ngx-translate/core';
+import { Component , ElementRef, OnInit } from '@angular/core';
+import { ConfigurationService } from "../services/configuration.service";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 /**
 *  This class represents the lazy loaded LoginComponent.
 */
@@ -28,7 +27,6 @@ export class LoginComponent  implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private conf: ConfigurationService,
-    private translate: TranslateService,
     private formBuilder: FormBuilder) {
   }
 
@@ -46,7 +44,7 @@ export class LoginComponent  implements OnInit {
         password: new FormControl('' , Validators.required)
     });
 
-    this.translate.get('login.login').subscribe((res: string) => {
+    this.conf.translate('login.login').subscribe((res: string) => {
         this.loginText = res;
     });
 
@@ -57,7 +55,7 @@ export class LoginComponent  implements OnInit {
     this.inProcess = true;
     this.loginError = false;
 
-    this.translate.get('login.message').subscribe((res: string) => {
+    this.conf.translate('login.message').subscribe((res: string) => {
         this.loginText = res;
     });
 
@@ -70,7 +68,7 @@ export class LoginComponent  implements OnInit {
   }
 
   private onLogin(response){
-    this.translate.get('login.login').subscribe((res: string) => {
+    this.conf.translate('login.login').subscribe((res: string) => {
         this.loginText = res;
     });
     if (response.type === 'Failure') {
@@ -78,7 +76,7 @@ export class LoginComponent  implements OnInit {
       mixpanel.track('LoginFailed', { 'error': response.errors[0].message });
       this.loginError = true;
       this.inProcess = false;
-      this.translate.get('errors', {value: response.errors[0].code}).subscribe((res: string) => {
+      this.conf.translate('errors', {value: response.errors[0].code}).subscribe((res: string) => {
         this.errorMessage = res[response.errors[0].code];
      });
       return;

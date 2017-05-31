@@ -1,16 +1,17 @@
+import { ActivatedRoute } from '@angular/router';
+import { Session } from '../shared/models/session';
+import { ApiService } from '../services/api.service';
+import { EditService } from '../services/edit.service';
+import { AppSharedService } from '../app-shared.service';
+import { CurrentUser } from '../shared/models/currentuser';
+import { SessionService } from '../services/session.service';
+import { ConfigurationService } from '../services/configuration.service';
+import { EditsessionComponent } from '../editsession/editsession.component';
 import { CreatesessionComponent } from '../createsession/createsession.component';
 import { DuplicatesessionComponent } from '../duplicatesession/duplicatesession.component';
-import { EditsessionComponent } from '../editsession/editsession.component';
-import { ApiService } from '../services/api.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { EditService } from '../services/edit.service';
 import { Component, ElementRef, OnInit, OnDestroy, AfterViewInit, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
-import { SessionService } from '../services/session.service';
-import { CurrentUser } from '../shared/models/currentuser';
-import { Session } from '../shared/models/session';
-import { AppSharedService } from '../app-shared.service';
-import { ActivatedRoute } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+
+
 
 declare var jQuery: any;
 declare var ga: any;
@@ -34,10 +35,9 @@ export class MysessionsComponent implements OnInit, OnDestroy, AfterViewInit {
     private editService: EditService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private el: ElementRef,
-    private translate: TranslateService,
     private appSharedService: AppSharedService,
     private route: ActivatedRoute) {
-      translate.get('sessions.title').subscribe((res: string) => {
+      this.conf.translate('sessions.title').subscribe((res: string) => {
         this.title = res;
     });
   }

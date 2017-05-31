@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { CognitoIdentityCredentials } from 'aws-sdk';
-import { CurrentUser } from '../shared/models/currentuser';
-import { Session } from '../shared/models/session';
-import {Router} from '@angular/router';
-import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 import  * as  AWS  from 'aws-sdk';
+import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Session } from '../shared/models/session';
+import { CognitoIdentityCredentials } from 'aws-sdk';
+import {TranslateService} from '@ngx-translate/core';
+import { CurrentUser } from '../shared/models/currentuser';
+import { environment } from '../../environments/environment';
 
 declare var ga: any;
 declare var mixpanel: any;
@@ -15,13 +17,17 @@ export class ConfigurationService {
  private user: CurrentUser;
  private uploader: AWS.S3;
 
- constructor(private router: Router) {
+ constructor(private router: Router,  private translator: TranslateService) {
      this.user = null;
      this.uploader = null;
  }
 
   getUser(): CurrentUser {
       return this.loadUser();
+  }
+
+  translate(key: string | Array<string>, interpolateParams?: Object): Observable<string> {
+      return this.translator.get(key, interpolateParams);
   }
 
   getUploader(): AWS.S3 {
@@ -78,5 +84,6 @@ export class ConfigurationService {
   private home(){
     this.router.navigateByUrl('login');
   }
+
 
 }
