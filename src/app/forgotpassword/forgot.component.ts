@@ -36,12 +36,14 @@ export class ForgotComponent  implements OnInit {
          this.router.navigateByUrl(this.returnUrl);
       }
       this.forgotError = false;
-      this.forgotText = 'REQUEST RESET';
       this.inProcess = false;
       this.errorMessage = '';
       this.forgotForm = this.formBuilder.group({
         emailId: new FormControl('', Validators.required)
-    });
+      });
+      this.conf.translate('forgotPassword.reset').subscribe((res: string) => {
+        this.forgotText = res;
+     });
 
   }
 
@@ -49,13 +51,17 @@ export class ForgotComponent  implements OnInit {
     event.preventDefault();
     this.inProcess = true;
     this.forgotError = false;
-    this.forgotText = 'Sending Reset Link... Please wait...'
+    this.conf.translate('forgotPassword.inProcess').subscribe((res: string) => {
+        this.forgotText = res;
+     });
     this.authService.forgotPassword(this.forgotForm.controls['emailId'].value)
       .subscribe(resp => this.onForget(resp), error => console.log(error));
   }
 
   private onForget(response){
-    this.forgotText = 'REQUEST RESET';
+     this.conf.translate('forgotPassword.reset').subscribe((res: string) => {
+        this.forgotText = res;
+     });
     if (response.type === 'Failure') {
       this.forgotError = true;
       mixpanel.track('ResetPasswordFailed', { 'error': response.errors[0].message });

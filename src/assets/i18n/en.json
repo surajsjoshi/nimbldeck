@@ -6,6 +6,8 @@
       "register": "REGISTER",
       "logout": "Logout",
       "privacy": "Privacy Policy",
+      "fail": "Failed to sent Message. Please try again",
+      "success": "Your message is sent successfully",
       "privacyMessage": "By registering, you agree to nimblDeck's Privacy policy and give permission to receive communication from nimblDeck"
   },
 
@@ -13,7 +15,6 @@
       "106": "User not registered",
       "104": "Incorrect password"
   },
-
     "login": {
       "login": "LOG IN",
       "loginHeader": "Login",
@@ -25,6 +26,32 @@
      "signup": "Sign Up",
      "name" : "Full Name",
      "inprocess": "Signing up ..."
+  },
+  "contact":{
+    "us": "Contact Us",
+    "message": "Enter your message",
+    "send": "SEND"
+  },
+  "onboarding":{
+    "create" : "Create",
+    "share" : "Share",
+    "analyse": "Analyse",
+    "finish": "Finish",
+    "title": "Onboarding",
+    "text": "This information will help you to get started with the platform",
+    "where" : "Where to use nimblDeck",
+    "how": "How to share a bite-sized session with your trainees?",
+    "insights": "Real time insights on your audience",
+    "start": "You are READY to get started",
+    "query": "query",
+    "help": "If you need any help, we are just a click away. Send your",
+    "here": "here",
+    "session": "CREATE YOUR FIRST SESSION",
+    "contact": "Or email support@nimbldeck.com"
+  },
+  "forgotPassword":{
+    "reset": "REQUEST RESET",
+    "inProcess": "Sending Reset Link... Please wait..."
   },
   "sessions": {
     "title": "My Sessions",

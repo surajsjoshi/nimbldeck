@@ -3,16 +3,16 @@
     <form action="" method="">
       <div class="wizard-header">
         <h3 class="wizard-title">
-          Onboarding
+          {{'onboarding.title'| translate}}
         </h3>
-        <h5>This information will help you to get started with the platform.</h5>
+        <h5>{{'onboarding.text'| translate}}</h5>
       </div>
       <div class="wizard-navigation"  [ngClass]="{'hidden': !isWidgetInitialized}">
         <ul>
-          <li (click)="activeTab='create'"><a href="#create" data-toggle="tab">Create</a></li>
-          <li (click)="activeTab='share'"><a href="#share" data-toggle="tab">Share</a></li>
-          <li (click)="activeTab='analyse'"><a href="#analyse" data-toggle="tab">Analyse</a></li>
-          <li (click)="activeTab='finish'"><a href="#finish" data-toggle="tab">Finish</a></li>
+          <li (click)="activeTab='create'"><a href="#create" data-toggle="tab">{{'onboarding.create'| translate}}</a></li>
+          <li (click)="activeTab='share'"><a href="#share" data-toggle="tab">{{'onboarding.share'| translate}}</a></li>
+          <li (click)="activeTab='analyse'"><a href="#analyse" data-toggle="tab">{{'onboarding.analyse'| translate}}</a></li>
+          <li (click)="activeTab='finish'"><a href="#finish" data-toggle="tab">{{'onboarding.finish'| translate}}</a></li>
         </ul>
       </div>
 
@@ -22,7 +22,7 @@
         <div class="tab-pane" id="create" *ngIf="activeTab === 'create'">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="info-text">Where to use nimblDeck</h4>
+              <h4 class="info-text">{{'onboarding.where'| translate}}</h4>
             </div>
             <div class="col-sm-8 col-sm-offset-2">
               <app-player [url]="createVideo"></app-player>
@@ -34,7 +34,7 @@
         <div class="tab-pane" id="share" *ngIf="activeTab === 'share'">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="info-text">How to share a bite-sized session with your trainees?</h4>
+              <h4 class="info-text">{{'onboarding.how'| translate}}</h4>
             </div>
             <div class="col-sm-8 col-sm-offset-2">
               <app-player [url]="shareVideo"></app-player>
@@ -46,7 +46,7 @@
         <div class="tab-pane" id="analyse" *ngIf="activeTab === 'analyse'">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="info-text">Real time insights on your audience</h4>
+              <h4 class="info-text">{{'onboarding.insights'| translate}}</h4>
             </div>
             <div class="col-sm-8 col-sm-offset-2">
               <app-player [url]="analyseVideo"></app-player>
@@ -58,16 +58,16 @@
         <div class="tab-pane" id="finish" *ngIf="activeTab === 'finish'">
           <div class="row">
             <div class="col-sm-12">
-              <h4 class="info-text">You are READY to get started</h4>
+              <h4 class="info-text">{{'onboarding.start'| translate}}</h4>
             </div>
             <div class="text-center">
-              <input (click)="onFinish()" type='button' class='btn btn-warning btn-sm' name='next' value='CREATE YOUR FIRST SESSION' />
+              <input (click)="onFinish()" type='button' class='btn btn-warning btn-sm' name='next' value="{{'onboarding.session'| translate}}" />
             </div>
             <br />
             <div class="text-center">
-              If you need any help, we are just a click away. Send your
-              <a class="action" (click)="onAskQuery()">query</a> here
-              <br /> Or email support@nimbldeck.com
+              {{'onboarding.help'| translate}}
+              <a class="action" (click)="onAskQuery()">{{'onboarding.query'| translate}}</a> {{'onboarding.here'| translate}}
+              <br /> {{'onboarding.contact'| translate}}
             </div>
 
           </div>
