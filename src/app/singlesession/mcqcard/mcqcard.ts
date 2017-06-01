@@ -100,11 +100,14 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isSurveyModeEnabled) {
       this.cardForm.controls['right_feed'].setValue(question.correct_description);
       this.cardForm.controls['wrong_feed'].setValue(question.incorrect_description);
-      for (let opt of question.correct_answers) {
-        // Map this in options
-        for (let option of this.options) {
-          if (opt === option.label) {
-            option.checkStatus = 'checked';
+
+      if (question.correct_answers) {
+        for (let opt of question.correct_answers) {
+          // Map this in options
+          for (let option of this.options) {
+            if (opt === option.label) {
+              option.checkStatus = 'checked';
+            }
           }
         }
       }
@@ -218,21 +221,44 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
 
-    let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
-    jQuery(btnSave).attr('disabled', 'disabled');
-    btnSave.innerHTML = 'Saving...';
-    this.cardError = false;
     if (!this.cardForm.valid) {
       return false;
     }
     let optionsCount = this.options.length;
     let option = this.cardForm.controls['mcqoption'].value;
+    let istosRead = this.cardForm.controls['isTosRead'].value;
+
+    // Check that none of the options are empty
+    for (let opt of this.options) {
+      if (!opt.label) {
+        jQuery('#error_check').html('Option cannot be the correct answer').css('color', 'red');
+        return;
+      }
+    }
+
+    // Check that last option row is selected only if it has a label
+    if (istosRead && (!option || option === '')) {
+      jQuery('#error_check').html('Option cannot be empty').css('color', 'red');
+      return;
+    }
+
+    // All good, save it
+    let btnSave = this.el.nativeElement.getElementsByClassName('btn-submit')[0];
+    jQuery(btnSave).attr('disabled', 'disabled');
+    btnSave.innerHTML = 'Saving...';
+    this.cardError = false;
+
+    // Push the last option row in options as well
+    // and make it blank for next
     if ((optionsCount < 4) && option) {
       let choices = {};
       choices['label'] = option;
       choices['name'] = 'choices';
+      debugger
+      choices['checkStatus'] = istosRead ? 'checked' : '';
       this.options.push(choices);
-      // this.cardForm.controls['mcqoption'].setValue(null);
+      this.cardForm.controls['mcqoption'].setValue(null);
+      this.cardForm.controls['isTosRead'].setValue(null);
     }
 
     let params;
@@ -341,7 +367,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let option = this.cardForm.controls['mcqoption'].value;
 
       let check = jQuery('#isTosRead').is(":checked");
-      debugger
 
       let choices = {};
       if (option) {
