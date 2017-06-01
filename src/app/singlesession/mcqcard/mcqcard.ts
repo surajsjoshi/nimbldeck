@@ -268,23 +268,29 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let params;
-    if (this.cardForm.controls['youtube_url'].value !== '' || this.cardForm.controls['video_code'].value !== '' || this.cardForm.controls['video_url'].value !== '') {
+    if (typeof this.cardForm.controls['video_code'].value != 'undefined' && this.cardForm.controls['video_code'].value) {
       params = {
         type: 'multiple_choice',
         description: this.cardForm.controls['text_question'].value,
         required: false,
-        resource_url: this.cardForm.controls['youtube_url'].value,
+        resource_url: this.cardForm.controls['video_url'].value,
         resource_type: 'video',
         resource_code: this.cardForm.controls['video_code'].value
       };
 
-    } else {
+    } else if(typeof this.cardForm.controls['image_url'].value != 'undefined' && this.cardForm.controls['image_url'].value){
       params = {
         type: 'multiple_choice',
         description: this.cardForm.controls['text_question'].value,
         required: false,
         resource_url: this.cardForm.controls['image_url'].value,
         resource_type: 'image'
+      };
+    } else {
+      params = {
+        type: 'multiple_choice',
+        description: this.cardForm.controls['text_question'].value,
+        required: false
       };
     }
 
