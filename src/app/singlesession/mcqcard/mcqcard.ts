@@ -237,7 +237,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // Check that none of the options are empty
     for (let opt of this.options) {
       if (!opt.label) {
-        jQuery('#error_check').html('Option cannot be empty').css('color', 'red');
+        jQuery('#error_check').html('Option cannot be the correct answer').css('color', 'red');
         return;
       }
     }
