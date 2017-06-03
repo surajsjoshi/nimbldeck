@@ -263,7 +263,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       let choices = {};
       choices['label'] = option;
       choices['name'] = 'choices';
-      debugger
       choices['checkStatus'] = istosRead ? 'checked' : '';
       this.options.push(choices);
       this.cardForm.controls['mcqoption'].setValue(null);

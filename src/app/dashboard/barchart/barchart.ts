@@ -93,6 +93,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.barChartData = [];
     this.barChartLabels = [];
     let barData = new Array();
+    
     this.answer.analytics.forEach(data => {
           barData.push(data.total);
           let splittedlabel = data.label;
@@ -102,18 +103,26 @@ export class BarChartComponent implements OnInit, OnDestroy {
           } else {
              this.barChartLabels.push(data.label);
           }
-
-          if (this.answer.question_scope === 'survey')  {
-              this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
-          } else {
-            let wrong_answer = '#FF2101';
-            let right_answer = '#97CF58';
-            this.barChartColor = [{ backgroundColor: [wrong_answer,
-               wrong_answer, right_answer, wrong_answer],
-                borderColor: '#97BBCD', borderWidth: 0} ];
-          }
       });
-      this.barChartData.push(barData);
+    if (this.answer.question_scope === 'survey')  {
+        this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+    } else {
+        let wrong_answer = '#FF2101';
+        let right_answer = '#97CF58';
+        let colors = [];
+        for(let label of this.barChartLabels) {
+            if(this.answer.correct_answers && this.answer.correct_answers.includes(label)){
+              console.log(label + ' : ' + right_answer);
+              colors.push(right_answer);
+            } else {
+              console.log(label + ' : ' + wrong_answer);
+              colors.push(wrong_answer);
+            }
+        }
+        this.barChartColor = [{ backgroundColor: colors,
+                borderColor: '#97BBCD', borderWidth: 0} ];
+    }
+    this.barChartData.push(barData);
   }
 
   ngOnDestroy() {
