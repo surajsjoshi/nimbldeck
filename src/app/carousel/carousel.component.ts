@@ -161,9 +161,26 @@ private mapQueries(response) {
      }
    }
 
-   get_analitical_percent( analitic, event) {
+   get_label_tag(label: string, index: number, answer: any){
+      if(answer.question_scope === 'test'){
+          if(answer.correct_answers){
+              let correct_answers = answer.correct_answers.map(ans => ans.toLowerCase());
+              if(correct_answers.includes(label.toLowerCase())) {
+                  return 'correct';
+              } else {
+                return 'incorrect';
+              }
+          } else {
+            return (index + 1);           
+          }
+      } else {
+        return (index + 1);
+      }
+   }
+
+   get_analitical_percent( analitic, ans) {
     let analitical_total = analitic.total;
-    let answer_by = Array.from(event['analytics'])
+    let answer_by = Array.from(ans['analytics'])
                           .map(record => record['total'])
                           .reduce(function(sum, current) {
       return Number(sum) + Number(current); }, 0);

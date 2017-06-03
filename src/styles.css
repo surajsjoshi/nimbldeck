@@ -416,7 +416,22 @@ End of Wizard CSS
     width: 12px;
 }
 
-
+.color_comb-test-correct {
+    background: #97CF58  none repeat scroll 0 0;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    
+    width: 12px;
+}
+.color_comb-test-incorrect {
+    background: #FF2101;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
 
 .color_comb-test-1 {
     background: #97CF58  none repeat scroll 0 0;
@@ -447,7 +462,6 @@ End of Wizard CSS
    border-radius: 2px;
     height: 12px;
     margin: 6px;
-   
     width: 12px;
 }
 .color_comb-test-5 {
