@@ -57,7 +57,7 @@
                         <div class="question_label" *ngIf="answer.question_type !='' ">
                             <ul>
                                 <div *ngFor="let analytics_list of answer.analytics ; let i = index">
-                                    <span class="color_comb{{i+1}} first fl"></span>
+                                    <span class="color_comb-{{answer.question_scope}}-{{i+1}} first fl"></span>
                                     <li class="">{{analytics_list.label}}
                                         <span class="choice_percent">[{{get_analitical_percent(analytics_list, answer)}}%]</span>
                                     </li>
