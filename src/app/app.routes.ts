@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'app/sessions/:id',component: SinglesessionComponent
-  },
+  }/*,
   {
       path: 'login', component: LoginComponent
   },
@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
       path: '', redirectTo: 'login', pathMatch: 'full'
-  }
+  }*/
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

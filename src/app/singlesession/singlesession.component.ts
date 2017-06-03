@@ -201,12 +201,12 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   }
 
   private updateCards(response: any) {
-    if (response.type === 'Failure') {
+   /* if (response.type === 'Failure') {
       this.toastr.success(' Card movement failed. Try again');
     } else {
       this.cardService.updateCardAfterEdit(new Card(response.question));
       this.toastr.success(' Card moved successfully');
-    }
+    }*/
   }
 
 

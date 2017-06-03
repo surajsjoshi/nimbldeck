@@ -12356,14 +12356,22 @@ pagination-controls {
 
 
 /*---- graph layout -------*/
-
-.charts .chart-check ul li span.grey-circle {
+.charts .chart-check ul li span.test-yes  {
     background: #97CF58 none repeat scroll 0 0;
 }
 
-.charts .chart-check ul li span.blue-circle {
+.charts .chart-check ul li span.test-no {
     background: #FF2101 none repeat scroll 0 0;
 }
+
+.charts .chart-check ul li span.survey-yes {
+    background: #276AAD none repeat scroll 0 0;
+}
+
+.charts .chart-check ul li span.survey-no {
+    background: #E9722B none repeat scroll 0 0;
+}
+
 
 .charts .chart-check ul li span {
     border-radius: 100%;
