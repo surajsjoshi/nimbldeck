@@ -36,6 +36,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
   saveCardErrorText: string;
   sessionId: string;
   session: Session;
+  choiceError: string;
   private subscription: Subscription;
 
 
@@ -56,7 +57,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.saveCardErrorText = '';
     this.optionFileUploaded = false;
     this.optionUploadError = '';
-
+    this.choiceError = '';
     this.updateQuestion = this.editService.getCurrent();
     ga('set', 'userId', this.conf.getUser().userId);
     if (editService.isEditing()) {
@@ -218,9 +219,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
 
-
-      if (flag === false) {
-        jQuery('#error_check').html('Please select atleast one correct answer').css('color', 'red');
+      if (!flag) {
+        this.choiceError = 'Please select atleast one correct answer';
+        //jQuery('#error_check').html('Please select atleast one correct answer').css('color', 'red');
         //alert('atleast one checkbox should be checked'); 
         return;
       }
@@ -237,14 +238,16 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     // Check that none of the options are empty
     for (let opt of this.options) {
       if (!opt.label) {
-        jQuery('#error_check').html('Option cannot be the correct answer').css('color', 'red');
+        this.choiceError = 'Option cannot be the correct answer';
+       // jQuery('#error_check').html('Option cannot be the correct answer').css('color', 'red');
         return;
       }
     }
 
     // Check that last option row is selected only if it has a label
     if (istosRead && (!option || option === '')) {
-      jQuery('#error_check').html('Option cannot be empty').css('color', 'red');
+      this.choiceError = 'Option cannot be empty';
+     // jQuery('#error_check').html('Option cannot be empty').css('color', 'red');
       return;
     }
 
@@ -409,6 +412,7 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       opt.checkStatus = '';
     } else {
       opt.checkStatus = 'checked';
+      this.choiceError = '';
     }
   }
 

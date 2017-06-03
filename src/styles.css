@@ -325,3 +325,7 @@ End of Wizard CSS
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+
+.error_check {
+  color: red
+}
