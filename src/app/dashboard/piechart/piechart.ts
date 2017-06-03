@@ -18,6 +18,8 @@ export class PieChartComponent implements OnInit, OnDestroy {
    public pieChartData = [];
    pieChartLabels = [];
    pieChartType = 'pie';
+   correct = 'Yes';
+   incorrect = 'No';
    pieChartColor: any[] =  [{ backgroundColor: ['#E9722B', '#276AAD'] }];
 
    subscription: Subscription;
@@ -89,18 +91,31 @@ export class PieChartComponent implements OnInit, OnDestroy {
       this.answer.analytics.forEach(data => {
            this.pieChartData.push(data.total);
            this.pieChartLabels.push(data.label);
-           let a = 1;
-           if (this.answer.question_scope === 'survey') {
-              this.pieChartColor = [{ backgroundColor: ['#E9722B', '#276AAD'] }];
-           } else {
-               let wrong_answer = '#FF2101';
-               let right_answer = '#97CF58';
-            this.pieChartColor = [{ backgroundColor: [right_answer, wrong_answer] }];
-        }
-
-
-
       });
+
+      if (this.answer.question_scope === 'survey') {
+          this.pieChartColor = [{ backgroundColor: ['#E9722B', '#276AAD'] }];
+        } else {
+            let wrong_answer = '#FF2101';
+            let right_answer = '#97CF58';
+            let colors = [];
+            for(let label of this.pieChartLabels) {
+              if(this.answer.correct_answers && this.answer.correct_answers.includes(label.toLowerCase())){
+                colors.push(right_answer);
+                if(label === 'Yes' || label  === 'yes'){
+                  this.incorrect = 'No';
+                  this.correct = 'Yes';
+                } else {
+                  this.incorrect = 'Yes';
+                  this.correct = 'No';
+                }
+              } else {
+                colors.push(wrong_answer);
+            }
+        }
+        this.pieChartColor = [{ backgroundColor: colors }];
+      }
+
   }
 
     ngOnDestroy() {

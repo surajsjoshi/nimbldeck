@@ -112,10 +112,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
         let colors = [];
         for(let label of this.barChartLabels) {
             if(this.answer.correct_answers && this.answer.correct_answers.includes(label)){
-              console.log(label + ' : ' + right_answer);
               colors.push(right_answer);
             } else {
-              console.log(label + ' : ' + wrong_answer);
               colors.push(wrong_answer);
             }
         }
