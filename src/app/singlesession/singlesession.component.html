@@ -11,7 +11,7 @@
                 <h4 class="truncate">
                     {{ session.title }} <small *ngIf="session.organization">[{{session.organization}}]</small>
                 </h4>
-                <a *ngIf="!session.isSample" data-tooltip="Add new card" (click)="openModal($event)" href="#choose-card-modal" class="btn-floating btn-large waves-effect waves-light right floating-add-card-btn choose-card-type" ga-on="click" ga-event-category="Card"
+                <a *ngIf="!session.isSample && cardService.cards.length < 50" data-tooltip="Add new card" (click)="openModal($event)" href="#choose-card-modal" class="btn-floating btn-large waves-effect waves-light right floating-add-card-btn choose-card-type" ga-on="click" ga-event-category="Card"
                     ga-event-action="add card">
                     <i class="material-icons">add</i>
                 </a>
