@@ -105,7 +105,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
           }
       });
     if (this.answer.question_scope === 'survey')  {
-        this.barChartColor = [{ backgroundColor: ['#E9722B', '#276AAD', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
+        this.barChartColor = [{ backgroundColor: ['#276AAD', '#E9722B', '#46782C', '#612B96'], borderColor: '#97BBCD', borderWidth: 0} ];
     } else {
         let wrong_answer = '#FF2101';
         let right_answer = '#97CF58';

@@ -188,6 +188,7 @@ private mapQueries(response) {
     if (answer_by !== 0 ) {
       let cal = 100 * analitical_total / answer_by;
       let limit = cal.toFixed(2);
+      console.log(cal + ' : ' + analitic['label']+ ' : ' + ans.description);
       return limit;
     } else {
       return '0';

@@ -393,7 +393,7 @@ End of Wizard CSS
     width: 12px;
 }
 .color_comb-survey-3 {
-    background: rgb(70,120,44);
+    background: #46782C;
    border-radius: 2px;
     height: 12px;
     margin: 6px;
@@ -401,11 +401,10 @@ End of Wizard CSS
     width: 12px;
 }
 .color_comb-survey-4 {
-    background: rgb(97,43,150);
+    background: #612B96;
    border-radius: 2px;
     height: 12px;
     margin: 6px;
-   
     width: 12px;
 }
 .color_comb-survey-5 {

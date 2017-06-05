@@ -94,7 +94,7 @@ export class PieChartComponent implements OnInit, OnDestroy {
       });
 
       if (this.answer.question_scope === 'survey') {
-          this.pieChartColor = [{ backgroundColor: ['#E9722B', '#276AAD'] }];
+          this.pieChartColor = [{ backgroundColor: [ '#276AAD', '#E9722B'] }];
         } else {
             let wrong_answer = '#FF2101';
             let right_answer = '#97CF58';
