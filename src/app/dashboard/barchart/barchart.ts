@@ -93,9 +93,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.barChartData = [];
     this.barChartLabels = [];
     let barData = new Array();
-    
+    let fullLabels = [];
     this.answer.analytics.forEach(data => {
           barData.push(data.total);
+          fullLabels.push(data.label);
           let splittedlabel = data.label;
           if (data.label.length > 7) {
              splittedlabel = data.label.substring(0, 7 ) + '...';
@@ -110,8 +111,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
         let wrong_answer = '#FF2101';
         let right_answer = '#97CF58';
         let colors = [];
-        for(let label of this.barChartLabels) {
-            if(this.answer.correct_answers && this.answer.correct_answers.includes(label)){
+        for(let label of fullLabels) {
+            let color = null;
+            if(this.answer.correct_answers && this.answer.correct_answers.map(ans => ans.trim()).includes(label.trim())){
               colors.push(right_answer);
             } else {
               colors.push(wrong_answer);
