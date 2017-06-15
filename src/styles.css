@@ -325,3 +325,148 @@ End of Wizard CSS
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+
+.error_check {
+  color: red
+}
+
+/*---- graph layout -------*/
+.charts .chart-check ul li span.test-yes  {
+    background: #97CF58 none repeat scroll 0 0;
+}
+
+.charts .chart-check ul li span.test-no {
+    background: #FF2101 none repeat scroll 0 0;
+}
+
+.charts .chart-check ul li span.survey-yes {
+    background: #276AAD none repeat scroll 0 0;
+}
+
+.charts .chart-check ul li span.survey-no {
+    background: #E9722B none repeat scroll 0 0;
+}
+
+
+.charts .chart-check ul li span {
+    border-radius: 100%;
+    display: inline-block;
+    height: 10px;
+    margin: 1px 5px 1px 0;
+    vertical-align: top;
+    width: 10px;
+}
+
+#basechart {
+    padding: 54px 0 0 !important;
+    position: relative;
+}
+
+#basechart .chart-check {
+    position: absolute;
+    right: 0;
+    text-align: left;
+    top: 20px;
+}
+
+#basechart .chart-check ul li {
+    float: left;
+    font-size: 10px;
+    padding-bottom: 2px;
+    width: 100%;
+}
+
+.color_comb-survey-1 {
+    background: #276AAD none repeat scroll 0 0;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    
+    width: 12px;
+}
+.color_comb-survey-2 {
+    background: #E9722B;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
+.color_comb-survey-3 {
+    background: #46782C;
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
+.color_comb-survey-4 {
+    background: #612B96;
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    width: 12px;
+}
+.color_comb-survey-5 {
+    background: rgb(56,64,75);
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    width: 12px;
+}
+
+.color_comb-test-correct {
+    background: #97CF58  none repeat scroll 0 0;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    
+    width: 12px;
+}
+.color_comb-test-incorrect {
+    background: #FF2101;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
+
+.color_comb-test-1 {
+    background: #97CF58  none repeat scroll 0 0;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    
+    width: 12px;
+}
+.color_comb-test-2 {
+    background: #FF2101;
+    border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
+.color_comb-test-3 {
+   background: #97CF58;
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+   
+    width: 12px;
+}
+.color_comb-test-4 {
+   background: rgb(230, 31, 0);
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    width: 12px;
+}
+.color_comb-test-5 {
+   background: rgb(56, 64, 75);
+   border-radius: 2px;
+    height: 12px;
+    margin: 6px;
+    width: 12px;
+}

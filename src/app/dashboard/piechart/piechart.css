@@ -1,23 +1,43 @@
-.basechart {
-	position: relative;
-	padding: 54px 0 0; . chart-check { position : absolute;
-	right: 0;
-	top: 20px;
-	text-align: left; ul { li{ font-size : 10px;
-	width: 100%;
-	float: left;
-	padding-bottom: 2px; span { width : 10px;
-	height: 10px;
-	display: inline-block;
-	border-radius: 100%;
-	vertical-align: top;
-	margin: 1px 5px 1px 0;&.blue-circle{
-		background:#DCDCDC;
-}& .grey-circle {
-	background: #97BBCD;
+.charts .chart-check ul li span.test-yes  {
+    background: #97CF58 none repeat scroll 0 0;
 }
+
+.charts .chart-check ul li span.test-circle {
+    background: #FF2101 none repeat scroll 0 0;
 }
+
+.charts .chart-check ul li span.survey-yes {
+    background: #276AAD none repeat scroll 0 0;
 }
+
+.charts .chart-check ul li span.survey-no {
+    background: #E9722B none repeat scroll 0 0;
 }
+
+.charts .chart-check ul li span {
+    border-radius: 100%;
+    display: inline-block;
+    height: 10px;
+    margin: 1px 5px 1px 0;
+    vertical-align: top;
+    width: 10px;
 }
+
+#basechart {
+    padding: 54px 0 0 !important;
+    position: relative;
+}
+
+#basechart .chart-check {
+    position: absolute;
+    right: 0;
+    text-align: left;
+    top: 20px;
+}
+
+#basechart .chart-check ul li {
+    float: left;
+    font-size: 10px;
+    padding-bottom: 2px;
+    width: 100%;
 }

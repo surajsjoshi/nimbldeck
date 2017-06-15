@@ -1,4 +1,6 @@
 
+
+
 <style>
 .chart {
 	display: block;
@@ -13,8 +15,8 @@
 
 	<div class="chart-check">
 		<ul>
-			<li><span class="grey-circle"></span> Yes</li>
-			<li><span class="blue-circle"></span> No</li>
+			<li><span class="{{answer.question_scope}}-yes"></span>{{correct}}</li>
+			<li><span class="{{answer.question_scope}}-no"></span>{{incorrect}}</li>
 		</ul>
 	</div>
 </div>
