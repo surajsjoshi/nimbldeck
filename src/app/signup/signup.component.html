@@ -1,7 +1,7 @@
 <div class="login-page">
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
-			<img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" />
+		<a href="/"><img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" /></a>
 			<h4 i18n>{{'signup.signup'| translate}}</h4>
 			<div class="signupError" *ngIf="signupError">{{errorMessage}}</div>
 			<form role="form" [formGroup]="signUpForm" (submit)="signup($event)">
