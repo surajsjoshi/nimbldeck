@@ -122,9 +122,10 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapSession(response) {
     this.session = response;
-    if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
-      alert('session not found');
-      this.router.navigateByUrl('/app');
+    if(false) {
+    //if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
+     // alert('The session you are trying is access is invalid');
+     // this.router.navigateByUrl('/app');
     } else {
       this.queryService.getQueries(this.sessionId)
         .subscribe(response => this.mapQueries(response),

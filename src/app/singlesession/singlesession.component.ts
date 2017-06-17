@@ -117,7 +117,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   private mapSession(response) {
     this.session = response;
     if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
-      alert('session not found');
+      alert('The session you are trying is access is invalid');
       this.router.navigateByUrl('/app');
     }
   }
