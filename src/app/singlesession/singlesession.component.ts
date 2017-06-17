@@ -14,7 +14,7 @@ import { RatingCardComponent } from './ratingcard/ratingcard';
 import { ShortAnswerCardComponent } from './shortanswercard/shortanswercard';
 import { TextcardComponent } from './textcard/textcard.component';
 import { YesNoCardComponent } from './yesnocard/yesnocard';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
@@ -47,6 +47,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     public editService: EditService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastsManager,
     private viewContainerRef: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -115,6 +116,10 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
 
   private mapSession(response) {
     this.session = response;
+    if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
+      alert('session not found');
+      this.router.navigateByUrl('/app');
+    }
   }
 
   private mapCards(response) {

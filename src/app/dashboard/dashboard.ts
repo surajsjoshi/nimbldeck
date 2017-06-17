@@ -51,6 +51,8 @@ export class DashboardComponent implements OnInit , OnDestroy {
    private editService: EditService,
    private analyticsUpdateService: AnalyticsService,
    private route: ActivatedRoute,
+   private router: Router,
+
    private componentFactoryResolver: ComponentFactoryResolver,
    private viewContainerRef: ViewContainerRef) {
     this.analysisFetched = false;
@@ -81,16 +83,6 @@ export class DashboardComponent implements OnInit , OnDestroy {
         .subscribe(sess => this.mapSession(sess),
             (error => console.log(error)),
         () => this.sessionFetched = true);
-
-        this.queryService.getQueries(this.sessionId)
-        .subscribe(response => this.mapQueries(response),
-          (error => console.log(error)),
-          () => this.queriesFetched = true);
-
-        this.analyticsService.getSessionAnalysis(this.sessionId)
-        .subscribe(response => this.mapAnalysis(response),
-          (error => console.log(error)),
-        () => this.analysisFetched = true);
   }
 
   private mapQueries(response) {
@@ -130,6 +122,20 @@ export class DashboardComponent implements OnInit , OnDestroy {
 
   private mapSession(response) {
     this.session = response;
+    if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
+      alert('session not found');
+      this.router.navigateByUrl('/app');
+    } else {
+      this.queryService.getQueries(this.sessionId)
+        .subscribe(response => this.mapQueries(response),
+          (error => console.log(error)),
+          () => this.queriesFetched = true);
+
+        this.analyticsService.getSessionAnalysis(this.sessionId)
+        .subscribe(response => this.mapAnalysis(response),
+          (error => console.log(error)),
+        () => this.analysisFetched = true);
+    }
   }
 
   ngOnDestroy() {
