@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from "./api.service";
 import { Cookie } from 'ng2-cookies/ng2-cookies';
 import { Session } from '../shared/models/session';
+import {TranslateService} from '@ngx-translate/core';
 import { CognitoIdentityCredentials } from 'aws-sdk';
 import { CurrentUser } from '../shared/models/currentuser';
 import { environment } from '../../environments/environment';
@@ -28,9 +29,8 @@ export class ConfigurationService {
       return this.user;
   }
 
-    getVideoUploadPolicy(name: string): Observable<Response> {
-      return this.api.get('/videos/keys?tag='+name);
-
+  getVideoUploadPolicy(name: string): Observable<Response> {
+    return this.api.get('/videos/keys?tag='+name);
   }
 
   uploadVideo(url, postData) : Observable<Response> {
