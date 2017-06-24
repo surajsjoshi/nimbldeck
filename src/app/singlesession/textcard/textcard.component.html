@@ -35,9 +35,12 @@
                             <div class="col s12 m2 or_text fl" *ngIf="filestaus==''">OR</div>
                             <div class="col s12 m5 fr video-upload" *ngIf="filestaus=='video' || filestaus==''" [ngClass]="{ 'fullWidth': filestaus == 'video'}">
                                 <div *ngIf="!fileUploaded" class="video-uploader">
-                                    <input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()"  >
+                                    <!--<input type="text" name="video_upload" class="video-upload" formControlName="youtube_url" (change)="uploadVideo()"  > --> 
 
+                                   <input type="file" accept=".mp4,.flv,.mkv,.ismv,.webm,.3gp,.asf,.wmv,.avi,.m4v,.mov,.mpeg,.mpg,.mpe,.ogg,.ogv"  class="upload_video"  (change)="uploadVideo($event)"  >
                                     <span class="upload-video-lbl">Embed youtube url</span>
+
+
                                 </div>
                                 <input id="video-url" type="hidden" formControlName="video_url" />
                                 <input id="video-code" type="hidden" formControlName="video_code" />

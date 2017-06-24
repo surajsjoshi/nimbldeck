@@ -34,9 +34,12 @@ export class ConfigurationService {
   }
 
   uploadVideo(url, postData) : Observable<Response> {
-    return this.api.postExternal(url, postData);
+    return this.api.vdocipherUpload(url, postData);
   }
 
+  deleteVideo(videoId): Observable<Response> {
+    return this.api.vdocipherDelete(videoId);
+  }
 
   login(user): any {
    ga('set', 'userId', user.userId); // Set the user ID using signed-in user_id.

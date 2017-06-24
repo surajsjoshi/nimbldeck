@@ -3,10 +3,12 @@ import { ConfigurationService } from '../../services/configuration.service';
 import { EditService } from '../../services/edit.service';
 import { SessionService } from '../../services/session.service';
 import { Card } from '../../shared/models/card';
+
 import { Component, OnInit, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+
 
 declare var AWS: any;
 declare var Materialize: any;
@@ -32,6 +34,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
   updateQuestion: Card;
   saveCardErrorText: string;
   sessionId: string;
+  private fileReader: FileReader;
   private subscription: Subscription;
 
   constructor(public editService: EditService,
@@ -41,7 +44,7 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     private el: ElementRef,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
-
+      this.fileReader = new FileReader();
       this.uploadError = '';
       this.fileUploaded = false;
       this.filestaus='';
@@ -219,23 +222,49 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  videoAPICall(video, file){
+    window.URL.revokeObjectURL(video.src)
+    if(video.duration < 300) {
+    this.conf.getVideoUploadPolicy(file.name).map(rawResponse => rawResponse.json()).subscribe(params => {
+        this.imgUploadingInProcess = true;
+        let data = new FormData();
+        data.append('key' , params['key']);
+        data.append('x-amz-credential' , params['x-amz-credential']);
+        data.append('x-amz-algorithm' , params['x-amz-algorithm']);
+        data.append('x-amz-date' , params['x-amz-date']);
+        data.append('x-amz-signature' , params['x-amz-signature']);
+        data.append('policy' , params['policy']);
+        data.append('success_action_status' , '201');
+        data.append('file' , file);
+        
+        let parameters = params;
+        this.conf.uploadVideo(params['upload_link_secure'],data).subscribe(par => {
+          console.log(par);
+          this.imgUploadingInProcess = false;
+        });
+    }, error => console.log(error), () => this.imgUploadingInProcess = false);
+    } else {
+      this.saveCardErrorText = 'Video too long. It should be less than 5 minutes long ';
+    }
+  }
 
-    uploadVideo() {
 
-    let files = jQuery('input.video-upload').val();
-    let resource_code = files.replace('https://www.youtube.com/watch?v=', '');
-    let video_thumbnail_url = 'https://img.youtube.com/vi/' + resource_code + '/0.jpg';
-    this.fileUploaded = true;
-    this.filestaus='';
-    this.imgUploadingInProcess = false;
-    this.textCardForm.controls['video_url'].setValue(video_thumbnail_url);
+  uploadVideo(event) {
+      let uploadedFile: File  = event.dataTransfer ? event.dataTransfer.files[0] : event.target.files[0];
+      let video = document.createElement('video');
+      video.src = URL.createObjectURL(uploadedFile);
+      video.preload = 'metadata';
+      let self = this;
+      video.onloadedmetadata = function() {
+      self.videoAPICall(video, uploadedFile);
+      }
+      video.src = URL.createObjectURL(uploadedFile);
 
-    if(this.textCardForm.controls['video_url'].value!=''){
-      jQuery('.img-upload, .or_text').css('display','none');
-      jQuery('.video-upload').addClass('fullWidth');
-    } 
+}
 
-    this.textCardForm.controls['video_code'].setValue(resource_code);
+onVideoUploadError( videoId, error){
+    console.log('error' +error);
+    this.conf.deleteVideo(videoId).subscribe(response => console.log(response));
 }
 
   removeImage() {
