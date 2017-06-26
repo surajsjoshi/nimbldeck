@@ -235,17 +235,33 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
         data.append('x-amz-signature' , params['x-amz-signature']);
         data.append('policy' , params['policy']);
         data.append('success_action_status' , '201');
+        data.append('success_action_redirect' , "");
         data.append('file' , file);
         
         let parameters = params;
         this.conf.uploadVideo(params['upload_link_secure'],data).subscribe(par => {
-          console.log(par);
-          this.imgUploadingInProcess = false;
+          this.onVideoUploadSuccess(params['video_id']);
         });
     }, error => console.log(error), () => this.imgUploadingInProcess = false);
     } else {
       this.saveCardErrorText = 'Video too long. It should be less than 5 minutes long ';
     }
+  }
+
+  onVideoUploadSuccess(videoId: string){
+
+   /* this.conf.getVideo(videoId).map(rawResponse => rawResponse.json()).subscribe( params => {
+       this.textCardForm.controls['video_url'].setValue(params['posters'][0]['posterUrl']);
+       if(this.textCardForm.controls['video_url'].value!=''){
+         jQuery('.img-upload, .or_text').css('display','none');
+         jQuery('.video-upload').addClass('fullWidth');
+      } 
+    },
+    error => console.log(error), () => this.imgUploadingInProcess = false);*/
+    
+    
+    
+
   }
 
 

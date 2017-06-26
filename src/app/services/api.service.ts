@@ -40,11 +40,18 @@ export class ApiService {
     //headers.append("Content-Type", "multipart/form-data");
     return this.http.post(url, data, { headers: headers });
   }
+  getvdocipherVideo(videoId): Observable<Response> {
+    let headers = new Headers();
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    let data = new FormData();
+    data.append('clientSecretKey' , 'f7f5d67a51d63fa70d1c48ef617355cfd9ed2d1a6d6eb5860e2f94d7d2fbede0');
+    return this.http.post("http://api.vdocipher.com/v2/video?id="+videoId, data, { headers: headers });
+  }
 
     vdocipherDelete(videoId): Observable<Response> {
-    //let headers = new Headers();
-    //headers.append("enctype", "multipart/form-data");
-    return this.http.delete("https://www.vdocipher.com/dashboard/video/clientSecretKey=f7f5d67a51d63fa70d1c48ef617355cfd9ed2d1a6d6eb5860e2f94d7d2fbede0&delete?id="+videoId);
+    let headers = new Headers();
+    headers.append("Authorization", "Apisecret f7f5d67a51d63fa70d1c48ef617355cfd9ed2d1a6d6eb5860e2f94d7d2fbede0");
+    return this.http.delete("https://www.vdocipher.com/dashboard/video/delete?id="+videoId, { headers: headers });
   }
 
    private addAuthenticationHeader(){

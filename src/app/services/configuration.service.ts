@@ -41,6 +41,10 @@ export class ConfigurationService {
     return this.api.vdocipherDelete(videoId);
   }
 
+  getVideo(videoId): Observable<Response> {
+    return this.api.getvdocipherVideo(videoId);
+  }
+
   login(user): any {
    ga('set', 'userId', user.userId); // Set the user ID using signed-in user_id.
    mixpanel.identify(user.userId);
