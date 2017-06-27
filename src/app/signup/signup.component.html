@@ -25,12 +25,12 @@
 				</div>
 				<button type="submit" [disabled]="!signUpForm.valid || inProcess"
 								class="waves-effect waves-light btn">{{signupText}}</button>
-								&nbsp; <a type="submit"
+								&nbsp; &nbsp;&nbsp;<a type="submit"
 					class="btn rounded-btn" routerLink="/login">{{'login.login' | translate}}</a>
 			</form>
- <div class="footer-subtext">
+ <div class="footer-subtext">&nbsp;
                         <h5>{{ 'general.privacyMessage' | translate}}
-                        </h5>
+                        </h5>&nbsp;&nbsp;
                        <a href="/privacy.html">{{'general.privacy'| translate}}</a>
                     </div>
 		</div>
