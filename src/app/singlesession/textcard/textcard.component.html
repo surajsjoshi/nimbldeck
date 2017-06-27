@@ -10,7 +10,7 @@
 					<form [formGroup]="textCardForm" (submit)="submitTextCard($event)">
 						<div class="row">
 							<textarea id="yes-no-question" class="materialize-textarea"
-								formControlName="text_question" placeholder="Type Text here"></textarea>
+								formControlName="text_question" maxlength="500" placeholder="Type Text here (max 500 characters)"></textarea>
 							<div
 								[hidden]="textCardForm.get('text_question').valid || textCardForm.get('text_question').pristine"
 								class="alert alert-danger">Text is Required</div>

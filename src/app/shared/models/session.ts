@@ -12,6 +12,7 @@ export class Session {
   title: string;
   share_token: string;
   isSample: boolean;
+  user_id: string;
 
 
 
