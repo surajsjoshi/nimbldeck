@@ -47,7 +47,10 @@
     "help": "If you need any help, we are just a click away. Send your",
     "here": "here",
     "session": "CREATE YOUR FIRST SESSION",
-    "contact": "Or email support@nimbldeck.com"
+    "contact": "Or email support@nimbldeck.com",
+    "welcome": "Welcome Aboard",
+    "message": "We are excited to have you on board. Let us learn how to use nimblDeck in next few minutes.",
+    "getstarted": "Let's get started"
   },
   "forgotPassword":{
     "reset": "REQUEST RESET",
@@ -66,6 +69,10 @@
     "delete": "Delete Session",
     "completed": "Completed",
     "start": "Start session",
-    "pause": "Pause Session"
+    "pause": "Pause Session",
+    "invalid":"The session you are trying is access is invalid"
+  },
+  "cards":{
+    "delete":"Are you sure, you want to delete this question?"
   }
 }

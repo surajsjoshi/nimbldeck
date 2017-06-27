@@ -52,8 +52,7 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private componentFactoryResolver: ComponentFactoryResolver,
     private el: ElementRef,
-    private dragulaService: DragulaService
-  ) {
+    private dragulaService: DragulaService) {
 
     this.nextPageToken = '';
     this.cardsFetched = false;
@@ -117,8 +116,8 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
   private mapSession(response) {
     this.session = response;
     if(!this.session.session_id || this.session.user_id !== this.conf.getUser().userId){
-      alert('The session you are trying is access is invalid');
-      this.router.navigateByUrl('/app');
+      this.conf.translate('sessions.invalid').subscribe(res => alert(res));
+      this.router.navigateByUrl('/home');
     }
   }
 
@@ -237,13 +236,16 @@ export class SinglesessionComponent implements OnInit, OnDestroy {
       question_id: questionId,
       session_id: this.sessionId
     };
-    if (confirm('Are you sure, you want to delete this question?')) {
+    this.conf.translate('cards.delete').subscribe(res => {
+      if (confirm(res)) {
       let observable = this.cardService.deleteQuestion(params);
       observable.subscribe(
         (resp => this.questionDeleted(resp, questionId)),
         (error => this.questionDeleteError = true)
       );
     }
+    });
+   
   }
 
   questionDeleted(resp, questionId) {

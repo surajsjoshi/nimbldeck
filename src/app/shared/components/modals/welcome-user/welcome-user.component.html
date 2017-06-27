@@ -8,16 +8,16 @@
       <div *ngIf="!isGetStartedActive">
         <div class="modal-header">
           <h5 class="modal-title">
-            Welcome Aboard
+            {{'onboarding.welcome'| translate}}
           </h5>
         </div>
         <div class="modal-body text-center">
           <p class="text-center">
-            We are excited to have you on board. Let us learn how to use nimblDeck in next few minutes.
+            {{'onboarding.message'| translate}}
           </p>
 
           <button type="button" class="btn btn-primary" aria-label="Close" (click)="getStarted()">
-            <span aria-hidden="true">Let's get started</span>
+            <span aria-hidden="true">{{'onboarding.getstarted'| translate}}</span>
           </button>
           <br />
         </div>
