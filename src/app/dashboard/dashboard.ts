@@ -63,6 +63,10 @@ export class DashboardComponent implements OnInit , OnDestroy {
     this.analytics = [];
     this.analyticsNew = [];
     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(CarouselComponent);
+
+        this.conf.translate('dashboard.dashboard').subscribe((res: string) => {
+        this.title = res;
+    });
   }
 
   ngOnInit() {

@@ -13,7 +13,7 @@
 
 
 <tabs>
-    <tab title="Questions">
+    <tab title="{{'dashboard.questions' | translate}}">
         <div class="container">
             <p *ngIf="!analysisFetched" class="center-align">
                 <i class="fa fa-spinner fa-spin fa-2x"></i>
@@ -24,7 +24,7 @@
             <div class="rowiner">
                 <div class="col s12">
                     <div class="container" *ngIf="analytics.length == 0">
-                        <h5 class="text-center">No Trainee has attempted your session</h5>
+                        <h5 class="text-center">{{'dashboard.no.trainee'| translate}}</h5>
                     </div>
                     <div class="row session_list" *ngIf="analytics.length > 0">
                         <div class="container">
@@ -36,7 +36,7 @@
                                     <div class="card question-box hoverable">
                                         <div class="question-box-head">
                                             <!-- <h5>Q{{answer.position}}:{{answer.description}}</h5> -->
-                                            <a (click)="openModal($event)" data-toggle="tooltip" title="Click to view the graph in full view" class="add-new-session" data-target="{{i}}">
+                                            <a (click)="openModal($event)" data-toggle="tooltip" title="{{'dashboard.question.tooltip' | translate}}" class="add-new-session" data-target="{{i}}">
                                                 <h5 id="{{i+1}}">Q. {{answer.description}}</h5>
                                             </a>
 
@@ -70,11 +70,11 @@
 
 
     </tab>
-    <tab title="Queries">
+    <tab title="{{'dashboard.queries' | translate}}">
         <div class="tab-section">
             <div class="container">
                 <div class="container" *ngIf="queries.length == 0">
-                    <h5 class="text-center">No Queries yet</h5>
+                    <h5 class="text-center">{{'dashboard.no.queries'| translate}}</h5>
                 </div>
 
                 <div class="scrollbar" *ngIf="queries.length > 0">

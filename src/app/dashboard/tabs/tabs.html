@@ -5,7 +5,7 @@
         <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
             <a>{{tab.title}}</a>
         </li>
-       <a (click)="sessionExport($event)"><i class="fa fa-file-excel-o tooltipped" style="font-size:45px" data-position="bottom" data-delay="50" title="Export Session" ga-on="click" ga-event-category="Sessions" ga-event-action="export"></i></a> 
+       <a (click)="sessionExport($event)"><i class="fa fa-file-excel-o tooltipped" style="font-size:45px" data-position="bottom" data-delay="50" title="{{'dashboard.export' | translate}}" ga-on="click" ga-event-category="Sessions" ga-event-action="export"></i></a> 
         </ul>
         </div>
      </div>

@@ -88,7 +88,6 @@ export class LoginComponent  implements OnInit {
       return;
     }
     let user = response.user;
-    console.log(user);
     user.sessionexpired = false;
     user.credentials = this.authService.credentials;
     window.localStorage.setItem('nd_current_user', JSON.stringify(user));
@@ -98,7 +97,6 @@ export class LoginComponent  implements OnInit {
           '$last_login': new Date(), // properties can be dates...
           'username': response.user.userName
     });
-    console.log(user);
     mixpanel.track('Login', { 'user': this.conf.getUser().getEmailId()});
     this.router.navigateByUrl(this.returnUrl);
   }

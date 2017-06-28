@@ -72,6 +72,15 @@
     "pause": "Pause Session",
     "invalid":"The session you are trying is access is invalid"
   },
+  "dashboard":{
+    "no.queries": "No Queries yet",
+    "no.trainee": "No Trainee has attempted your session",
+    "questions": "Questions",
+    "queries": "Queries",
+    "export": "Export Session",
+    "dashboard": "Dashboard",
+    "question.tooltip": "Click to view the graph in full view"
+  },
   "cards":{
     "delete":"Are you sure, you want to delete this question?"
   }
