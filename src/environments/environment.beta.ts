@@ -1,20 +1,15 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `angular-cli.json`.
-
 export const environment = {
-  production: false,
+  production: true,
   apiKey: 'aYecjavQzV6i679wrL42Tq0FYzKFJTYbi9ko4Yi0',
   apiUrl: 'https://api.nimbldeck.com/v1.0',
-  googleAnalyticsKey: 'UA-70280304-1',
+  googleAnalyticsKey: 'UA-87993512-1',
   awsRegion: 'us-east-1',
   imageUploadBucket: 'nimbldeckapp-userfiles-mobilehub-964664152',
-  mixpanelKey: 'beb7564b5b6cbc7f88f6f2d8fea20ae1',
+  mixpanelKey: '62c161f2af5e10dbe1fe7b0b83272303',
+  logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   basePath: 'https://beta.nimbldeck.com',
   privacyPage: "https://www.nimbldeck.com/privacy.html",
   identityPool: 'us-east-1:709d954c-b58c-4d42-94a0-d1f7e494d226',
-  logoPath: 'https://www.nimbldeck.com/assets/img/nimble-deck-logo.png',
   dashboardReloadInterval: 15000,
   updateCardWarning: 'This card has analytics. Updating the card will reset analytics. Are you sure, you want to update this card?',
   introVideos: {
@@ -28,4 +23,5 @@ export const environment = {
       '//www.youtube.com/watch?v=Q9ll36ayt0c'
     ]
   }
+
 };

@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component , ElementRef} from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CurrentUser } from "../shared/models/currentuser";
+import { environment } from '../../environments/environment';
 import { ConfigurationService } from "../services/configuration.service";
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
@@ -19,17 +20,20 @@ declare var mixpanel: any;
 
 export class SignupComponent { 
 
+  homePage: string;
   signupText: string;
-  signUpForm: FormGroup;
   inProcess: boolean;
   signupError: boolean;
-  errorMessage: string;  
+  errorMessage: string;
+  privacyPage: string;
+  signUpForm: FormGroup;
 
     constructor(private authService: AuthService,
     private router: Router,
     private conf: ConfigurationService,
     private formBuilder: FormBuilder) {
-
+      this.privacyPage = environment.privacyPage;
+      this.homePage = environment.basePath;
       this.signupError = false;
       this.signupText = 'REGISTER';
       this.inProcess = false;

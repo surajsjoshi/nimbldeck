@@ -1,7 +1,7 @@
 <div class="login-page">
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
-		<a href="/"><img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" /></a>
+		<a [attr.href]="homePage"><img src="assets/img/nimbldeck-logo.jpg" width="150px;" class="user-avatar" /></a>
 			<h4 i18n>{{'signup.signup'| translate}}</h4>
 			<div class="signupError" *ngIf="signupError">{{errorMessage}}</div>
 			<form role="form" [formGroup]="signUpForm" (submit)="signup($event)">
@@ -31,7 +31,7 @@
  <div class="footer-subtext">&nbsp;
                         <h5>{{ 'general.privacyMessage' | translate}}
                         </h5>&nbsp;&nbsp;
-                       <a href="/privacy.html">{{'general.privacy'| translate}}</a>
+                       <a [attr.href]="privacyPage">{{'general.privacy'| translate}}</a>
                     </div>
 		</div>
 	</div>
