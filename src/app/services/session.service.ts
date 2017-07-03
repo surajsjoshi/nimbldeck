@@ -164,4 +164,17 @@ export class SessionService {
      return this.api.post(url,null);
   }
 
+  public listInvitees(sessionId: string, nextPageToken: string):  Observable<Object> {
+    let url = `/sessions/${sessionId}/invitees?limit=100&next_page_token=${nextPageToken}`;
+     return this.api.get(url).map(rawResponse => rawResponse.json());
+  }
+
+  public addInvitees(sessionId: string):  Observable<Object> {
+    return null;
+  }
+
+  public removeInvitees(sessionId: string):  Observable<Object> {
+    return null;
+  }
+
 }

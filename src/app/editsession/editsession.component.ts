@@ -26,6 +26,8 @@ export class EditsessionComponent  {
   fileUploaded: boolean;
   imgUploadingInProcess: boolean;
   editSessionForm: FormGroup;
+  invitees: Array<string>;
+  nextPageToken: string;
 
   constructor(public editService: EditService,
     private el: ElementRef,
@@ -37,17 +39,30 @@ export class EditsessionComponent  {
      this.fileUploaded = false;
      this.uploadError = '';
      this.sessionError = false;
-
+     this.nextPageToken = '';
+     this.invitees = [];
      this.editSessionForm = formBuilder.group({
        session_title: new FormControl(editService.getCurrent().title, Validators.required),
        organization: new FormControl(editService.getCurrent().organization),
        image_url: new FormControl(editService.getCurrent().image_url),
        session_id: new FormControl(editService.getCurrent().session_id)
     });
+    
     this.fileUploaded = true;
+    this.listInvites();
     ga('send', 'pageview', '/sessions/' + this.editService.getCurrent().session_id + '/edit');
-   }
+  }
 
+  listInvites(){
+    this.sessionService.listInvitees(this.editService.getCurrent().session_id, this.nextPageToken).subscribe((response => 
+        this.onListInvitees(response)
+    ), (error) => console.log(error));
+  }
+
+  onListInvitees(response){
+    this.invitees.concat(response.invitees);
+    this.nextPageToken = response.next_page_token;
+  }
   submitEditSession(event) {
     let btnSave = this.el.nativeElement.getElementsByClassName('btn')[0];
     jQuery(btnSave).attr('disabled', 'disabled');

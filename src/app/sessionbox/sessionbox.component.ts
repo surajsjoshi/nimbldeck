@@ -126,7 +126,10 @@ export class SessionboxComponent implements OnInit, AfterViewInit {
     this.editService.setCurrentEdit('session', this.session);
     this.onShowEditModal.emit(true);
   }
-   ngAfterViewInit() {
+  
+
+  
+  ngAfterViewInit() {
     let clipboard = new Clipboard(this.el.nativeElement.getElementsByClassName('copy-btn'));
     let self = this;
     clipboard.on('success', function (e) {
