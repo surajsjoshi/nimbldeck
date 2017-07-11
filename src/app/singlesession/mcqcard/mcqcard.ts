@@ -277,7 +277,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
         required: false,
         resource_url: this.cardForm.controls['video_url'].value,
         resource_type: 'video',
-        resource_code: this.cardForm.controls['video_code'].value
+        resource_code: this.cardForm.controls['video_code'].value,
+        video_source: "youtube",
+        video_thumbnail_url:  'https://img.youtube.com/vi/' + this.cardForm.controls['video_code'].value + '/0.jpg'
       };
 
     } else if(typeof this.cardForm.controls['image_url'].value != 'undefined' && this.cardForm.controls['image_url'].value){
@@ -317,7 +319,6 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.updateQuestionFlag === false) {
       mixpanel.time_event('CreateMCQCard');
       params['position'] = 1;
-      console.log(this.cardService.cards);
       if (this.cardService.cards.length > 0) {
         params['position'] = Math.max.apply(null, this.cardService.cards.map(card => card.position)) + 1;
       }
@@ -328,9 +329,9 @@ export class McqCardComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       mixpanel.track('CreateMCQCard', { 'user': this.conf.getUser().emailId });
     } else {
-      mixpanel.time_event('EditMCQCard');
       params['question_id'] = this.updateQuestion.question_id;
       params['position'] = this.updateQuestion.position;
+      console.log(params);
       let observable = this.cardService.updateQuestion(params, this.updateQuestion.session_id);
       observable.subscribe(
         (resp => this.questionUpdated(resp)),

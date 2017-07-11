@@ -189,7 +189,9 @@ export class ShortAnswerCardComponent implements OnInit, AfterViewInit, OnDestro
           required: false,
           resource_url:  this.cardForm.controls['youtube_url'].value,
           resource_type: 'video',
-          resource_code: this.cardForm.controls['video_code'].value
+          resource_code: this.cardForm.controls['video_code'].value,
+          video_source: "youtube",
+          video_thumbnail_url:  'https://img.youtube.com/vi/' + this.cardForm.controls['video_code'].value + '/0.jpg'
         };
 
     } else {

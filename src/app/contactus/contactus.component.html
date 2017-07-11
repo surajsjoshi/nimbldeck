@@ -27,7 +27,7 @@
           <br>
           <div class="center-align">
             <button type="reset" class="hide reset-btn"></button>
-            <button class="btn btn-contact" [disabled]="!contactForm.valid" type="submit">SEND</button>
+            <button class="btn btn-contact" [disabled]="!contactForm.valid && !sending" type="submit">{{buttonText}}</button>
           </div>
         </form>
       </div>

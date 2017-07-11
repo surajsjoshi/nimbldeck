@@ -8,12 +8,12 @@
     <div class="col s7 m5">
       <ul id="nav-mobile" class="right">
         <li>
-          <a (click)="isHelpNeeded=true" class="help-icon help-btn">
+          <a title= "Help" (click)="isHelpNeeded=true" class="help-icon help-btn">
             <i class="material-icons">live_help</i>
           </a>
         </li>
         <li>
-          <a href="#contact-us-modal" (click)="openModal($event)" class="help-icon contact-us-btn" ga-on="click" ga-event-category="Contact Us"
+          <a href="#contact-us-modal" title= "Contact Us" (click)="openModal($event)" class="help-icon contact-us-btn" ga-on="click" ga-event-category="Contact Us"
             ga-event-action="play">
             <i class="material-icons">feedback</i>
             </a>

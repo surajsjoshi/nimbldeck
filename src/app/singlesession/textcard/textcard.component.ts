@@ -116,7 +116,9 @@ export class TextcardComponent implements OnInit, AfterViewInit, OnDestroy {
           required: false,
           resource_url:  this.textCardForm.controls['youtube_url'].value,
           resource_type: 'video',
-          resource_code: this.textCardForm.controls['video_code'].value
+          resource_code: this.textCardForm.controls['video_code'].value,
+          video_source: "youtube",
+          video_thumbnail_url:  'https://img.youtube.com/vi/' + this.textCardForm.controls['video_code'].value + '/0.jpg'
         };
 
     }else {

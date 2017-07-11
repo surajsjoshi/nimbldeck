@@ -56,7 +56,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
-
+import {ContactService} from './services/contact.service';
 import {ToastOptions} from 'ng2-toastr';
 
 export class CustomOption extends ToastOptions {
@@ -122,6 +122,7 @@ export class CustomOption extends ToastOptions {
 
   providers: [OrderbyPipe, ShortAnswerService, SessionAnalyticsService,
     AnalyticsService, ApiService, QueriesService,
+    ContactService,
     ConfigurationService, CurrentUser, SessionService, CardService,
     EditService, AppSharedService, {provide: ToastOptions, useClass: CustomOption}],
 
